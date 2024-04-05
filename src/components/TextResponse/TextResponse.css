@@ -1,0 +1,15 @@
+.seo__text-response-cont {
+  flex: 1;
+  min-height: 20vh;
+  padding: 1rem;
+  line-height: 1.4;
+  overflow-x: hidden;
+}
+
+.seo__text-response-restart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

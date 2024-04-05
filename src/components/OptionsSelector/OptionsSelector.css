@@ -1,0 +1,42 @@
+.seo__options {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 12rem;
+  font-size: 0.9rem;
+}
+
+.seo-option {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--gray-600);
+  border-radius: 0.6rem;
+  transform: translateX(1000%);
+  transition: background-color 0.2s ease, transform 2s ease;
+}
+
+.seo-option:hover {
+  background-color: var(--gray-700);
+}
+
+.seo-option.animated {
+  transform: translateX(0%);
+}
+
+.seo-option.show:not(.animated) {
+  animation: slidein 0.2s forwards;
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}

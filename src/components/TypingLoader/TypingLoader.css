@@ -1,0 +1,33 @@
+.seo__typing {
+  --animation-time: 0.8s;
+  --dot-size: 0.5rem;
+}
+
+.seo__typing-dot {
+  display: inline-block;
+  vertical-align: middle;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  background: var(--white);
+  border-radius: 50%;
+  animation: typingloder var(--animation-time) infinite alternate;
+}
+
+.seo__typing-dot:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.seo__typing-dot:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes typingloder {
+  from {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+}
