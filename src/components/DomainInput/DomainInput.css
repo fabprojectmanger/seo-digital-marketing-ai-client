@@ -53,3 +53,8 @@
   cursor: not-allowed;
   background-color: var(--gray-600);
 }
+
+.seo__domain-button--restart {
+  padding: 0.3rem;
+  font-size: 15px;
+}

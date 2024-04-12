@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./SEOInterface.css";
 import { DomainInput, OptionsSelector, TextResponse } from "../index";
 import { useLocation } from "react-router-dom";
@@ -6,29 +6,26 @@ import { useSEOContext } from "../../context/SEOContext";
 
 const SEOInterface = () => {
   const location = useLocation();
-  const { setGoogleResponse, setIsInputDisabled, setDomainName, isTypingLoaderEnabled } =
-    useSEOContext();
+  const { setGoogleResponse, setDomainName } = useSEOContext();
   const [responseArea, setResponseArea] = useState();
 
   useEffect(() => {
-    isTypingLoaderEnabled ? setIsInputDisabled(true) : setIsInputDisabled(false);
-  }, []);
+    if (location) {
+      console.log({ location });
 
-  useEffect(() => {
-    console.log({ location });
-    const domainName = location.state?.domainName;
-    domainName && setDomainName(domainName);
+      const domainName = location.state?.domainName;
+      domainName && setDomainName(domainName);
 
-    if (domainName) {
-      if (location.pathname === "/options") {
-        setIsInputDisabled(true);
-        setResponseArea(<OptionsSelector />);
-      }
+      if (domainName) {
+        if (location.pathname === "/options") {
+          setResponseArea(<OptionsSelector />);
+        }
 
-      if (location.pathname === "/response") {
-        const googleResponseState = location.state?.googleResponse;
-        googleResponseState && setGoogleResponse(googleResponseState);
-        setResponseArea(<TextResponse />);
+        if (location.pathname === "/response") {
+          const googleResponseState = location.state?.googleResponse;
+          googleResponseState && setGoogleResponse(googleResponseState);
+          setResponseArea(<TextResponse />);
+        }
       }
     }
   }, [location]);

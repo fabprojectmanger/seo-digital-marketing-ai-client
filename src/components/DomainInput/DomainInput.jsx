@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import "./DomainInput.css";
-import { FaArrowUp } from "react-icons/fa";
 import { useSEOContext } from "../../context/SEOContext";
 import TypingLoader from "../TypingLoader/TypingLoader";
 import { useNavigate } from "react-router-dom";
+import { FaArrowUp } from "react-icons/fa";
+import { VscDebugRestart } from "react-icons/vsc";
 
 const QueryInput = () => {
-  const { domainName, setDomainName, isInputDisabled, isTypingLoaderEnabled } =
-    useSEOContext();
+  const {
+    domainName,
+    hasFinalizedDomain,
+    setHasFinalizedDomain,
+    setDomainName,
+    isInputDisabled,
+    setIsInputDisabled,
+    isTypingLoaderEnabled,
+  } = useSEOContext();
 
   const [placeholderText, setPlaceholderText] = useState("");
 
@@ -20,10 +28,15 @@ const QueryInput = () => {
   }, [isInputDisabled]);
 
   const handleSendPromptButton = () => {
-    if (isInputDisabled) return;
+    if (hasFinalizedDomain) {
+      navigate("/");
+      window.location.reload();
+    }
+    setHasFinalizedDomain(true);
+    setIsInputDisabled(true);
     if ((!domainName && !domainName.trim()) || !isValidDomainString(domainName)) {
       // TODO:show error if it's incorrect domain
-      return alert("invalid domain");
+      return alert("Invalid domain");
     }
     setDomainName("");
     navigate("/options", { state: { domainName } });
@@ -53,12 +66,11 @@ const QueryInput = () => {
         />
         <div
           className={`seo__domain-button 
-          ${domainName ? "seo__domain-button--white " : ""} 
-          ${isInputDisabled ? "seo__domain-button--disabled" : ""}
-          `}
+          ${domainName ? "seo__domain-button--white " : ""}
+          ${hasFinalizedDomain ? "seo__domain-button--restart" : ""}`}
           onClick={handleSendPromptButton}
         >
-          <FaArrowUp />
+          {hasFinalizedDomain ? <VscDebugRestart /> : <FaArrowUp />}
         </div>
       </div>
     </div>

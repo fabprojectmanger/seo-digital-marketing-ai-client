@@ -1,21 +1,46 @@
 import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 const SEOContext = createContext();
 
 export const SEOContextProvider = ({ children }) => {
+  const [googleEmail, setGoogleEmail] = useState();
   const [domainName, setDomainName] = useState("");
+  const [hasFinalizedDomain, setHasFinalizedDomain] = useState(false);
   const [aiResponse, setAiResponse] = useState("");
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [isTypingLoaderEnabled, setIsTypingLoaderEnabled] = useState(false);
   const [googleResponse, setGoogleResponse] = useState();
   const [isStreamingResponse, setIsStreamingResponse] = useState(false);
   const restartRequired = useRef(false);
+  const location = useLocation();
 
   useEffect(() => {
-    setIsInputDisabled(isStreamingResponse);
-    setIsTypingLoaderEnabled(isStreamingResponse);
-  }, [isStreamingResponse]);
+    localStorage.removeItem("selected_option");
+    setHasFinalizedDomain(localStorage.getItem("has_finalized_domain"));
+  }, []);
+
+  useEffect(() => {
+    if (location && location.pathname === "/") {
+      setHasFinalizedDomain(false);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    console.log({ hasFinalizedDomain });
+    hasFinalizedDomain
+      ? localStorage.setItem("has_finalized_domain", true)
+      : localStorage.setItem("has_finalized_domain", false);
+  }, [hasFinalizedDomain]);
+
+  useEffect(() => {
+    googleEmail
+      ? localStorage.setItem("google_email", googleEmail)
+      : setGoogleEmail(localStorage.getItem("google_email"));
+  }, [googleEmail]);
 
   const contextValues = {
+    googleEmail,
+    setGoogleEmail,
     domainName,
     setDomainName,
     aiResponse,
@@ -28,7 +53,9 @@ export const SEOContextProvider = ({ children }) => {
     setGoogleResponse,
     isStreamingResponse,
     setIsStreamingResponse,
-    restartRequired: restartRequired.current,
+    hasFinalizedDomain,
+    setHasFinalizedDomain,
+    restartRequired,
   };
   return <SEOContext.Provider value={contextValues}>{children}</SEOContext.Provider>;
 };

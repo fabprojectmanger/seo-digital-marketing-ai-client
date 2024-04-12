@@ -1,9 +1,11 @@
 .seo__text-response-cont {
   flex: 1;
   min-height: 20vh;
+  max-height: 80vh;
   padding: 1rem;
   line-height: 1.4;
   overflow-x: hidden;
+  font-size: 0.9rem;
 }
 
 .seo__text-response-restart {

@@ -33,7 +33,6 @@ const initiateChat = async (userPrompt) => {
     debugger;
   } catch (err) {
     console.error(err);
-    debugger;
     return { isStreamed: false };
   }
 };

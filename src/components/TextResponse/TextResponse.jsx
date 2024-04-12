@@ -6,26 +6,10 @@ import RestartRobot from "../../assets/restart-robot.gif";
 import StreamResponse from "../StreamResponse/StreamResponse";
 
 const TextResponse = () => {
-  let {
-    googleResponse,
-    restartRequired,
-    aiResponse,
-    setAiResponse,
-    setIsInputDisabled,
-    isInputDisabled,
-  } = useSEOContext();
+  let { googleResponse, restartRequired, aiResponse, setAiResponse, setIsTypingLoaderEnabled } =
+    useSEOContext();
 
-  const [isStreamCompleted, setIsStreamCompleted] = useState();
   const isMounted = useRef(true);
-
-  useEffect(() => {
-    if (!isStreamCompleted && !isInputDisabled) {
-      setIsInputDisabled(true);
-    }
-    if (isStreamCompleted && aiResponse) {
-      isInputDisabled && setIsInputDisabled(false);
-    }
-  }, [isStreamCompleted, aiResponse]);
 
   useEffect(() => {
     if (isMounted.current) {
@@ -43,7 +27,7 @@ const TextResponse = () => {
     promptMessage = `
     You have been provided with Google Analytics data. 
     Please analyze the data and provide detailed insights in a structured manner. 
-    Ensure comprehensive coverage of the information provided: \n\n
+    Ensure comprehensive coverage of the each relevant information provided: \n\n
       ${JSON.stringify(googleResponse, null, 2)}\n\n
     Make sure not to reference to the data provided above, in the response for the introductory lines or titles like 'After analyzing the provided Google Analytics data',  this should be taken care of while generating a response
     `;
@@ -57,20 +41,20 @@ const TextResponse = () => {
       }
     }
 
-    setIsStreamCompleted(false);
+    setIsTypingLoaderEnabled(true);
     const response = await SeoChatAI.initiateChat(promptMessage);
     if (response?.isStreamed) {
       setAiResponse(response.answer);
-      setIsStreamCompleted(true);
     } else {
-      restartRequired = true;
+      restartRequired.current = true;
     }
+    setIsTypingLoaderEnabled(false);
   }
 
   return (
     <div className="seo__text-response-cont">
-      {restartRequired ? (
-        <div className="prompot__response-restart">
+      {restartRequired.current ? (
+        <div className="seo__text-response-restart">
           <img src={RestartRobot} alt="Restarting robot..." />
           <span>Something went wrong!!</span>
         </div>

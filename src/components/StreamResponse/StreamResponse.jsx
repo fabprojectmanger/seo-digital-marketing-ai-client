@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useSEOContext } from "../../context/SEOContext";
 
 const StreamResponse = ({ paragraph }) => {
-  let { isStreamingResponse, setIsStreamingResponse } = useSEOContext();
+  let { isStreamingResponse, setIsStreamingResponse, setIsTypingLoaderEnabled } = useSEOContext();
   const [streamedResponse, setStreamedResponse] = useState("");
 
   const STREAMING_DELAY = 30;
 
   useEffect(() => {
     if (paragraph) {
-      let currentIndex = 0;
+      setIsTypingLoaderEnabled(true);
 
+      let currentIndex = 0;
       const timer = setInterval(() => {
         if (currentIndex <= paragraph.length) {
           setStreamedResponse(paragraph.substring(0, currentIndex));
@@ -24,6 +25,7 @@ const StreamResponse = ({ paragraph }) => {
         }
       }, STREAMING_DELAY);
 
+      setIsTypingLoaderEnabled(false);
       return () => clearInterval(timer);
     }
   }, [paragraph]);

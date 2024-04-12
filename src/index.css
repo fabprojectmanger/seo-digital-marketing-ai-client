@@ -41,10 +41,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--gray-800);
   color: var(--white);
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+input[type="date"] {
+  font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 a {
@@ -83,7 +89,7 @@ hr {
   background: var(--gray-600);
 }
 
-.prompot__code-block {
-  background: var(--gray-900);
-  padding: 1rem 3rem;
+.rdrDefinedRangesWrapper {
+  display: none;
 }
+
