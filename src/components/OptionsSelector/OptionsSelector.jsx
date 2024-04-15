@@ -152,25 +152,30 @@ const OptionsSelector = () => {
   }
 
   const getAnalyticsReport = async (email) => {
-    try {
-      const option = JSON.parse(localStorage.getItem("selected_option"));
-      if (!email || !email.trim()) return;
-      setIsTypingLoaderEnabled(true);
-      // setIsNextButtonVisible(false);
-      const response = await Axios.post("/api/google/analytics-report", {
-        option,
-        email,
-      });
+    // Timeout for waiting it to set the local storage with the selected option first
+    setTimeout(async () => {
+      try {
+        const option = JSON.parse(localStorage.getItem("selected_option"));
+        if (!email || !email.trim()) return;
+        setIsTypingLoaderEnabled(true);
+        // setIsNextButtonVisible(false);
+        const response = await Axios.post("/api/google/analytics-report", {
+          option,
+          email,
+        });
 
-      if (response.status === 200 && response.data?.success) {
-        setIsTypingLoaderEnabled(false);
-        setGoogleResponse(response.data.report);
-        navigate("/response", { state: { domainName, googleResponse: response.data.report } });
-      } else {
-        googleConsentPopup();
-        // setIsNextButtonVisible(true);
+        if (response.status === 200 && response.data?.success) {
+          setIsTypingLoaderEnabled(false);
+          setGoogleResponse(response.data.report);
+          navigate("/response", { state: { domainName, googleResponse: response.data.report } });
+        } else {
+          googleConsentPopup();
+          // setIsNextButtonVisible(true);
+        }
+      } catch (error) {
+        console.error(`Failed to get the analytics report: ${error}`);
       }
-    } catch (error) {}
+    }, 1000);
   };
 
   const handleOptionSelection = async (selectedOptionIndex) => {
