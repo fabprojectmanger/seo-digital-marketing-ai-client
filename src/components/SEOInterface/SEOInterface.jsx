@@ -37,10 +37,10 @@ const SEOInterface = () => {
           <DomainInput />
         </div>
         <div className="seo__response-cont">{responseArea}</div>
-        <div className="seo__footer">
+        {/* <div className="seo__footer">
           Made with <span className="seo__footer-heart">♥</span> by Ashish &copy;
           {new Date().getFullYear()}
-        </div>
+        </div> */}
       </div>
     </div>
   );

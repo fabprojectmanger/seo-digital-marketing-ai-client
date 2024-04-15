@@ -30,6 +30,7 @@ const QueryInput = () => {
   const handleSendPromptButton = () => {
     if (hasFinalizedDomain) {
       navigate("/");
+      // TODO: Reset states instead of reloading
       window.location.reload();
     }
     setHasFinalizedDomain(true);

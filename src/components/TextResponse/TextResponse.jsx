@@ -6,8 +6,15 @@ import RestartRobot from "../../assets/restart-robot.gif";
 import StreamResponse from "../StreamResponse/StreamResponse";
 
 const TextResponse = () => {
-  let { googleResponse, restartRequired, aiResponse, setAiResponse, setIsTypingLoaderEnabled } =
-    useSEOContext();
+  let {
+    googleResponse,
+    restartRequired,
+    aiResponse,
+    setAiResponse,
+    setIsTypingLoaderEnabled,
+    setIsInputDisabled,
+    setHasFinalizedDomain,
+  } = useSEOContext();
 
   const isMounted = useRef(true);
 
@@ -38,6 +45,8 @@ const TextResponse = () => {
       }
       if (googleResponse[0]?.noMatchFoundForDomain) {
         promptMessage = `Respond with: No data is available for the provided domain in this analytics account. Please verify the domain name and ensure it is correctly linked to the analytics account.`;
+        setHasFinalizedDomain(false);
+        setIsInputDisabled(false);
       }
     }
 

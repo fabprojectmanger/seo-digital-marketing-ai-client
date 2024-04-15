@@ -71,9 +71,10 @@
   visibility: hidden;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  min-height: 24rem;
 }
 
 .seo__date-picker-option--visible {
   visibility: visible;
-  animation: slidein 1s forwards;
+  animation: slidein 1.5s forwards;
 }
