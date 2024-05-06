@@ -30,7 +30,6 @@ const initiateChat = async (userPrompt) => {
       const decodedChunk = decoder.decode(value, { stream: true });
       answer = answer + decodedChunk;
     }
-    debugger;
   } catch (err) {
     console.error(err);
     return { isStreamed: false };

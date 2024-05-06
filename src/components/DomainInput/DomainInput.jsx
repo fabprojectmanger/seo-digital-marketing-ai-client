@@ -28,17 +28,19 @@ const QueryInput = () => {
   }, [isInputDisabled]);
 
   const handleSendPromptButton = () => {
+    if ((!domainName && !domainName.trim()) || !isValidDomainString(domainName)) {
+      // TODO: show error if it's an incorrect domain
+      return alert("Invalid domain");
+    }
+
     if (hasFinalizedDomain) {
       navigate("/");
       // TODO: Reset states instead of reloading
       window.location.reload();
     }
+    
     setHasFinalizedDomain(true);
     setIsInputDisabled(true);
-    if ((!domainName && !domainName.trim()) || !isValidDomainString(domainName)) {
-      // TODO:show error if it's incorrect domain
-      return alert("Invalid domain");
-    }
     setDomainName("");
     navigate("/options", { state: { domainName } });
   };

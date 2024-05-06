@@ -7,6 +7,10 @@
   overflow-x: hidden;
   font-size: 0.9rem;
 }
+.seo__text-response-cont p {
+  margin: 0;
+  margin-bottom: 0.3rem;
+}
 
 .seo__text-response-restart {
   display: flex;
@@ -14,4 +18,22 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.seo__text-response-heading {
+  font-size: 1.4em;
+  font-weight: bolder;
+}
+
+.seo__text-response-subheading {
+  font-weight: 700;
+  text-underline-offset: 9px;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  margin-bottom: 1rem;
+  line-height: 2;
+}
+
+.seo__text-response-aggregated {
+  font-size: 1.2em;
+  font-weight: bold;
 }

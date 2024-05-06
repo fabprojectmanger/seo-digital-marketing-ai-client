@@ -65,17 +65,16 @@ const OptionsSelector = () => {
     key: "selection",
   });
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
-  // const [isNextButtonVisible, setIsNextButtonVisible] = useState(true);
+  const [isNextButtonVisible, setIsNextButtonVisible] = useState(true);
   const [isFetchingReport, setIsFetchingReport] = useState(false);
 
   const popup = useRef();
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log({ optionSelected });
     if (optionSelected) {
       localStorage.setItem("selected_option", JSON.stringify(optionSelected));
-      // setIsNextButtonVisible(true);
+      setIsNextButtonVisible(true);
     }
   }, [optionSelected]);
 
@@ -92,7 +91,6 @@ const OptionsSelector = () => {
         let response = event.data.split("/delimiter");
         response = JSON.parse(response[1]);
 
-        debugger;
         const popupCloseDelay = response?.hasMissingScope ? 3000 : 0;
         setTimeout(() => {
           popup.current.close();
@@ -123,7 +121,7 @@ const OptionsSelector = () => {
   }, [googleResponse]);
 
   // Animation may glitch depending on the following delay and delay in the css
-  const DELAY_FOR_OPTIONS_SLIDE_IN = 700;
+  const DELAY_FOR_OPTIONS_SLIDE_IN = 400;
 
   useTimeout(updateCategoryIndexes, DELAY_FOR_OPTIONS_SLIDE_IN, [
     categoryIndexToShow,
@@ -158,7 +156,7 @@ const OptionsSelector = () => {
         const option = JSON.parse(localStorage.getItem("selected_option"));
         if (!email || !email.trim()) return;
         setIsTypingLoaderEnabled(true);
-        // setIsNextButtonVisible(false);
+        setIsNextButtonVisible(false);
         const response = await Axios.post("/api/google/analytics-report", {
           option,
           email,
@@ -170,7 +168,7 @@ const OptionsSelector = () => {
           navigate("/response", { state: { domainName, googleResponse: response.data.report } });
         } else {
           googleConsentPopup();
-          // setIsNextButtonVisible(true);
+          setIsNextButtonVisible(true);
         }
       } catch (error) {
         console.error(`Failed to get the analytics report: ${error}`);
@@ -182,15 +180,17 @@ const OptionsSelector = () => {
     if (isFetchingReport) return;
     setIsFetchingReport(true);
     let selectedIndexValue = OPTIONS.find((o) => o.id === selectedOptionIndex);
-
-    selectedIndexValue?.compareDates ? setIsDatePickerVisible(true) : setIsDatePickerVisible(false);
+    const selectedCompareDateOption = selectedIndexValue?.compareDates;
+    selectedCompareDateOption ? setIsDatePickerVisible(true) : setIsDatePickerVisible(false);
     setActiveOptionIndex(selectedIndexValue.id);
     setOptionSelected({ ...selectedIndexValue, domain: domainName });
 
-    if (!googleEmail) {
-      await googleConsentPopup();
-    } else {
-      await getAnalyticsReport(googleEmail);
+    if (!selectedCompareDateOption) {
+      if (!googleEmail) {
+        await googleConsentPopup();
+      } else {
+        await getAnalyticsReport(googleEmail);
+      }
     }
   };
 
@@ -218,13 +218,13 @@ const OptionsSelector = () => {
     }, 1000);
   };
 
-  // const handleProceedButton = async () => {
-  //   if (!googleEmail) {
-  //     await googleConsentPopup();
-  //   } else {
-  //     await getAnalyticsReport(googleEmail);
-  //   }
-  // };
+  const handleProceedButton = async () => {
+    if (!googleEmail) {
+      await googleConsentPopup();
+    } else {
+      await getAnalyticsReport(googleEmail);
+    }
+  };
 
   const handleDateRangeChange = (ranges) => {
     setDateSelectionRange(ranges.selection);
@@ -243,21 +243,25 @@ const OptionsSelector = () => {
 
   return (
     <div className="seo__options-cont">
-      <div className="seo__options">
-        {OPTIONS.slice(0, categoryIndexToShow).map((option, index) => (
-          <div
-            className={`seo-option ${
-              activeOptionIndex === index ? "selected" : "" // Apply active class if index matches activeOptionIndex
-            } ${
-              categoryIndexToShow >= index && !animatedCategoryIndexes.includes(index) ? "show" : ""
-            }${animatedCategoryIndexes.includes(index) ? "animated" : ""}`}
-            onClick={() => handleOptionSelection(index)}
-            key={index}
-          >
-            {option.name}
-          </div>
-        ))}
-      </div>
+      {!isFetchingReport && (
+        <div className="seo__options">
+          {OPTIONS.slice(0, categoryIndexToShow).map((option, index) => (
+            <div
+              className={`seo-option ${
+                activeOptionIndex === index ? "selected" : "" // Apply active class if index matches activeOptionIndex
+              } ${
+                categoryIndexToShow >= index && !animatedCategoryIndexes.includes(index)
+                  ? "show"
+                  : ""
+              }${animatedCategoryIndexes.includes(index) ? "animated" : ""}`}
+              onClick={() => handleOptionSelection(index)}
+              key={index}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div
         className={`seo__date-picker-option ${
@@ -273,11 +277,11 @@ const OptionsSelector = () => {
       </div>
 
       {/* When all options are animated and one of them is selected */}
-      {/* {optionSelected && categoryIndexToShow - 1 === OPTIONS.length && isNextButtonVisible && (
+      {optionSelected?.compareDates && categoryIndexToShow - 1 === OPTIONS.length && isNextButtonVisible && (
         <div className="seo__options-next" onClick={handleProceedButton}>
           <FaArrowRight />
         </div>
-      )} */}
+      )}
     </div>
   );
 };

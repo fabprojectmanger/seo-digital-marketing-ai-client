@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./SEOInterface.css";
 import { DomainInput, OptionsSelector, TextResponse } from "../index";
 import { useLocation } from "react-router-dom";
@@ -11,8 +11,6 @@ const SEOInterface = () => {
 
   useEffect(() => {
     if (location) {
-      console.log({ location });
-
       const domainName = location.state?.domainName;
       domainName && setDomainName(domainName);
 
@@ -22,6 +20,7 @@ const SEOInterface = () => {
         }
 
         if (location.pathname === "/response") {
+          console.log({ response: location.state?.googleResponse });
           const googleResponseState = location.state?.googleResponse;
           googleResponseState && setGoogleResponse(googleResponseState);
           setResponseArea(<TextResponse />);

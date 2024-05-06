@@ -76,5 +76,5 @@
 
 .seo__date-picker-option--visible {
   visibility: visible;
-  animation: slidein 1.5s forwards;
+  animation: slidein 1s forwards;
 }

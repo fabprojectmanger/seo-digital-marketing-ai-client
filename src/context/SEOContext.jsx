@@ -26,10 +26,12 @@ export const SEOContextProvider = ({ children }) => {
   }, [location]);
 
   useEffect(() => {
-    console.log({ hasFinalizedDomain });
-    hasFinalizedDomain
-      ? localStorage.setItem("has_finalized_domain", true)
-      : localStorage.setItem("has_finalized_domain", false);
+    if (hasFinalizedDomain) {
+      localStorage.setItem("has_finalized_domain", true);
+      setIsInputDisabled(true);
+    } else {
+      localStorage.setItem("has_finalized_domain", false);
+    }
   }, [hasFinalizedDomain]);
 
   useEffect(() => {
