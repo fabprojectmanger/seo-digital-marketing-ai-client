@@ -17,23 +17,17 @@ function App() {
   function redirectToHomepageOnReload() {
     const currentRoute = location.pathname;
     if (currentRoute === "/") {
-      return sessionStorage.removeItem("visited_routes");
+      sessionStorage.removeItem("visited_routes");
+      return;
     }
 
-    const visitedRoutes = JSON.parse(sessionStorage.getItem("visited_routes"));
-    if (visitedRoutes && visitedRoutes.length) {
-      const hasVisitedBefore = visitedRoutes.find((route) => route === currentRoute);
-      if (hasVisitedBefore) {
-        navigate("/");
-        window.location.reload();
-      } else {
-        // Add the current route to the visited routes
-        visitedRoutes.push(currentRoute);
-        sessionStorage.setItem("visited_routes", JSON.stringify(visitedRoutes));
-      }
+    const visitedRoutes = JSON.parse(sessionStorage.getItem("visited_routes")) || [];
+    if (visitedRoutes.includes(currentRoute)) {
+      navigate("/");
+      window.location.reload();
     } else {
-      // Initialize the visited routes with the current route
-      sessionStorage.setItem("visited_routes", JSON.stringify([currentRoute]));
+      visitedRoutes.push(currentRoute);
+      sessionStorage.setItem("visited_routes", JSON.stringify(visitedRoutes));
     }
   }
 
