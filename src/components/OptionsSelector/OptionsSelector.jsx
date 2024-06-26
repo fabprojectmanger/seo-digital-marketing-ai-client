@@ -6,47 +6,16 @@ import { useSEOContext } from "../../context/SEOContext";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import { DateRangePicker } from "react-date-range";
+import { DOMAIN_OPTIONS } from "../../data/options.js";
+import { formatDate } from "../../helpers/date.js";
 
 // Calculate the new startDate, 2 months ago from now
 const twoMonthsAgo = new Date();
 twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
 
-function formatDate(date) {
-  let inputDate = date;
-
-  if (!(date instanceof Date)) {
-    inputDate = new Date(date);
-  }
-
-  if (isNaN(inputDate)) {
-    console.error("Invalid date input");
-    return;
-  }
-
-  const year = inputDate.getFullYear().toString();
-  const month = ("0" + (inputDate.getMonth() + 1)).slice(-2);
-  const day = ("0" + inputDate.getDate()).slice(-2);
-
-  const formattedDate = `${year}-${month}-${day}`;
-
-  return formattedDate;
-}
-
-let OPTIONS = [
-  { id: 0, name: "One day analysis.", oneDayAgo: true },
-  { id: 1, name: "One week analysis.", oneWeekAgo: true },
-  { id: 2, name: "One month analysis.", oneMonthAgo: true },
-  {
-    id: 3,
-    name: "Compare dates.",
-    value: { startDate: formatDate(new Date()), endDate: formatDate(new Date()) },
-    compareDates: true,
-  },
-];
-
 const OptionsSelector = () => {
   let {
-    domainName,
+    promptMessage,
     setIsInputDisabled,
     setIsTypingLoaderEnabled,
     googleResponse,
@@ -55,7 +24,7 @@ const OptionsSelector = () => {
     setGoogleResponse,
   } = useSEOContext();
 
-  const [categoryIndexToShow, setCategoryIndexToShow] = useState(OPTIONS.length); // Change it to 0 for options to come one at a time
+  const [categoryIndexToShow, setCategoryIndexToShow] = useState(DOMAIN_OPTIONS.length); // Change it to 0 for options to come one at a time
   const [animatedCategoryIndexes, setAnimatedCategoryIndexes] = useState([]);
   const [optionSelected, setOptionSelected] = useState();
   const [activeOptionIndex, setActiveOptionIndex] = useState();
@@ -80,9 +49,6 @@ const OptionsSelector = () => {
 
   useEffect(() => {
     setIsInputDisabled(true);
-    if (optionSelected) {
-      localStorage.setItem("selected_option", JSON.stringify(optionSelected));
-    }
 
     const receiveMessage = async (event) => {
       if (event.origin === Axios.BASE_SERVER_URL && event.data.includes("successful-auth")) {
@@ -140,10 +106,10 @@ const OptionsSelector = () => {
   );
 
   function updateCategoryIndexes() {
-    if (categoryIndexToShow <= OPTIONS.length) {
+    if (categoryIndexToShow <= DOMAIN_OPTIONS.length) {
       setIsTypingLoaderEnabled(true);
       setCategoryIndexToShow((prevIndex) => prevIndex + 1);
-      if (categoryIndexToShow >= OPTIONS.length) {
+      if (categoryIndexToShow >= DOMAIN_OPTIONS.length) {
         setIsTypingLoaderEnabled(false);
       }
     }
@@ -165,7 +131,7 @@ const OptionsSelector = () => {
         if (response.status === 200 && response.data?.success) {
           setIsTypingLoaderEnabled(false);
           setGoogleResponse(response.data.report);
-          navigate("/response", { state: { domainName, googleResponse: response.data.report } });
+          navigate("/response", { state: { promptMessage, googleResponse: response.data.report } });
         } else {
           googleConsentPopup();
           setIsNextButtonVisible(true);
@@ -179,11 +145,11 @@ const OptionsSelector = () => {
   const handleOptionSelection = async (selectedOptionIndex) => {
     if (isFetchingReport) return;
     setIsFetchingReport(true);
-    let selectedIndexValue = OPTIONS.find((o) => o.id === selectedOptionIndex);
+    let selectedIndexValue = DOMAIN_OPTIONS.find((o) => o.id === selectedOptionIndex);
     const selectedCompareDateOption = selectedIndexValue?.compareDates;
     selectedCompareDateOption ? setIsDatePickerVisible(true) : setIsDatePickerVisible(false);
     setActiveOptionIndex(selectedIndexValue.id);
-    setOptionSelected({ ...selectedIndexValue, domain: domainName });
+    setOptionSelected({ ...selectedIndexValue, domain: promptMessage });
 
     if (!selectedCompareDateOption) {
       if (!googleEmail) {
@@ -245,7 +211,7 @@ const OptionsSelector = () => {
     <div className="seo__options-cont">
       {!isFetchingReport && (
         <div className="seo__options">
-          {OPTIONS.slice(0, categoryIndexToShow).map((option, index) => (
+          {DOMAIN_OPTIONS.slice(0, categoryIndexToShow).map((option, index) => (
             <div
               className={`seo-option ${
                 activeOptionIndex === index ? "selected" : "" // Apply active class if index matches activeOptionIndex
@@ -277,11 +243,13 @@ const OptionsSelector = () => {
       </div>
 
       {/* When all options are animated and one of them is selected */}
-      {optionSelected?.compareDates && categoryIndexToShow - 1 === OPTIONS.length && isNextButtonVisible && (
-        <div className="seo__options-next" onClick={handleProceedButton}>
-          <FaArrowRight />
-        </div>
-      )}
+      {optionSelected?.compareDates &&
+        categoryIndexToShow - 1 === DOMAIN_OPTIONS.length &&
+        isNextButtonVisible && (
+          <div className="seo__options-next" onClick={handleProceedButton}>
+            <FaArrowRight />
+          </div>
+        )}
     </div>
   );
 };

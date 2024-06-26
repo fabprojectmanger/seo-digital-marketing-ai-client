@@ -8,6 +8,7 @@
 .seo__options-cont {
   width: 100%;
   position: relative;
+  padding-top: 5rem;
 }
 
 .seo-option {
@@ -19,14 +20,19 @@
   white-space: nowrap;
   cursor: pointer;
   padding: 0.5rem 0.6rem;
-  border: 1px solid var(--gray-600);
+  border: 1px solid var(--gray-500);
+  font-weight: 500;
   border-radius: 0.6rem;
   transform: translateX(1000%);
   transition: background-color 0.2s ease, transform 2s ease;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .seo-option:hover {
   background-color: var(--gray-700);
+  color: var(--gray-100);
 }
 
 .seo-option.selected {
@@ -53,7 +59,7 @@
   /* top: 0; */
   right: 15px;
   cursor: pointer;
-  background-color: var(--white);
+  background-color: var(--gray-200);
   color: var(--gray-800);
   font-size: 13px;
 }

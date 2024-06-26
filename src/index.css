@@ -39,8 +39,8 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--gray-800);
-  color: var(--white);
+  background-color: var(--white);
+  color: var(--gray-800);
   overflow-x: hidden;
 }
 

@@ -1,6 +1,6 @@
 import Axios from "./axios.js";
 
-const initiateChat = async (userPrompt) => {
+const initiateChat = async (userPrompt, additionalPayload = {}) => {
   try {
     const url = `${Axios.BASE_SERVER_URL}/api/chat`;
     const streamResponse = await fetch(url, {
@@ -9,7 +9,7 @@ const initiateChat = async (userPrompt) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userPrompt }),
+      body: JSON.stringify({ userPrompt, ...additionalPayload }),
     });
     if (!streamResponse.ok || !streamResponse.body) {
       throw streamResponse.statusText;

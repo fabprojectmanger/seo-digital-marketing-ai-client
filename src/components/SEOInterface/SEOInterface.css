@@ -12,17 +12,16 @@
   display: flex;
   flex-direction: column;
   --cont-padding: 1rem;
+  padding: var(--cont-padding);
 }
 
 .seo__message-cont {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--cont-padding);
 }
 .seo__response-cont {
   flex: 1;
-  padding: var(--cont-padding);
 }
 
 .seo__footer {

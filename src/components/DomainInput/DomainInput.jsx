@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import "./DomainInput.css";
 import { useSEOContext } from "../../context/SEOContext";
 import TypingLoader from "../TypingLoader/TypingLoader";
+import { PRIMARY_OPTIONS } from "../../data/options";
 import { useNavigate } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { VscDebugRestart } from "react-icons/vsc";
 
 const QueryInput = () => {
   const {
-    domainName,
-    hasFinalizedDomain,
-    setHasFinalizedDomain,
-    setDomainName,
+    promptMessage,
+    hasFinalizedPrompt,
+    setHasFinalizedPrompt,
+    setPromptMessage,
     isInputDisabled,
     setIsInputDisabled,
     isTypingLoaderEnabled,
+    selectedPrimaryOption,
   } = useSEOContext();
 
   const [placeholderText, setPlaceholderText] = useState("");
@@ -22,27 +24,56 @@ const QueryInput = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isInputDisabled
-      ? setPlaceholderText("Generating a response...")
-      : setPlaceholderText("Enter the domain of the website...");
-  }, [isInputDisabled]);
-
-  const handleSendPromptButton = () => {
-    if ((!domainName && !domainName.trim()) || !isValidDomainString(domainName)) {
-      // TODO: show error if it's an incorrect domain
-      return alert("Invalid domain");
+    let PRIMARY_PLACEHOLDER;
+    if (selectedPrimaryOption === PRIMARY_OPTIONS.DOMAIN) {
+      PRIMARY_PLACEHOLDER = "Enter your domain name";
+    } else if (selectedPrimaryOption === PRIMARY_OPTIONS.WRITING) {
+      PRIMARY_PLACEHOLDER = "Enter your writing topic";
     }
 
-    if (hasFinalizedDomain) {
+    isInputDisabled
+      ? setPlaceholderText("Generating a response...")
+      : setPlaceholderText(PRIMARY_PLACEHOLDER);
+  }, [isInputDisabled, selectedPrimaryOption]);
+
+  const handleDomainPrompt = () => {
+    if (!isValidDomainString(promptMessage)) {
+      // TODO: show error if it's an incorrect domain
+      alert("Invalid domain");
+      return true;
+    }
+
+    navigate("/options", { state: { promptMessage } });
+    return false;
+  };
+
+  const handleContentWritingPrompt = () => {
+    navigate("/response", { state: { promptMessage } });
+    return false;
+  };
+
+  const handleSendPromptButton = () => {
+    let alertShown = false;
+    if (!promptMessage && !promptMessage.trim()) {
+      // TODO: show error if it's an empty prompt message
+      alert("Prompt cannot be empty.");
+      alertShown(true);
+    }
+    switch (selectedPrimaryOption) {
+      case PRIMARY_OPTIONS.DOMAIN:
+        alertShown = handleDomainPrompt();
+        break;
+      case PRIMARY_OPTIONS.WRITING:
+        alertShown = handleContentWritingPrompt();
+    }
+    if (alertShown) return false;
+    setIsInputDisabled(true);
+    setHasFinalizedPrompt(true);
+    if (hasFinalizedPrompt) {
       navigate("/");
       // TODO: Reset states instead of reloading
       window.location.reload();
     }
-    
-    setHasFinalizedDomain(true);
-    setIsInputDisabled(true);
-    setDomainName("");
-    navigate("/options", { state: { domainName } });
   };
 
   function isValidDomainString(url) {
@@ -59,9 +90,9 @@ const QueryInput = () => {
           className="seo__domain-input"
           type="text"
           autoFocus
-          value={domainName}
+          value={promptMessage}
           disabled={isInputDisabled}
-          onChange={(e) => setDomainName(e.target.value)}
+          onChange={(e) => setPromptMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) handleSendPromptButton();
           }}
@@ -69,11 +100,19 @@ const QueryInput = () => {
         />
         <div
           className={`seo__domain-button 
-          ${domainName ? "seo__domain-button--white " : ""}
-          ${hasFinalizedDomain ? "seo__domain-button--restart" : ""}`}
+          ${promptMessage ? "seo__domain-button--white " : ""}
+          ${
+            hasFinalizedPrompt
+              ? "seo__domain-button--restart"
+              : isInputDisabled
+              ? "seo__domain-button--disabled"
+              : ""
+          }
+
+          `}
           onClick={handleSendPromptButton}
         >
-          {hasFinalizedDomain ? <VscDebugRestart /> : <FaArrowUp />}
+          {hasFinalizedPrompt ? <VscDebugRestart /> : <FaArrowUp />}
         </div>
       </div>
     </div>
