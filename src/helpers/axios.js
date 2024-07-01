@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Dont add slash in the end to prevent the mismatch with origin url
-const BASE_SERVER_URL = "https://seo-digital-marketing-ai-server.onrender.com";
+const BASE_SERVER_URL = "https://seogenieai.com/api";
 // const BASE_SERVER_URL = "http://localhost:1112";
 
 const axiosInstance = axios.create({

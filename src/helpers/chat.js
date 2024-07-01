@@ -2,7 +2,7 @@ import Axios from "./axios.js";
 
 const initiateChat = async (userPrompt, additionalPayload = {}) => {
   try {
-    const url = `${Axios.BASE_SERVER_URL}/api/chat`;
+    const url = `${Axios.BASE_SERVER_URL}/chat`;
     const streamResponse = await fetch(url, {
       method: "post",
       headers: {
