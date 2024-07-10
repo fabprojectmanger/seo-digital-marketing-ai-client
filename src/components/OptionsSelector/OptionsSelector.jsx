@@ -163,7 +163,7 @@ const OptionsSelector = () => {
   const googleConsentPopup = async () => {
     // Open a popup
     popup.current = window.open(
-      Axios.BASE_SERVER_URL,
+      `${Axios.BASE_SERVER_URL}/api`,
       "Google Auth",
       `width=600,height=600, top=${(window.screen.height - 600) / 2}, 
       left=${(window.screen.width - 600) / 2}`
