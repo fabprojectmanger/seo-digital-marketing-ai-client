@@ -102,7 +102,7 @@ const Options = () => {
           "https://seogenieai.com/api/google/analytics-report",
           {
             option: option,
-            email: email?email:googleEmail,
+            email: email?email:googleEmail
           }
         );
         if (res) {
