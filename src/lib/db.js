@@ -1,0 +1,1 @@
+export const connectionStr="mongodb+srv://ashish-fc:fabcode%40123@prompot-cluster.mwdjerm.mongodb.net/seo-digital-marketing-ai?retryWrites=true&w=majority&appName=Prompot-cluster"

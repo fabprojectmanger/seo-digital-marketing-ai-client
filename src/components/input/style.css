@@ -1,0 +1,5 @@
+.input-item:not(:placeholder-shown) + label,
+.input-item:-webkit-autofill + label{
+  @apply !top-[-9px]  text-xs leading-[18px] text-dark-100 text-opacity-50 left-3
+    px-[6px];
+}
