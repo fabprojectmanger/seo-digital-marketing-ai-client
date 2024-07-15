@@ -33,7 +33,7 @@ const Header = () => {
         googleToken: tokenResponse,
       };
       try {
-        const res = await axios.post("/api/auth", {
+        const res = await axios.post("/apis/auth", {
           ...submitData,
         });
         if (res.status === 200) {
