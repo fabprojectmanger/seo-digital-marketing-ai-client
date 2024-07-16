@@ -8,7 +8,7 @@ const ComingSoon = () => {
         Coming Soon
       </h1>
       <p className='text-center text-2xl max-w-[500px] mx-auto'>
-      We're coming soon! We're working
+      We&apos;re coming soon! We&apos;re working
       hard to give you the best experience
       </p>
     </Wrapper>

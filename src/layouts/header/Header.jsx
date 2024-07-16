@@ -117,8 +117,10 @@ const Header = () => {
               <Wrapper className="pt-16 px-6">
                 <ul className="mb-8 flex flex-col gap-6">
                   {headerNav.map((item, i) => (
-                    <li>
+                    <li key={i}>
+                      
                       <Link
+                      key={i}
                         href={item.link}
                         className="text-xl text-lightblue-100  font-semibold"
                         onClick={closeMenu}
