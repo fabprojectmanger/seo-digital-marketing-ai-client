@@ -1,4 +1,4 @@
-import Index from "../../sections/options/view/Index";
+import Index from "../../sections/options/view/index";
 
 const page = () => {
   return <Index />;
