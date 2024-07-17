@@ -112,10 +112,11 @@ const Options = () => {
             email: email?email:googleEmail
           }
         ) .catch(function (error) {
+          console.log(error?.response?.data?.message);
           setLoader(false)
                 setError({
             active: true,
-            message: "Somthing went wrong! Try again later.",
+            message: error?.response?.data?.message,
           });
         });
         if (res) {
@@ -149,6 +150,7 @@ const Options = () => {
         }
       }, 2000);
     } catch (error) {
+      
       setLoader(false);
       setError({
         active: true,
