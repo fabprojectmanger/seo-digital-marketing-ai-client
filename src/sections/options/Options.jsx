@@ -67,6 +67,14 @@ const Options = () => {
       }
     } else {
       login();
+      if (selectedIndex === 999) {
+        setOptionSelected({ ...option });
+        setCompareRange(true);
+      }  
+      if (selectedIndex !== 3 &&  selectedIndex !== 999) {
+        setOptionSelected({ ...option });
+        setCompareRange(false);
+      }
     }
   };
 
@@ -97,7 +105,7 @@ const Options = () => {
     try {
       setTimeout(async () => {        
         const option = JSON.parse(localStorage.getItem("selected_option"));
-        option.domain = localStorage.getItem("domain");
+        // option.domain = localStorage.getItem("domain");
         const res = await axios.post(
           "https://seogenieai.com/api/google/analytics-report",
           {
