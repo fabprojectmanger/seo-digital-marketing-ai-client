@@ -111,8 +111,15 @@ const Options = () => {
             option: option,
             email: email?email:googleEmail
           }
-        );
+        ) .catch(function (error) {
+          setLoader(false)
+                setError({
+            active: true,
+            message: "Somthing went wrong! Try again later.",
+          });
+        });
         if (res) {
+         
           setGoogleResponse(res.data.report);          
           if (res?.data?.success) {
             if(res?.data?.report?.noMatchFoundForDomain){
