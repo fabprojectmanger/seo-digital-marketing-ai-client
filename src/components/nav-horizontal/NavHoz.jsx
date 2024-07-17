@@ -7,7 +7,7 @@ const NavHoz = ({ items }) => {
   const path = usePathname();
   return (
     <nav>
-      <ul className="flex items-center flex-wrap gap-[143px] max-3xl:gap-x-[0px] max-3xl:justify-between max-3xl:px-[150px] max-lg:px-[50px] w-full justify-center">
+      <ul className="flex items-center flex-wrap gap-[50px] max-3xl:gap-x-[0px] max-3xl:justify-between max-3xl:px-[150px] max-lg:px-[50px] w-full justify-center">
         {items.map((item, i) => (
           <li key={i}>
             <Link

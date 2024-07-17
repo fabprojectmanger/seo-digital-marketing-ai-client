@@ -7,11 +7,12 @@ import Wrapper from "../../components/wrapper/wrapper";
 import { useTheme } from "../../contexts/theme/ThemeProvider";
 
 const SearchList = () => {
-  const { selectedPrimaryOption, setSelectedPrimaryOption } = useTheme();
+  const { selectedPrimaryOption, setSelectedPrimaryOption, setGoogleResponse } = useTheme();
   const [key, setKey] = useState('');
   useEffect(() => {
     if(key){
     setSelectedPrimaryOption(key)
+    setGoogleResponse('');
     }
   }, [key]);
   return (

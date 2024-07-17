@@ -7,7 +7,7 @@ import { useTheme } from "../../../contexts/theme/ThemeProvider";
 const Index = () => {
   const { promptMessage, domain } = useTheme();
   return (
-    <Container className='h-full min-h-[calc(100vh-155px)] flex flex-col justify-between pb-8'>
+    <Container className='h-full min-h-[calc(100vh-119px)] flex flex-col justify-between pb-8'>
       <TextResponse />
       <Search value={promptMessage || domain} refresh={true} />
     </Container>
