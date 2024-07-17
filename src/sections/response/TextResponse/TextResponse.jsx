@@ -7,6 +7,8 @@ import { useTheme } from "../../../contexts/theme/ThemeProvider";
 import RestartRobot from '../../../assets/images/restart-robot.gif'
 import H4 from "../../../components/headings/h4";
 import Wrapper from "../../../components/wrapper/wrapper";
+import { JsonToHtml } from "../../../utils/jsonToHTML";
+
 const TextResponse = () => {
   let {
     googleResponse,
@@ -35,9 +37,9 @@ const TextResponse = () => {
 
     let prompt = promptMessage;
     let response;
-
     if (googleResponse) {
-      prompt = `report: \n${JSON.stringify(googleResponse, null, 2)}\n`;
+      
+      prompt = JsonToHtml(googleResponse);
 
       if (googleResponse.length > 0) {
         if (googleResponse?.noAnalyticsAccountFound) {
@@ -49,7 +51,10 @@ const TextResponse = () => {
           setIsInputDisabled(false);
         }
       }
-      response = await SeoChatAI.initiateChat(prompt);
+      response = {
+        isStreamed:true,
+        answer:prompt
+      };      
     } else {
       response = await SeoChatAI.initiateChat(prompt, {
         nonHtmlResponse: true,
@@ -57,6 +62,7 @@ const TextResponse = () => {
     }
 
     if (response?.isStreamed) {
+      restartRequired.current = false;
       setAiResponse(response.answer);
     } else {
       restartRequired.current = true;
@@ -68,11 +74,11 @@ const TextResponse = () => {
     <div className={`seo__text-response-cont h-full flex flex-col ${!aiResponse && !restartRequired.current ? 'justify-center' : ''} ${restartRequired.current ? ' justify-center' : ''}`}>
       {!aiResponse && !restartRequired.current && (
       <Wrapper className=''>
-          <div class={`flex space-x-2 justify-center items-center`}>
-              <span class="sr-only">Loading...</span>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce"></div>
+          <div className={`flex space-x-2 justify-center items-center`}>
+              <span className="sr-only">Loading...</span>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce"></div>
             </div>
             <H4 className={`text-center !text-2xl uppercase text-dark-100`}>PROCESSING Data</H4>
       </Wrapper>        
@@ -83,7 +89,7 @@ const TextResponse = () => {
           <H4 className={`text-center !text-2xl uppercase text-dark-100`}>Something went wrong!!</H4>
         </div>
       ) : (
-        aiResponse && <StreamResponse paragraph={aiResponse} />
+        aiResponse && <StreamResponse paragraph={aiResponse} className={restartRequired.current ? '' : ' g-t'} />
       )}
     </div>
   );

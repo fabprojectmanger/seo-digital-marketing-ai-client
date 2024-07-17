@@ -6,12 +6,12 @@ import Container from "../../../components/container/container";
 
 const Index = () => {
   return (
-    <Wrapper className="flex flex-col min-h-[calc(100vh-155px)]">
+    <Wrapper className="flex flex-col min-h-[calc(100vh-119px)]">
       <Wrapper className="flex-1 flex items-center justify-center">
         <Welcome />
       </Wrapper>
       <Container>
-      <Wrapper className="max-w-[845px] w-full mx-auto mb-[135px]">
+      <Wrapper className="max-w-[845px] w-full mx-auto mb-10">
       <SearchList />
       <Search />
       </Wrapper></Container>

@@ -21,12 +21,11 @@ const Header = () => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const token = tokenResponse.access_token;
-      console.log(tokenResponse, "&&&&&&&&");
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       );
-      console.log(tokenResponse, userInfo);
+
       const result = userInfo.data;
       const submitData = {
         email: result.email,
@@ -68,8 +67,9 @@ const Header = () => {
   };
 
   return (
-    <header className="py-[58px] max-md-tab:py-8">
-      <Container className="flex items-center justify-between">
+    <header className="py-6 max-md-tab:py-8">
+      <Container>
+        <Wrapper className="flex items-center justify-between p-4 bg-white rounded-xl">
         <Wrapper className="hidden max-md-tab:block flex-1">
           <button onClick={() => openMenu()}>
             <IconHamburger className="w-8 h-8 fill-black" />
@@ -137,6 +137,7 @@ const Header = () => {
         {error.active && (
           <ErrorNotification active={error.active} message={error.message} />
         )}
+        </Wrapper>
       </Container>
     </header>
   );

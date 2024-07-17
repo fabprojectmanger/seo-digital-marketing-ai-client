@@ -104,8 +104,7 @@ const Options = () => {
 
     try {
       setTimeout(async () => {        
-        const option = JSON.parse(localStorage.getItem("selected_option"));
-        // option.domain = localStorage.getItem("domain");
+        const option = JSON.parse(localStorage.getItem("selected_option"));        
         const res = await axios.post(
           "https://seogenieai.com/api/google/analytics-report",
           {
@@ -114,10 +113,17 @@ const Options = () => {
           }
         );
         if (res) {
-          console.log("res", res);
-          setGoogleResponse(res.data.report);
+          setGoogleResponse(res.data.report);          
           if (res?.data?.success) {
+            if(res?.data?.report?.noMatchFoundForDomain){
+              setError({
+                active: true,
+                message: "The domain is not associated with this email address.",
+              });
+            }
+            else{
             router.push("/response");
+            }
           } else {
             if (res?.data?.message === "Failed to validate the tokens.") {
               setError({
@@ -147,12 +153,12 @@ const Options = () => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const token = tokenResponse.access_token;
-      console.log(tokenResponse, "&&&&&&&&");
+
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       );
-      console.log(tokenResponse, userInfo);
+
       const result = userInfo.data;
 
       const submitData = {
@@ -163,11 +169,13 @@ const Options = () => {
         const res = await axios.post("/apis/auth", {
           ...submitData,
         });
-        console.log(res, "");
+
         if (res.status === 200) {
           setGoogleEmail(result.email);
           setUserLoggedIn(true);
+          if (!optionSelected?.compareDates) {
           googleAnaltyics(result.email);
+          }
         } else {
           setError({
             active: true,
@@ -230,16 +238,16 @@ const Options = () => {
         >
           <Wrapper>
             <div
-              class={`${
+              className={`${
                 loader.animate
                   ? " translate-y-0 opacity-100"
                   : " translate-y-4 opacity-0"
               } transition-all duration-300 flex space-x-2 justify-center items-center`}
             >
-              <span class="sr-only">Loading...</span>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-              <div class="h-4 w-4 bg-dark-100 rounded-full animate-bounce"></div>
+              <span className="sr-only">Loading...</span>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce"></div>
             </div>
             <H4
               className={`text-center !text-2xl ${

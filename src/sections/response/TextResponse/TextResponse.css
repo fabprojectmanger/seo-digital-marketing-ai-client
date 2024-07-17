@@ -1,6 +1,5 @@
 .seo__text-response-cont {
   flex: 1;  
-  padding: 1rem;
   line-height: 1.4;
   overflow-x: hidden;
   font-size: 0.9rem;
@@ -33,4 +32,48 @@
 .seo__text-response-aggregated {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+
+.htmlIncluded h2 {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 20px 0 5px;
+}
+
+.htmlIncluded td:first-child {text-transform: capitalize;font-size: 14px;font-weight: 500;}
+
+.htmlIncluded table {
+  table-layout: fixed;
+  min-width: 290px;
+}
+
+.htmlIncluded td:first-child + td {
+  text-align: right;
+  font-weight: 700;
+  font-size: 14px;
+}
+.htmlIncluded.g-t {
+  font-size: 0;
+}
+.htmlIncluded,
+.htmlIncluded * {
+  font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
+}
+.htmlIncluded {
+    font-weight: 400;
+    color: #000;
+    line-height: 36px;
+}
+.htmlIncluded tr + tr {
+  border-top: 1px solid #f2f2f2;
+}
+
+.htmlIncluded  td {
+  padding: 7px;
+}
+
+.htmlIncluded h2:first-child {
+  margin-top: 0;
 }
