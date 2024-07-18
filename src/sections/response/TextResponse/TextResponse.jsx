@@ -8,8 +8,12 @@ import RestartRobot from '../../../assets/images/restart-robot.gif'
 import H4 from "../../../components/headings/h4";
 import Wrapper from "../../../components/wrapper/wrapper";
 import { JsonToHtml } from "../../../utils/jsonToHTML";
+import { TextToHTML } from "../../../utils/TextToHTML";
+
+import Image from "next/image";
 
 const TextResponse = () => {
+  const [classEnabled , setClassEnabled] = useState(false);
   let {
     googleResponse,
     promptMessage,
@@ -55,15 +59,24 @@ const TextResponse = () => {
         isStreamed:true,
         answer:prompt
       };      
+      setClassEnabled(true)
     } else {
+    
       response = await SeoChatAI.initiateChat(prompt, {
         nonHtmlResponse: true,
       });
+      response.content = true;
+      setClassEnabled(false)
     }
 
     if (response?.isStreamed) {
       restartRequired.current = false;
+      if(response.content){
+        setAiResponse(TextToHTML(response.answer));
+      }
+      else{
       setAiResponse(response.answer);
+      }
     } else {
       restartRequired.current = true;
     }
@@ -85,11 +98,11 @@ const TextResponse = () => {
       )}
       {restartRequired.current ? (
         <div className="seo__text-response-restart h-full -mt-24">
-          <img src={RestartRobot.src} alt="Restarting robot..." />
+          <Image src={RestartRobot.src} alt="Restarting robot..." width={RestartRobot.width} height={300} />
           <H4 className={`text-center !text-2xl uppercase text-dark-100`}>Something went wrong!!</H4>
         </div>
       ) : (
-        aiResponse && <StreamResponse paragraph={aiResponse} className={restartRequired.current ? '' : ' g-t'} />
+        aiResponse && <StreamResponse paragraph={aiResponse} className={classEnabled ? ' g-t ' : ' '} />
       )}
     </div>
   );

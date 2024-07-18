@@ -12,6 +12,7 @@ export default function ThemeProvider({ children }) {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [googleEmail, setGoogleEmail] = useState(false);
   const [aiResponse, setAiResponse] = useState("");
+  const [searchEnabled, setSearchEnabled] = useState("");
   const [googleResponse, setGoogleResponse] = useState();
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [promptMessage, setPromptMessage] = useState("");
@@ -64,6 +65,10 @@ export default function ThemeProvider({ children }) {
     restartRequired,
     selectedPrimaryOption,
     setSelectedPrimaryOption,
+    searchEnabled,
+    setSearchEnabled,
+    setIsInputDisabled,
+    isInputDisabled
   };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

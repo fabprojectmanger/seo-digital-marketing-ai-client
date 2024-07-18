@@ -6,6 +6,7 @@ const Input = ({
   required,
   setInputData,
   value,
+  disabled,
   name,
   className
 }) => {
@@ -15,6 +16,7 @@ const Input = ({
         <input
           name={name}
           type={type}
+          disabled={disabled}
           autoComplete={type}
           placeholder={placeholder}
           required={required}

@@ -1,16 +1,28 @@
 "use client";
 import Input from "../../components/input";
 import Wrapper from "../../components/wrapper/wrapper";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconSubmit from "../../../public/icons/IconSubmit";
 import IconReplay from "../../../public/icons/IconReplay";
 import ErrorNotification from "../../components/notification/error/ErrorNotification";
 import { useTheme } from "../../contexts/theme/ThemeProvider";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 const Search = ({ value, refresh }) => {
+  const path = usePathname();
   const [searchValue, setSearchValue] = useState(value || '');
-  const { setError, error, setDomain, setPromptMessage, selectedPrimaryOption } = useTheme();
+  const { setError, error, setDomain, setPromptMessage, selectedPrimaryOption, searchEnabled, setSearchEnabled, setIsInputDisabled, isInputDisabled } = useTheme();
+  useEffect(()=>{
+    if(searchEnabled != 0){
+    setSearchValue('');
+    setIsInputDisabled(false);
+    }
+  },[searchEnabled])
+  useEffect(()=>{
+    if(path === '/'){
+      setIsInputDisabled(false);
+    }
+  },[path])
   const route = useRouter();
   const getSearchValue = (e) => {
     setSearchValue(e.target.value);
@@ -28,13 +40,17 @@ const Search = ({ value, refresh }) => {
           message: "Please add a valid domain.",
         });
       } else {  
+        setIsInputDisabled(true)
         setDomain(searchValue);
         setPromptMessage(searchValue);
+        setSearchEnabled(0)
         route.push("/options");
         }
     }
     else{
+      setIsInputDisabled(true)
       setPromptMessage(searchValue);
+      setSearchEnabled(0)
       route.push("/response");
     }
 
@@ -46,6 +62,7 @@ const Search = ({ value, refresh }) => {
         onSubmit={submitForm}
       >
         <Input
+           disabled={isInputDisabled}
           placeholder={selectedPrimaryOption === 'domain' ? 'Enter your domain name' : 'Enter your writing topic'}
           value={searchValue || ''}
           setInputData={getSearchValue}

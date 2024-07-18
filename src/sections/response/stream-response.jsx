@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../contexts/theme/ThemeProvider";
 import Wrapper from "../../components/wrapper/wrapper";
 
 const StreamResponse = ({ paragraph, className }) => {
+  const htmlRef = useRef();
   let { isStreamingResponse, setIsStreamingResponse, setIsTypingLoaderEnabled } = useTheme();
   const [streamedResponse, setStreamedResponse] = useState("");
   const STREAMING_DELAY = 30;
@@ -11,11 +12,12 @@ const StreamResponse = ({ paragraph, className }) => {
     if (paragraph) {
       setIsTypingLoaderEnabled(true);
 
-      let currentIndex = 7;
+      let currentIndex = 0;
       const timer = setInterval(() => {
         if (currentIndex <= paragraph.length) {
           setStreamedResponse(paragraph.substring(0, currentIndex));
-          currentIndex = currentIndex + 4;
+          currentIndex = currentIndex + 5;
+          htmlRef.current.scrollTop = currentIndex;
           if (!isStreamingResponse) {
             setIsStreamingResponse(true);
           }
@@ -31,9 +33,9 @@ const StreamResponse = ({ paragraph, className }) => {
   }, [paragraph]);
 
   return <>
-  <Wrapper className='bg-white p-8 rounded-2xl max-h-[70vh] overflow-auto'>
+  <div ref={htmlRef} className='bg-white p-8 rounded-2xl max-h-[70vh] overflow-auto'>
   <div className={`${className || ''} text-base text-black font-medium leading-7 htmlIncluded`} dangerouslySetInnerHTML={{ __html: streamedResponse }} />
-  </Wrapper>
+  </div>
   </>;
 };
 
