@@ -7,16 +7,17 @@ const StreamResponse = ({ paragraph, className }) => {
   const htmlRef = useRef();
   let { isStreamingResponse, setIsStreamingResponse, setIsTypingLoaderEnabled } = useTheme();
   const [streamedResponse, setStreamedResponse] = useState("");
-  const STREAMING_DELAY = 30;
+  const STREAMING_DELAY = 40;
   useEffect(() => {
     if (paragraph) {
       setIsTypingLoaderEnabled(true);
 
       let currentIndex = 0;
+      console.log(paragraph.length);
       const timer = setInterval(() => {
         if (currentIndex <= paragraph.length) {
-          setStreamedResponse(paragraph.substring(0, currentIndex));
-          currentIndex = currentIndex + 5;
+          setStreamedResponse(paragraph.substring(0, currentIndex));          
+          currentIndex = currentIndex + 9;
           htmlRef.current.scrollTop = currentIndex;
           if (!isStreamingResponse) {
             setIsStreamingResponse(true);

@@ -23,6 +23,6 @@ export const TextToHTML = (text) => {
       return `<p>${line}</p>`;
     }
     return line;
-  }).join('\n');  
+  }).join('\n');    
   return convertedText;
 };
