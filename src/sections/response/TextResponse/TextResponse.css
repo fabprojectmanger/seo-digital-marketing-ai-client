@@ -77,3 +77,55 @@
 .htmlIncluded h2:first-child {
   margin-top: 0;
 }
+.htmlIncluded pre code p {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+.htmlIncluded ul {list-style: disc;padding-left: 18px;}
+
+.htmlIncluded pre,.htmlIncluded pre code{
+  display: block;
+  line-height: 1.6;
+}
+.htmlIncluded pre{
+  padding:10px 0;
+  margin: 10px 0;
+  background: #2d2d2d;
+  border-radius: 10px;
+}
+.htmlIncluded   code {
+    padding: 2px 10px;
+    background: #2d2d2d;
+    margin: 10px 0;
+    border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+}
+
+.htmlIncluded > div p {
+    margin: 0;
+}
+
+.htmlIncluded > strong {
+    font-size: 18px;
+    margin-top: 15px;
+    display: block;
+}
+.htmlIncluded a {
+  text-decoration: underline;
+  text-underline-position: from-font;
+  font-weight: 500;
+}
+.htmlIncluded code {
+  padding: 2px 10px;
+}
+
+.htmlIncluded pre + pre {
+  margin-top: 15px;
+}
+.htmlIncluded  li code,.htmlIncluded p code {
+  padding: 10px 12px;
+  line-height: 1;
+  margin-left: 5px;
+}

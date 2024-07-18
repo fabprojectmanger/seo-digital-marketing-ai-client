@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { DOMAIN_OPTIONS } from "../../assets/data/db";
 import Wrapper from "../../components/wrapper/wrapper";
@@ -116,7 +117,7 @@ const Options = () => {
           setLoader(false)
                 setError({
             active: true,
-            message: error?.response?.data?.message,
+            message: error?.response?.data?.message
           });
         });
         if (res) {
@@ -138,6 +139,8 @@ const Options = () => {
                 active: true,
                 message: "Your token is expired.",
               });
+              setGoogleEmail('')
+              Cookies.remove('google_email')
             } else {
               setError({
                 active: true,
