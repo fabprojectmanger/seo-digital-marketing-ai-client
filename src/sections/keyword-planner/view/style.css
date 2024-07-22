@@ -1,0 +1,80 @@
+.stdropdown-tool {
+  display: none;
+}
+
+.stsearch-box {
+  padding: 0;
+  border: 0;
+}
+
+.stsearch-box input {
+  display: block;
+}
+
+.stdropdown-input input {
+  @apply max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em];
+}
+.stdropdown-input input {
+  box-shadow: none;
+  outline: 0;
+}
+
+.stdropdown-container {
+  border: 0;
+}
+
+.stdropdown-item {
+  @apply py-[10px] px-[15px];
+}
+
+.stdropdown-item + .stdropdown-item {
+  @apply border-t border-[#d1d1d1];
+}
+
+.stdropdown-menu {
+  @apply max-h-[250px];
+}
+
+.stdropdown-item span {
+  @apply hidden;
+}
+.keyword-response  >div{
+  @apply flex flex-col-reverse text-[0px];
+}
+.keyword-response  >div p{
+  @apply text-base mb-4;
+}
+.keyword-response table {
+  @apply w-full text-sm text-left rtl:text-right text-black dark:text-gray-400  border border-gray-300;
+}
+.keyword-response thead {
+  @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
+}
+.keyword-response thead tr {
+  @apply bg-gray-300;
+}
+.keyword-response  tr th {
+  @apply px-6 py-3;
+}
+
+.keyword-response  tr th + th {
+  @apply whitespace-nowrap text-center;
+}
+.keyword-response tbody tr {
+  @apply bg-white hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600;
+}
+.keyword-response tbody tr:nth-child(even) {
+  @apply bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600;
+}
+.keyword-response tbody tr td:first-child {
+@apply capitalize whitespace-nowrap font-semibold;
+}
+.keyword-response tbody tr td {
+  @apply px-6 py-4;
+}
+.keyword-response tbody tr td + td {
+  @apply text-center;
+}
+.keyword-response tbody tr + tr{
+@apply border-t border-gray-300;
+}

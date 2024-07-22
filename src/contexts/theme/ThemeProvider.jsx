@@ -11,6 +11,7 @@ export default function ThemeProvider({ children }) {
   const [domain, setDomain] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [googleEmail, setGoogleEmail] = useState(false);
+  const [userName, setUserName] = useState(false);
   const [aiResponse, setAiResponse] = useState("");
   const [searchEnabled, setSearchEnabled] = useState("");
   const [googleResponse, setGoogleResponse] = useState();
@@ -40,6 +41,11 @@ export default function ThemeProvider({ children }) {
       ? localStorage.setItem("domain", domain)
       : setDomain(localStorage.getItem("domain"));
   }, [domain]);
+  useEffect(() => {
+    userName
+      ? localStorage.setItem("userName", userName)
+      : setUserName(localStorage.getItem("userName"));
+  }, [userName]);
 
   const value = {
     error,
@@ -68,7 +74,9 @@ export default function ThemeProvider({ children }) {
     searchEnabled,
     setSearchEnabled,
     setIsInputDisabled,
-    isInputDisabled
+    isInputDisabled,
+    userName,
+    setUserName,
   };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
