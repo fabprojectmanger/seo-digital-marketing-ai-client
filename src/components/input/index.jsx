@@ -8,7 +8,8 @@ const Input = ({
   value,
   disabled,
   name,
-  className
+  className,
+  onInput
 }) => {
   return (
     <>
@@ -21,6 +22,9 @@ const Input = ({
           placeholder={placeholder}
           required={required}
           value={value}
+          onInput={(e)=>{
+            onInput(e)
+          }}
           onChange={(e) => {
             setInputData(e);
           }}

@@ -27,6 +27,10 @@ const Index = () => {
   const [jsonTable, setJsonTable] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [summary, setSummary] = useState(false);
+  const [keywordLengthError, setKeywordLengthError] = useState(false)
+  const getKeywordLengthError = (e) =>{
+    setKeywordLengthError(e.target.value);
+  }
   const getFormData = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -154,6 +158,10 @@ const Index = () => {
                   : " translate-x-full opacity-0 "
               } duration-300 delay-75 relative z-10`}
             >
+              {keywordLengthError.length > 80 && <Wrapper className='text-base text-white flex gap-1 items-center bg-red-400 p-4 rounded-xl mt-4'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-290.77q13.73 0 23.02-9.29t9.29-23.02q0-13.73-9.29-23.02-9.29-9.28-23.02-9.28t-23.02 9.28q-9.29 9.29-9.29 23.02t9.29 23.02q9.29 9.29 23.02 9.29Zm-30-146.15h60v-240h-60v240ZM480.07-100q-78.84 0-148.21-29.92t-120.68-81.21q-51.31-51.29-81.25-120.63Q100-401.1 100-479.93q0-78.84 29.92-148.21t81.21-120.68q51.29-51.31 120.63-81.25Q401.1-860 479.93-860q78.84 0 148.21 29.92t120.68 81.21q51.31 51.29 81.25 120.63Q860-558.9 860-480.07q0 78.84-29.92 148.21t-81.21 120.68q-51.29 51.31-120.63 81.25Q558.9-100 480.07-100Zm-.07-60q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                The keyword may not be greater then 80 character.
+                </Wrapper>}
               <label className="mb-3 mt-5 block ">
                 Please tell us more about your website business model in Keyword{" "}
               </label>
@@ -161,9 +169,10 @@ const Index = () => {
                 <Input
                   placeholder={"Shoes"}
                   value={formData?.userPrompt || ""}
+                  onInput={getKeywordLengthError}
                   setInputData={getFormData}
                   required={true}
-                  className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
+                  className={`${keywordLengthError.length > 80 ? "!border-red-700" :""} max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]`}
                   name="userPrompt"
                 />
                 <Text className="mt-2">
@@ -176,9 +185,9 @@ const Index = () => {
                   showItem
                     ? " translate-x-0 opacity-100"
                     : " translate-x-full opacity-0 "
-                } duration-300 delay-200 flex gap-4 max-md-mobile:flex-col max-md-mobile:gap-0`}
+                } duration-300 delay-200 flex gap-4 w-full max-md-mobile:flex-col justify-between max-md-mobile:gap-0`}
               >
-                <Wrapper>
+                <Wrapper className='flex-1'>
                   <label className="mb-3 mt-5 block ">Country</label>
                   <CountrySelect
                     onInput={(e) => {
@@ -191,7 +200,7 @@ const Index = () => {
                     placeHolder="Select Country"
                   />
                 </Wrapper>
-                <Wrapper>
+                <Wrapper className='flex-1'>
                   <label className="mb-3 mt-5 block ">State</label>
                   <StateSelect
                     countryid={countryid}
@@ -205,7 +214,7 @@ const Index = () => {
                     placeHolder="Select State"
                   />
                 </Wrapper>
-                <Wrapper>
+                <Wrapper className='flex-1'>
                   <label className="mb-3 mt-5 block ">City</label>
                   <CitySelect
                     countryid={countryid}
