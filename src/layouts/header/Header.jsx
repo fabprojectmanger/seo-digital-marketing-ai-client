@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import Text from "../../components/text/text";
 const Header = () => {
   const router = useRouter();
+  const [openNameMenu, setOpenNameMenu] = useState(false);
   const {
     setUserLoggedIn,
     setGoogleEmail,
@@ -84,7 +85,9 @@ const Header = () => {
       setMenuOpen((prev) => ({ ...prev, animate: true }));
     }, 500);
   };
-
+  const openDropDown = () => {
+    setOpenNameMenu((prev) => !prev);
+  };
   return (
     <header className="py-6 max-md-tab:py-8">
       <Container>
@@ -116,7 +119,8 @@ const Header = () => {
             {googleEmail ? (
               <Wrapper className=" relative">
                 <button
-                  className="flex items-center gap-1 peer"
+                  onClick={() => openDropDown()}
+                  className="flex items-center gap-1"
                 >
                   <Wrapper className="w-7 h-7 flex items-center justify-center rounded-full bg-dark-100 uppercase text-center text-white text-base font-bold">
                     {userName.slice(0, 1)}
@@ -125,18 +129,18 @@ const Header = () => {
                     {userName}
                   </Text>
                 </button>
-          
+                {openNameMenu && (
                   <div
                     id="dropdown"
-                    className="z-10 bg-white peer-focus:block hidden absolute top-[40px] border border-gray-300 right-0 divide-y divide-gray-100 rounded-lg shadow w-44 "
+                    className="z-10 bg-white absolute top-[40px] border border-gray-300 right-0 divide-y divide-gray-100 rounded-lg shadow w-44 "
                   >
                     <ul
                       className="py-2 text-sm text-gray-700 "
                       aria-labelledby="dropdownDefaultButton"
-                    >         
+                    >
                       <li>
                         <Link
-                        onClick={()=> logout()}
+                          onClick={() => logout()}
                           href="#"
                           className="block px-4 py-2 hover:bg-gray-200 cursor-pointer"
                         >
@@ -145,7 +149,7 @@ const Header = () => {
                       </li>
                     </ul>
                   </div>
-            
+                )}
               </Wrapper>
             ) : (
               <button
