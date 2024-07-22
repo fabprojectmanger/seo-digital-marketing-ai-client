@@ -11,9 +11,7 @@ const StreamResponse = ({ paragraph, className }) => {
   useEffect(() => {
     if (paragraph) {
       setIsTypingLoaderEnabled(true);
-
       let currentIndex = 0;
-      console.log(paragraph.length);
       const timer = setInterval(() => {
         if (currentIndex <= paragraph.length) {
           setStreamedResponse(paragraph.substring(0, currentIndex));          

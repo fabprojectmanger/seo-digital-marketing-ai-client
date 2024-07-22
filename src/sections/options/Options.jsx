@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import IconsArrowForward from "../../../public/icons/IconsArrowForward";
 import Text from "../../components/text/text";
 import ErrorNotification from "../../components/notification/error/ErrorNotification";
+import Link from "next/link";
 const Options = () => {
   const router = useRouter();
   const {
@@ -26,6 +27,7 @@ const Options = () => {
     error,
     setError,
     setGoogleResponse,
+    setUserName
   } = useTheme();
   const [optionSelected, setOptionSelected] = useState("");
   const [loader, setLoader] = useState(false);
@@ -172,7 +174,7 @@ const Options = () => {
       );
 
       const result = userInfo.data;
-
+      setUserName(userInfo.data?.name);
       const submitData = {
         email: result.email,
         googleToken: tokenResponse,
@@ -206,6 +208,11 @@ const Options = () => {
     <Container>
       {!loader && (
         <Wrapper className="space-y-4 max-w-[340px]">
+          <Link href='/' className={`text-base uppercase font-semibold mb-6 inline-block ${
+                showItem
+                  ? " translate-x-0 opacity-100"
+                  : " translate-x-full opacity-0 "
+              } duration-300`}>← Back to home</Link>
           {DOMAIN_OPTIONS.map((item, i) => (
             <div
               style={{ transitionDelay: i + "00ms" }}
