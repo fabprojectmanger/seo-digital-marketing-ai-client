@@ -6,7 +6,7 @@ import H1 from "../../components/headings/h1";
 import Input from "../../components/input";
 // import ComingSoon from '../../sections/coming-soon/coming-soon'
 
-const page = () => {
+const Page = () => {
   const [showItem, setShowItem] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -160,4 +160,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
