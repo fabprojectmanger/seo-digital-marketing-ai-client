@@ -65,6 +65,13 @@ const Header = () => {
         });
       }
     },
+    scope: [
+      "https://www.googleapis.com/auth/analytics.readonly",
+      "https://www.googleapis.com/auth/analytics",
+      "https://www.googleapis.com/auth/webmasters",
+      "https://www.googleapis.com/auth/webmasters.readonly",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ].join(" "),
   });
   const logout = () => {
     googleLogout();
