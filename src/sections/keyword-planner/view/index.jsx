@@ -17,6 +17,7 @@ import "react-country-state-city/dist/react-country-state-city.css";
 import "./style.css";
 import Processing from "../../../components/processing/Processing";
 import Link from "next/link";
+import BackToHome from '../../../components/back-to-home/BackToHome';
 const Index = () => {
   const [formData, setFormData] = useState("");
   const [showItem, setShowItem] = useState(false);
@@ -56,7 +57,14 @@ const Index = () => {
         active: true,
         message: "Please add a valid domain.",
       });
-    } else {
+    }
+    else if(keywordLengthError.length > 80){
+      setError({
+        active: true,
+        message: "The keyword may not be greater then 80 character.",
+      });
+    }
+    else {
       setLoading(true);
       setProcessing(true);
       setDomain(formData?.domain);
@@ -121,6 +129,13 @@ const Index = () => {
             onSubmit={(e) => submitForm(e)}
             className="max-w-[800px] mx-auto mt-16 mb-16"
           >
+              <Wrapper className={` ${
+                showItem
+                  ? " translate-x-0 opacity-100"
+                  : " translate-x-full opacity-0 "
+              } duration-300 flex justify-center`}>
+            <BackToHome/>
+            </Wrapper>
             <H1
               className={` ${
                 showItem
@@ -129,7 +144,7 @@ const Index = () => {
               } duration-300 !text-4xl text-center mb-8 font-semibold tracking-normal`}
             >
               Google Keyword planner
-            </H1>
+            </H1>          
             <Wrapper
               className={`${
                 showItem
@@ -145,7 +160,7 @@ const Index = () => {
                   placeholder={"www.example.com"}
                   value={formData?.domain || ""}
                   setInputData={getFormData}
-                  required={true}
+                  required={false}
                   className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
                   name="domain"
                 />
@@ -175,9 +190,9 @@ const Index = () => {
                   className={`${keywordLengthError.length > 80 ? "!border-red-700" :""} max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]`}
                   name="userPrompt"
                 />
-                <Text className="mt-2">
+                <Text className="mt-2 leading-normal">
                   Example if you business model is Shoes, then you can add shoes
-                  as Keyword
+                  as Keyword.<b> Multiple keywords can be added, separated by commas (,).</b> 
                 </Text>
               </Wrapper>
               <Wrapper
@@ -190,6 +205,7 @@ const Index = () => {
                 <Wrapper className='flex-1'>
                   <label className="mb-3 mt-5 block ">Country</label>
                   <CountrySelect
+                  required={true}
                     onInput={(e) => {
                       setFormData((prev) => ({ ...prev, country: e.name }));
                     }}

@@ -17,6 +17,7 @@ import IconsArrowForward from "../../../public/icons/IconsArrowForward";
 import Text from "../../components/text/text";
 import ErrorNotification from "../../components/notification/error/ErrorNotification";
 import Link from "next/link";
+import BackToHome from '../../components/back-to-home/BackToHome';
 const Options = () => {
   const router = useRouter();
   const {
@@ -27,12 +28,13 @@ const Options = () => {
     error,
     setError,
     setGoogleResponse,
-    setUserName
+    setUserName,
   } = useTheme();
   const [optionSelected, setOptionSelected] = useState("");
   const [loader, setLoader] = useState(false);
   const [showItem, setShowItem] = useState(false);
   const [compareRange, setCompareRange] = useState(false);
+  const [googleError, setGoogleError] = useState(false);
   const [dateSelectionRange, setDateSelectionRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -47,7 +49,7 @@ const Options = () => {
   }, []);
   useEffect(() => {
     if (optionSelected) {
-        localStorage.setItem("selected_option", JSON.stringify(optionSelected));
+      localStorage.setItem("selected_option", JSON.stringify(optionSelected));
     }
   }, [optionSelected]);
 
@@ -59,11 +61,11 @@ const Options = () => {
       if (selectedIndex === 999) {
         setOptionSelected({ ...option });
         setCompareRange(true);
-      }   
+      }
       if (selectedIndex === 3) {
         googleAnaltyics();
       }
-      if (selectedIndex !== 3 &&  selectedIndex !== 999) {
+      if (selectedIndex !== 3 && selectedIndex !== 999) {
         setOptionSelected({ ...option });
         setCompareRange(false);
         googleAnaltyics();
@@ -73,8 +75,8 @@ const Options = () => {
       if (selectedIndex === 999) {
         setOptionSelected({ ...option });
         setCompareRange(true);
-      }  
-      if (selectedIndex !== 3 &&  selectedIndex !== 999) {
+      }
+      if (selectedIndex !== 3 && selectedIndex !== 999) {
         setOptionSelected({ ...option });
         setCompareRange(false);
       }
@@ -106,34 +108,29 @@ const Options = () => {
     }, 100);
 
     try {
-      setTimeout(async () => {        
-        const option = JSON.parse(localStorage.getItem("selected_option"));        
-        const res = await axios.post(
-          "https://seogenieai.com/api/google/analytics-report",
-          {
+      setTimeout(async () => {
+        const option = JSON.parse(localStorage.getItem("selected_option"));
+        const res = await axios
+          .post("https://seogenieai.com/api/google/analytics-report", {
             option: option,
-            email: email?email:googleEmail
-          }
-        ) .catch(function (error) {
-          console.log(error?.response?.data?.message);
-          setLoader(false)
-                setError({
-            active: true,
-            message: error?.response?.data?.message
+            email: email ? email : googleEmail,
+          })
+          .catch(function (error) {
+            setLoader(false);
+            console.log(error);
+            setGoogleError(true);
           });
-        });
         if (res) {
-         
-          setGoogleResponse(res.data.report);          
+          setGoogleResponse(res.data.report);
           if (res?.data?.success) {
-            if(res?.data?.report?.noMatchFoundForDomain){
+            if (res?.data?.report?.noMatchFoundForDomain) {
               setError({
                 active: true,
-                message: "The domain is not associated with this email address.",
+                message:
+                  "The domain is not associated with this email address.",
               });
-            }
-            else{
-            router.push("/response");
+            } else {
+              router.push("/domain-analysis");
             }
           } else {
             if (res?.data?.message === "Failed to validate the tokens.") {
@@ -141,8 +138,8 @@ const Options = () => {
                 active: true,
                 message: "Your token is expired.",
               });
-              setGoogleEmail('')
-              Cookies.remove('google_email')
+              setGoogleEmail("");
+              Cookies.remove("google_email");
             } else {
               setError({
                 active: true,
@@ -155,7 +152,6 @@ const Options = () => {
         }
       }, 2000);
     } catch (error) {
-      
       setLoader(false);
       setError({
         active: true,
@@ -188,7 +184,7 @@ const Options = () => {
           setGoogleEmail(result.email);
           setUserLoggedIn(true);
           if (!optionSelected?.compareDates) {
-          googleAnaltyics(result.email);
+            googleAnaltyics(result.email);
           }
         } else {
           setError({
@@ -213,13 +209,13 @@ const Options = () => {
   });
   return (
     <Container>
-      {!loader && (
+      {!loader && !googleError && (
         <Wrapper className="space-y-4 max-w-[340px]">
-          <Link href='/' className={`text-base uppercase font-semibold mb-6 inline-block ${
-                showItem
-                  ? " translate-x-0 opacity-100"
-                  : " translate-x-full opacity-0 "
-              } duration-300`}>← Back to home</Link>
+    <Wrapper className={`${
+      showItem
+        ? " translate-x-0 opacity-100"
+        : " translate-x-full opacity-0 "
+    } duration-300`}><BackToHome /></Wrapper> 
           {DOMAIN_OPTIONS.map((item, i) => (
             <div
               style={{ transitionDelay: i + "00ms" }}
@@ -256,6 +252,40 @@ const Options = () => {
               <IconsArrowForward />
             </button>
           )}
+        </Wrapper>
+      )}
+      {googleError && (
+        <Wrapper
+          className={`h-[calc(100vh-250px)] flex items-center justify-center`}
+        >
+          <Wrapper className="flex flex-col items-center gap-1 w-full">
+            <Wrapper>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="64px"
+                viewBox="0 -960 960 960"
+                width="64px"
+                fill="#EA3323"
+              >
+                <path d="M479.98-280q14.02 0 23.52-9.48t9.5-23.5q0-14.02-9.48-23.52t-23.5-9.5q-14.02 0-23.52 9.48t-9.5 23.5q0 14.02 9.48 23.52t23.5 9.5ZM453-433h60v-253h-60v253Zm27.27 353q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z" />
+              </svg>
+            </Wrapper>
+            <Text
+              className={`text-center !text-2xl max-w-[340px] mx-auto transition-all duration-300 delay-300`}
+            >
+              Your Google ID is not intergrated with Analytics ID.
+            </Text>
+            <Link
+              href="/"
+              className={`text-base uppercase font-semibold inline-block mt-6 ${
+                showItem
+                  ? " translate-x-0 opacity-100"
+                  : " translate-x-full opacity-0 "
+              } duration-300`}
+            >
+              ← Back to home
+            </Link>
+          </Wrapper>
         </Wrapper>
       )}
       {loader.active && (

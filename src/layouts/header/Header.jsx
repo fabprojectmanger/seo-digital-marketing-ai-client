@@ -129,7 +129,7 @@ const Header = () => {
                   onClick={() => openDropDown()}
                   className="flex items-center gap-1"
                 >
-                  <Wrapper className="w-7 h-7 flex items-center justify-center rounded-full bg-dark-100 uppercase text-center text-white text-base font-bold">
+                  <Wrapper className="w-7 h-7 min-w-7 min-h-7 flex items-center justify-center rounded-full bg-dark-100 uppercase text-center text-white text-base font-bold">
                     {userName.slice(0, 1)}
                   </Wrapper>
                   <Text className="text-base capitalize font-semibold tracking-normal">

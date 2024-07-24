@@ -14,6 +14,7 @@ const Input = ({
   return (
     <>
       <div className={`relative w-full`}>
+        {onInput ? 
         <input
           name={name}
           type={type}
@@ -30,6 +31,22 @@ const Input = ({
           }}
           className={`${className || ''}`} 
         />
+        : 
+        <input
+          name={name}
+          type={type}
+          disabled={disabled}
+          autoComplete={type}
+          placeholder={placeholder}
+          required={required}
+          value={value}
+          onChange={(e) => {
+            setInputData(e);
+          }}
+          className={`${className || ''}`} 
+        />
+
+}
       </div>
     </>
   );
