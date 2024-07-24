@@ -11,7 +11,7 @@ const Index = () => {
         <Welcome />
       </Wrapper>
       <Container>
-      <Wrapper className="max-w-[845px] w-full mx-auto mb-10">
+      <Wrapper className="max-w-[990px] w-full mx-auto mb-10">
       <SearchList />
       <Search />
       </Wrapper></Container>
