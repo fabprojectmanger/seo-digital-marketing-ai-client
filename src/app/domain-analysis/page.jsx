@@ -1,5 +1,5 @@
 import React from 'react'
-import Index from '../../sections/domain-analysis/view/Index'
+import Index from '../../sections/domain-analysis/view/index'
 
 const page = () => {
   return (
