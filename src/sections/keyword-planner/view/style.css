@@ -38,7 +38,7 @@
 .stdropdown-item span {
   @apply hidden;
 }
-.keyword-response  >div{
+.keyword-response  >div > div.html-div{
   @apply flex flex-col-reverse text-[0px];
 }
 .keyword-response  >div p{

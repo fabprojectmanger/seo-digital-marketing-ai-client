@@ -85,7 +85,7 @@ const page = () => {
                     1. In-depth Website Analysis:
                   </Wrapper>
                   <Text className="text-base leading-tight">
-                    Gain valuable insights into your website's performance with
+                    Gain valuable insights into your website&apos;s performance with
                     our <strong>Best SEO Tools for Small Businesses. </strong>
                     We delve deep into technical SEO, content quality, and
                     on-page optimization, to provide actionable data to
@@ -100,7 +100,7 @@ const page = () => {
                     Let our cutting-edge
                     <strong> SEO Content Writing Tools</strong>
                     assistant take the heavy lifting off your shoulders.
-                    Generate high-quality content ideas, overcome writer's
+                    Generate high-quality content ideas, overcome writer&apos;s
                     block, and create compelling and informative pieces that
                     captivate your target audience.
                   </Text>

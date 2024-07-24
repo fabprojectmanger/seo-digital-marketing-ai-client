@@ -1,6 +1,7 @@
 "use client";
 import "./style.css";
 const Input = ({
+  wrapperClassName,
   type,
   placeholder,
   required,
@@ -9,13 +10,15 @@ const Input = ({
   disabled,
   name,
   className,
-  onInput
+  onInput,
+  onKeyDown
 }) => {
   return (
     <>
-      <div className={`relative w-full`}>
+      <div className={`relative w-full ` + (wrapperClassName || '')}>
         {onInput ? 
         <input
+        onKeyDown={onKeyDown}
           name={name}
           type={type}
           disabled={disabled}
@@ -25,9 +28,6 @@ const Input = ({
           value={value}
           onInput={(e)=>{
             onInput(e)
-          }}
-          onChange={(e) => {
-            setInputData(e);
           }}
           className={`${className || ''}`} 
         />
