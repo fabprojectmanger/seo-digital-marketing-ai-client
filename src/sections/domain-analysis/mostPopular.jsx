@@ -7,18 +7,22 @@ const MostPopular = ({ values, heading, keyHead, valueHead }) => {
     const [sum, setSum] = useState(0);
   const [limit, setLimit] = useState(0);
   const [show, setShow] = useState(false);
+  const [valuesArray, setValuesArray] = useState([])
 useEffect(()=>{
     if(values){
         let sum = 0;
         let length = 0;
-    values.map((item, i) => {
+        const sortedValues = values.sort((a, b) => {
+          return b[5].activeUsers - a[5].activeUsers;
+      });
+      setValuesArray(sortedValues);
+      sortedValues.map((item, i) => {
         sum += parseFloat(item[5].activeUsers);
         setSum(sum);
         setLength(++length)
       });
     }
 },[values])
- 
   useEffect(() => {
     if (show) {
       setLimit(length);
@@ -37,8 +41,8 @@ useEffect(()=>{
           <span> {keyHead} </span>
           <span>{valueHead}</span>
         </li>
-        {values &&
-         values.map((item, i) =>
+        {valuesArray &&
+         valuesArray.map((item, i) =>
             i < limit ? (
               <li
                 key={i}
