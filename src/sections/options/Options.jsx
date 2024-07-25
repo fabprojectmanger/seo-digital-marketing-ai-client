@@ -29,6 +29,7 @@ const Options = () => {
     setError,
     setGoogleResponse,
     setUserName,
+    setDataOption
   } = useTheme();
   const [optionSelected, setOptionSelected] = useState("");
   const [loader, setLoader] = useState(false);
@@ -51,11 +52,13 @@ const Options = () => {
     if (optionSelected) {
       localStorage.setItem("selected_option", JSON.stringify(optionSelected));
     }
+    setDataOption(optionSelected);
   }, [optionSelected]);
 
   const getOption = (selectedIndex) => {
     const index = selectedIndex === 999 ? 3 : selectedIndex;
     const option = DOMAIN_OPTIONS[index];
+    setDataOption(option);
     option.domain = domain;
     if (googleEmail) {
       if (selectedIndex === 999) {
@@ -118,7 +121,19 @@ const Options = () => {
           .catch(function (error) {
             setLoader(false);
             console.log(error);
-            setGoogleError(true);
+            if(error?.message === "timeout exceeded"){
+              setGoogleError({
+                active:true,
+                message:"Timeout exceeded"
+              });
+            }
+            else{
+              setGoogleError({
+                active:true,
+                message:"Your Google ID is not intergrated with Analytics ID."
+              });
+            }
+            
           });
         if (res) {
           setGoogleResponse(res.data.report);
@@ -209,7 +224,7 @@ const Options = () => {
   });
   return (
     <Container>
-      {!loader && !googleError && (
+      {!loader && !googleError?.active && (
         <Wrapper className="space-y-4 max-w-[340px]">
     <Wrapper className={`${
       showItem
@@ -254,7 +269,7 @@ const Options = () => {
           )}
         </Wrapper>
       )}
-      {googleError && (
+      {googleError.active && (
         <Wrapper
           className={`h-[calc(100vh-250px)] flex items-center justify-center`}
         >
@@ -273,7 +288,7 @@ const Options = () => {
             <Text
               className={`text-center !text-2xl max-w-[340px] mx-auto transition-all duration-300 delay-300`}
             >
-              Your Google ID is not intergrated with Analytics ID.
+             {googleError.message} 
             </Text>
             <Link
               href="/"

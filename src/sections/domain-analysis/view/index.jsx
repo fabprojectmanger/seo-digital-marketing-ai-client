@@ -10,9 +10,11 @@ import NewUserGroupingChart from "../newUserGroupingChart";
 import CountryChart from "../countryChart";
 import PageReportTable from '../pageReportTable'
 import MostPopular from '../mostPopular'
+import TopFivePages from "../TopFivePages";
+import BackToHome from "../../../components/back-to-home/BackToHome";
 const Index = () => {
   const router = useRouter();
-  const { googleResponse } = useTheme();
+  const { googleResponse, dataOption } = useTheme();
   const [newUserGroupingValues, setNewUserGroupingValues] = useState({
     direct: 0,
     search: 0,
@@ -34,7 +36,6 @@ const Index = () => {
 
   useEffect(() => {
     if (googleResponse) {
-      console.log(googleResponse);
       setCountryWiseUsers(googleResponse?.countryWiseUsers);
       setTitleWiseVisitCountValues(googleResponse?.titleWiseVisitCountValues)
       setPageReportPerPageCountValues(googleResponse?.pageReportPerPageCountValues)
@@ -65,47 +66,50 @@ const Index = () => {
   return (
     <Wrapper>
       <Container>
-        <Wrapper className="flex gap-4 mb-4">
+      <BackToHome heading='Back to options' link='/options'/>
+        <Wrapper>    
+          {dataOption?.name &&     
+          <h1 className="text-4xl max-md-tab:text-2xl font-semibold tracking-normal text-dark-100 mb-6">{dataOption?.name} 
+          {dataOption?.domain &&   <a href={dataOption?.domain}><span className="font-bold">({dataOption?.domain})</span></a>}
+            </h1>
+}
+        </Wrapper>
+        <Wrapper>
+        <Wrapper className="flex gap-4 mb-4 max-md-tab:grid">
           <Wrapper className="bg-white rounded-lg flex-1 py-10">
-            <span className="block text-center text-base text-dark-100">
-              Active Users
+            <span className="block text-center text-base text-dark-100 font-semibold">
+              Users
             </span>
             <span className="block text-center text-5xl font-bold text-dark-100">
-              {" "}
-              {snapshotHeaderValues?.activeUsers}
+          {snapshotHeaderValues?.activeUsers}
             </span>
           </Wrapper>
           <Wrapper className="bg-white rounded-lg flex-1 py-10">
-            <span className="block text-center text-base text-dark-100">
-              {" "}
+            <span className="block text-center text-base text-dark-100 font-semibold">
               New Users
             </span>
             <span className="block text-center text-5xl font-bold text-dark-100">
-              {" "}
               {snapshotHeaderValues?.newUsers}
             </span>
           </Wrapper>
           <Wrapper className="bg-white rounded-lg flex-1 py-10">
-            <span className="block text-center text-base text-dark-100">
+            <span className="block text-center text-base text-dark-100 font-semibold">
               Average Engagement Time
             </span>
             <span className="block text-center text-5xl font-bold text-dark-100">
-              {" "}
               {snapshotHeaderValues?.averageEngagementTime}
             </span>
           </Wrapper>
           <Wrapper className="bg-white rounded-lg flex-1 py-10">
-            <span className="block text-center text-base text-dark-100">
-              {" "}
+            <span className="block text-center text-base text-dark-100 font-semibold">
               Total Revenue
             </span>
             <span className="block text-center text-5xl font-bold text-dark-100">
-              {" "}
               {snapshotHeaderValues?.totalRevenue}
             </span>
           </Wrapper>
         </Wrapper>
-        <Wrapper className="flex gap-4 justify-between">
+        <Wrapper className="flex gap-4 justify-between max-md-tab:flex-col">
           <NewUserGroupingChart newUserGroupingValues={newUserGroupingValues} />
           <SessionGrouping
             sessionGroupingValues={sessionGroupingValues}
@@ -117,7 +121,7 @@ const Index = () => {
         <h2 className="text-2xl font-semibold text-dark-100 my-2 mt-6">
           Data by Country
         </h2>
-        <Wrapper className="flex gap-4 justify-between">
+        <Wrapper className="flex gap-4 justify-between max-md-tab:flex-col">
           <CountryChart countryWiseUsers={countryWiseUsers} /> 
           <SessionGrouping
             sessionGroupingValues={countryWiseUsers}
@@ -132,9 +136,11 @@ const Index = () => {
         </h2>
         <Wrapper>
        <PageReportTable values={pageReportPerPageCountValues} />
-       <Wrapper className="flex gap-4 justify-between max-w-[440px] mb-16">
+       <Wrapper className="flex gap-4 justify-between  mb-16 max-md-tab:flex-col">
+        <TopFivePages values={titleWiseVisitCountValues} />
        <MostPopular values={titleWiseVisitCountValues} keyHead='Page Title' valueHead='Users' heading='Most Visited Pages'  />
        </Wrapper>
+        </Wrapper>
         </Wrapper>
       </Container>
     </Wrapper>

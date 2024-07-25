@@ -25,7 +25,7 @@ const CountryChart = ({ countryWiseUsers }) => {
     defaultColor: "#5470c6",
   };
   return (
-    <Wrapper className="bg-white p-6 rounded-lg border-dark-100 mt-4 sticky top-0 flex-[2]">
+    <Wrapper className="bg-white p-6 rounded-lg border-dark-100 mt-4  flex-[2]">
     <Chart
       chartEvents={[
         {
