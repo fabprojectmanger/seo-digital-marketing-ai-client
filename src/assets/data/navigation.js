@@ -12,6 +12,10 @@ export const headerNav = [
         link:"/about-us"
     },
     {
+        label:"Blogs",
+        link:"/blogs"
+    },
+    {
         label:"Contact Us",
         link:"/contact-us"
     }

@@ -20,6 +20,7 @@ export default function ThemeProvider({ children }) {
   const [isTypingLoaderEnabled, setIsTypingLoaderEnabled] = useState(false);
   const [isStreamingResponse, setIsStreamingResponse] = useState(false);
   const [hasFinalizedPrompt, setHasFinalizedPrompt] = useState(false);
+  const [dataOption, setDataOption] = useState(false);
   const [selectedPrimaryOption, setSelectedPrimaryOption] = useState("domain");
   const restartRequired = useRef(false);
   useEffect(() => {
@@ -77,6 +78,8 @@ export default function ThemeProvider({ children }) {
     isInputDisabled,
     userName,
     setUserName,
+    dataOption,
+setDataOption
   };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

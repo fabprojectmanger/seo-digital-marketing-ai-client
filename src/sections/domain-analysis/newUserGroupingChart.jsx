@@ -12,22 +12,28 @@ const NewUserGroupingChart = ({ newUserGroupingValues }) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (newUserGroupingValues) {
-      console.log(newUserGroupingValues);
-      const array = [[
-        "Element",
-        "Density",
-        { role: "style" },
-        {
-          sourceColumn: 0,
-          role: "annotation",
-          type: "string",
-          calc: "stringify",
-        },
-      ]];
+      const array = [
+        [
+          "Element",
+          "Density",
+          { role: "style" },
+          {
+            sourceColumn: 0,
+            role: "annotation",
+            type: "string",
+            calc: "stringify",
+          },
+        ],
+      ];
       Object.keys(newUserGroupingValues).map((item, i) => {
-array.push([item.toUpperCase(), newUserGroupingValues[item], "#7b94e5", null])
-      })
-      setData(array)
+        array.push([
+          item.toUpperCase(),
+          newUserGroupingValues[item],
+          "#7b94e5",
+          null,
+        ]);
+      });
+      setData(array);
     }
   }, [newUserGroupingValues]);
 
