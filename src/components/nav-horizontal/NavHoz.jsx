@@ -13,7 +13,9 @@ const NavHoz = ({ items }) => {
             <Link
               className={`${
                 item?.children ? "flex items-center gap-2" : ""
-              } text-base font-semibold leading-[21.28px] antialiased text-black`}
+              } text-base font-semibold leading-[21.28px] antialiased text-black
+              ${item.link === path ? " border-b border-dark-100" : ""}
+              `}
               href={item.link || '/'}
             >
               {item.label}

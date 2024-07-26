@@ -39,7 +39,7 @@ const PageReportTable = ({ values }) => {
             {allValues.map((item, i) => (
               <tr key={i}>
                 <td>{start > 0 ? i + 1 + limit * start : i + 1}</td>
-                <td style={{textAlign:'left'}}><a href={ 'http://' + item[2] + item[0]} target="_blank">{item[1]}</a></td>
+                <td style={{textAlign:'left'}}><a href={ 'http://' + item[2] + item[0]} target="_blank">{item[1] != '' ? item[1] : "(not set)"}</a></td>
                 <td>{item[3]}</td>
                 <td>{item[4]?.screenPageViews}</td>
                 <td>{item[5]?.activeUsers}</td>

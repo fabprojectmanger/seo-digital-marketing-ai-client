@@ -62,7 +62,7 @@ const Page = () => {
               showItem
                 ? " translate-x-0 opacity-100"
                 : " translate-x-full opacity-0 "
-            } duration-300`}
+            } duration-300 delay-100`}
           >
             <label className="mb-3 block ">Enter your Name</label>
             <Wrapper>
@@ -82,7 +82,7 @@ const Page = () => {
               showItem
                 ? " translate-x-0 opacity-100"
                 : " translate-x-full opacity-0 "
-            } duration-300`}
+            } duration-300 delay-200`}
           >
             <label className="mb-3 mt-5 block ">Enter your Email</label>
             <Wrapper>
@@ -102,7 +102,7 @@ const Page = () => {
               showItem
                 ? " translate-x-0 opacity-100"
                 : " translate-x-full opacity-0 "
-            } duration-300`}
+            } duration-300  delay-300`}
           >
             <label className="mb-3 mt-5 block ">Enter your Subject</label>
             <Wrapper>
@@ -122,7 +122,7 @@ const Page = () => {
               showItem
                 ? " translate-x-0 opacity-100"
                 : " translate-x-full opacity-0 "
-            } duration-300`}
+            } duration-300  delay-[400ms]`}
           >
             <label className="mb-3 mt-5 block ">Enter your Message</label>
             <Wrapper>
@@ -131,7 +131,7 @@ const Page = () => {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Message"
-                className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
+                className="max-md-mobile:p-6 p-4 pr-[60px] h-[150px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
               ></textarea>
               
             </Wrapper>
@@ -141,7 +141,7 @@ const Page = () => {
               showItem
                 ? " translate-x-0 opacity-100"
                 : " translate-x-full opacity-0 "
-            } duration-300 delay-300`}
+            } duration-300 delay-500`}
           >
             <button
               type="submit"
