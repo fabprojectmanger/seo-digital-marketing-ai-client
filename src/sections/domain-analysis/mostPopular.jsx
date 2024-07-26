@@ -48,7 +48,7 @@ useEffect(()=>{
                 key={i}
                 className="relative flex justify-between border-b border-lightblue-100 py-2"
               >
-                <span className="font-semibold">{item[1].slice(0,30)}{item[1].length > 30 && '...' }</span>
+                   <span className="font-semibold"><a href={ 'http://' + item[2] + item[0]} target="_blank">{item[1] != '' ?  item[1].slice(0,30) : '(not set)'}{item[1].length > 30 && '...' }</a></span>
                 <span>{item[5].activeUsers}</span>
                 <span
                   style={{

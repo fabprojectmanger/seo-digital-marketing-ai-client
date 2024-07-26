@@ -12,11 +12,10 @@ const TopFivePages = ({ values }) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (values) {
-      console.log(values);
       const array = [
         [
           "Page Title",
-          "Users",   
+          "Sessions",   
         ],
       ];
       const sortedValues = values.sort((a, b) => {
