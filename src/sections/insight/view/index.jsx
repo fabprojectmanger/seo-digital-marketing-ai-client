@@ -10,7 +10,7 @@ import axios from "axios";
 import { useTheme } from "../../../contexts/theme/ThemeProvider";
 import Processing from "../../../components/processing/Processing";
 import HireExpret from '../../../components/hire-an-expert/HireExpret'
-import { TextToHTML } from "../../../utils/TextToHtml";
+import { TextToHTML, TextToHTMLTag } from "../../../utils/TextToHtml";
 import ErrorNotification from "../../../components/notification/error/ErrorNotification";
 import Link from "next/link";
 const Index = () => {
@@ -76,7 +76,10 @@ const Index = () => {
                 let data = response.data.split('<body>')
                 setReportShow(data[1])
              }
-     
+            else if(!response.data.includes('<html>') && !response.data.includes('<body>')){
+                let data = TextToHTMLTag(response.data);
+                setReportShow(data)
+             }
              else{
                 setReportShow(response.data)
              }
