@@ -1,10 +1,11 @@
 export const TextToHTML = (text) => {
   let convertedText = text.replace(/</g, "&lt;");
   convertedText = convertedText.replace(/>/g, "&gt;");
+  convertedText = convertedText.replace(/^##(.*?)###$/gm, "<h3>$1</h3>");
   convertedText = convertedText.replace(
     /\*\*(.*?)\*\*/g,
     "<strong>$1</strong>"
-  );
+  ); 
   convertedText = convertedText.replace(/^\* (.*?)$/gm, "<ul><li>$1</li></ul>");
   convertedText = convertedText.replace(/^\- (.-?)$/gm, "<ul><li>$1</li></ul>"); 
   convertedText = convertedText.replace(/<\/ul>\n<ul>/g, "\n"); 

@@ -12,6 +12,7 @@ import PageReportTable from '../pageReportTable'
 import MostPopular from '../mostPopular'
 import TopFivePages from "../TopFivePages";
 import BackToHome from "../../../components/back-to-home/BackToHome";
+import HireExpret from "../../../components/hire-an-expert/HireExpret";
 const Index = () => {
   const router = useRouter();
   const { googleResponse, dataOption } = useTheme();
@@ -143,6 +144,7 @@ const Index = () => {
         </Wrapper>
         </Wrapper>
       </Container>
+      <HireExpret />
     </Wrapper>
   );
 };

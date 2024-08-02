@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Wrapper from "../../wrapper/Wrapper";
-import Text from "../../text/Text";
-import useTheme from "@/contexts/theme/ThemeContext";
+import { useTheme } from "../../../contexts/theme/ThemeProvider";
+import Wrapper from "../../wrapper/wrapper";
+import Text from "../../text/text";
+
 const SuccessNotification = ({ children, message, className, active }) => {
   className = className || "";
   const [activeNoti, setActiveNoti] = useState(false);
@@ -13,14 +14,16 @@ const SuccessNotification = ({ children, message, className, active }) => {
       setActiveNoti(active);
     }, 500);
     setTimeout(() => {
-      setSuccess(false);
+      setSuccess({
+        status:false
+      });
     }, 5000);
   }, [active]);
   return (
     <Wrapper
       className={
         className +
-        "noti fixed z-[999999] top-20 right-4 max-w-96 w-full sm:p-3 flex items-center justify-between duration-500 bg-yellow-100 rounded-lg  md:mt-0 l:p-0   transition-all " +
+        "noti fixed z-[999999] top-20 right-4 max-w-96 w-full sm:p-3 flex items-center justify-between duration-500 bg-green-700 !py-4 rounded-lg  md:mt-0 l:p-0   transition-all " +
         `${
           activeNoti === true
             ? " opacity-1 translate-y-0"
@@ -28,7 +31,7 @@ const SuccessNotification = ({ children, message, className, active }) => {
         }`
       }
     >
-      <Text className="flex-1 text-black">
+      <Text className="flex-1 text-white">
         {children}
         {message}
       </Text>

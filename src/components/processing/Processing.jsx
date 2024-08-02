@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "../wrapper/wrapper";
 import H4 from "../headings/h4";
-const Processing = () => {
+const Processing = ({heading}) => {
   return (
     <Wrapper className="">
       <div className={`flex space-x-2 justify-center items-center`}>
@@ -11,7 +11,7 @@ const Processing = () => {
         <div className="h-4 w-4 bg-dark-100 rounded-full animate-bounce"></div>
       </div>
       <H4 className={`text-center !text-2xl uppercase text-dark-100`}>
-        PROCESSING Data
+     {heading || " PROCESSING Data" }  
       </H4>
     </Wrapper>
   );

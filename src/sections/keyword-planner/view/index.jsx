@@ -8,6 +8,7 @@ import ErrorNotification from "../../../components/notification/error/ErrorNotif
 import Text from "../../../components/text/text";
 import H1 from "../../../components/headings/h1";
 import { TextToHTML } from "../../../utils/TextToHtml";
+import HireExpret from '../../../components/hire-an-expert/HireExpret'
 import {
   CitySelect,
   CountrySelect,
@@ -287,6 +288,7 @@ const Index = () => {
       <Container>
         {jsonTable && (
           <Wrapper className="flex justify-between items-center mb-6 max-md-tab:flex-col max-md-tab:gap-3">
+              <HireExpret />
             <Link
               href="#"
               onClick={() => setJsonTable(false)}

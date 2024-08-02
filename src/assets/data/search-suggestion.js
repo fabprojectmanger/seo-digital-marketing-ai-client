@@ -17,5 +17,10 @@ export const SearchSuggestionList = [
         content:"Plan your keyword for digital Ads with Ai",
         link:"/keyword-planner"
     },
-    
+    {
+        title:"Website Speed Insight",
+        key:'insight',
+        content:"Check your site's speed insight and improve it.",
+        link:"/"
+    }    
 ]

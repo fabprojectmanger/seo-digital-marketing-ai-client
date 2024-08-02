@@ -18,7 +18,7 @@ const SearchList = () => {
     }
   }, [key]);
   return (
-    <Wrapper className="grid grid-cols-3 gap-x-[14px] gap-y-[14px] max-md-mobile:grid-cols-1 max-md-mobile:pb-[90px]">
+    <Wrapper className="grid grid-cols-2 gap-x-[14px] gap-y-[14px] max-md-mobile:grid-cols-1 max-md-mobile:pb-[90px]">
       {SearchSuggestionList.map((item, i) => (
         <Wrapper
           key={i}
