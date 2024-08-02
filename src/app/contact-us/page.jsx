@@ -4,9 +4,13 @@ import Wrapper from "../../components/wrapper/wrapper";
 import Container from "../../components/container/container";
 import H1 from "../../components/headings/h1";
 import Input from "../../components/input";
+import axios from "axios";
+import { useTheme } from "../../contexts/theme/ThemeProvider";
+import SuccessNotification from '../../components/notification/success/SuccessNotification'
 // import ComingSoon from '../../sections/coming-soon/coming-soon'
 
 const Page = () => {
+  const {setError, setSuccess,success} = useTheme();
   const [showItem, setShowItem] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -25,16 +29,31 @@ const Page = () => {
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+    setLoading(true)
+    const resp = await axios.post("https://seogenieai.com/api/send-email",formData).then(response=>{
+      setLoading(false)
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+        subject:""
+      })
+       
+      setSuccess({
+        status:true,
+        message:response.data
+      })
+     }).catch(error=>{
+      setLoading(false)
+      setError({
+        status:true,
+        message:'Something went wrong. Try again later.'
+      })
     });
-    const result = await response.json();
-    alert(result.message);
+
+
   };
   useEffect(() => {
     setTimeout(() => {
@@ -67,13 +86,14 @@ const Page = () => {
             <label className="mb-3 block ">Enter your Name</label>
             <Wrapper>
               <Input
+                type='text'
                 placeholder={"Name"}
                 value={formData?.name || ""}
                 // setInputData={getFormData}
                 required={true}
                 className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
                 name="name"
-                onChange={handleChange}
+                setInputData={handleChange}
               />
             </Wrapper>
           </Wrapper>
@@ -87,13 +107,14 @@ const Page = () => {
             <label className="mb-3 mt-5 block ">Enter your Email</label>
             <Wrapper>
               <Input
+                type='email'
                 placeholder={"Email"}
                 value={formData?.email || ""}
                 // setInputData={getFormData}
                 required={true}
                 className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
                 name="email"
-                onChange={handleChange}
+                setInputData={handleChange}
               />
             </Wrapper>
           </Wrapper>
@@ -107,13 +128,14 @@ const Page = () => {
             <label className="mb-3 mt-5 block ">Enter your Subject</label>
             <Wrapper>
               <Input
+              type='text'
                 placeholder={"Subject"}
-                value={formData?.message || ""}
+                value={formData?.subject || ""}
                 // setInputData={getFormData}
                 required={true}
                 className="max-md-mobile:p-6 p-4 pr-[60px] placeholder:opacity-80 focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
-                name="message"
-                onChange={handleChange}
+                name="subject"
+                setInputData={handleChange}
               />
             </Wrapper>
           </Wrapper>
@@ -151,11 +173,12 @@ const Page = () => {
                   : ""
               } max-md-mobile:p-6 p-4 pr-[30px} w-full mt-6 text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100`}
             >
-              {"Submit"}
+              {loading ? "Submitting" : "Submit"}
             </button>
           </Wrapper>
         </form>
       </Container>
+      <SuccessNotification active={success?.status} message={success?.message} />
     </Wrapper>
   );
 };

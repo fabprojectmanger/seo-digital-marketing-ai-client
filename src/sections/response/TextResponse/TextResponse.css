@@ -57,10 +57,7 @@
 .htmlIncluded.g-t {
   font-size: 0;
 }
-.htmlIncluded,
-.htmlIncluded * {
-  font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
-}
+
 .htmlIncluded {
     font-weight: 400;
     color: #000;

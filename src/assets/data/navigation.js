@@ -16,7 +16,7 @@ export const headerNav = [
         link:"/blogs"
     },
     {
-        label:"Contact Us",
+        label:"Contact us",
         link:"/contact-us"
     }
 ]

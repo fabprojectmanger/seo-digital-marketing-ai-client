@@ -10,50 +10,67 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 const Search = ({ value, refresh }) => {
   const path = usePathname();
-  const [searchValue, setSearchValue] = useState(value || '');
-  const { setError, error, setDomain, setPromptMessage, selectedPrimaryOption, searchEnabled, setSearchEnabled, setIsInputDisabled, isInputDisabled } = useTheme();
-  useEffect(()=>{
-    if(searchEnabled != 0){
-    setSearchValue('');
-    setIsInputDisabled(false);
-    }
-  },[searchEnabled])
-  useEffect(()=>{
-    if(path === '/'){
+  const [searchValue, setSearchValue] = useState(value || "");
+  const {
+    setError,
+    error,
+    setDomain,
+    setPromptMessage,
+    selectedPrimaryOption,
+    searchEnabled,
+    setSearchEnabled,
+    setIsInputDisabled,
+    isInputDisabled,
+  } = useTheme();
+  useEffect(() => {
+    if (searchEnabled != 0) {
+      setSearchValue("");
       setIsInputDisabled(false);
     }
-  },[path])
+  }, [searchEnabled]);
+  useEffect(() => {
+    if (path === "/") {
+      setIsInputDisabled(false);
+    }
+  }, [path]);
   const route = useRouter();
   const getSearchValue = (e) => {
     setSearchValue(e.target.value);
   };
   function isValidDomainString(url) {
-    const pattern = /^(https?:\/\/)?([a-z0-9-]+\.)?[a-z0-9-]+(\.[a-z]{2,6})(\/\S*)?$/i;
+    const pattern =
+      /^(https?:\/\/)?([a-z0-9-]+\.)?[a-z0-9-]+(\.[a-z]{2,6})(\/\S*)?$/i;
     return pattern.test(url);
   }
   const submitForm = (e) => {
     e.preventDefault();
-    if(selectedPrimaryOption === 'domain'){
+    if (
+      selectedPrimaryOption === "domain" ||
+      selectedPrimaryOption === "insight"
+    ) {
       if (!isValidDomainString(searchValue)) {
         setError({
           active: true,
           message: "Please add a valid domain.",
         });
-      } else {  
-        setIsInputDisabled(true)
+      } else {
+        setIsInputDisabled(true);
         setDomain(searchValue);
         setPromptMessage(searchValue);
-        setSearchEnabled(0)
-        route.push("/options");
+        setSearchEnabled(0);
+        if (selectedPrimaryOption === "domain") {
+          route.push("/options");
         }
-    }
-    else{
-      setIsInputDisabled(true)
+        if (selectedPrimaryOption === "insight") {
+          route.push("/insight");
+        }
+      }
+    } else {
+      setIsInputDisabled(true);
       setPromptMessage(searchValue);
-      setSearchEnabled(0)
+      setSearchEnabled(0);
       route.push("/response");
     }
-
   };
   return (
     <Wrapper className="">
@@ -62,9 +79,14 @@ const Search = ({ value, refresh }) => {
         onSubmit={submitForm}
       >
         <Input
-           disabled={isInputDisabled}
-          placeholder={selectedPrimaryOption === 'domain' ? 'Enter your domain name' : 'Enter your writing topic'}
-          value={searchValue || ''}
+          disabled={isInputDisabled}
+          placeholder={
+            selectedPrimaryOption === "domain" ||
+            selectedPrimaryOption === "insight"
+              ? "Enter your domain name"
+              : "Enter your writing topic"
+          }
+          value={searchValue || ""}
           setInputData={getSearchValue}
           required={true}
           className="max-md-mobile:p-6 p-8 pr-[60px] focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"

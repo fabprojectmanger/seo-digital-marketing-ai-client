@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../contexts/theme/ThemeProvider";
 import Wrapper from "../../components/wrapper/wrapper";
-
+import HireExpret from '../../components/hire-an-expert/HireExpret'
 const StreamResponse = ({ paragraph, className }) => {
   const htmlRef = useRef();
   let { isStreamingResponse, setIsStreamingResponse, setIsTypingLoaderEnabled } = useTheme();
@@ -33,6 +33,7 @@ const StreamResponse = ({ paragraph, className }) => {
 
   return <>
   <div ref={htmlRef} className='bg-white p-8 rounded-2xl max-h-[70vh] overflow-auto'>
+  <HireExpret />
   <div className={`${className || ''} text-base text-black font-medium leading-7 htmlIncluded`} dangerouslySetInnerHTML={{ __html: streamedResponse }} />
   </div>
   </>;

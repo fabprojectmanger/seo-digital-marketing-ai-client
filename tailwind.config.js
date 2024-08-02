@@ -18,6 +18,9 @@ module.exports = {
         primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
 
       },
+      boxShadow:{
+        '6xl':'0px 47px 154px 0px #1567A321, 0px 5px 24px 0px #041F3317'
+      },
       screens: {
         "max-3xl": { max: "1440px" },
         "max-2xl": { max: "1366px" },

@@ -1,0 +1,70 @@
+.htmlIncluded{
+    font-size:0;
+    line-height: 1;
+}
+.htmlIncluded h3 {
+    font-size: 18px;
+    display: block;
+    margin: 1.3em 0 0.8em;
+    font-weight: 700;
+    color: #00668c;
+}
+
+.htmlIncluded h3 strong ,.htmlIncluded h3 b{
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.htmlIncluded * {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.htmlIncluded  ul{
+    margin: 16px 0
+}
+.htmlIncluded  ul li + li{
+    margin-top: 16px;
+}
+.htmlIncluded  h1 {font-size: 32px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
+.htmlIncluded  h2 {font-size: 20px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
+
+.htmlIncluded h1:first-of-type {margin-top: 0;}
+
+
+.htmlIncluded > ul  >ul {
+    list-style: circle;
+    margin-left: 17px;
+}
+.htmlIncluded tr + tr {
+    border-top: 1px solid #d9d9d9;
+}
+
+.htmlIncluded td:first-child + td {
+    text-align: left;
+    font-weight: 500;
+    vertical-align: top;
+}
+
+.htmlIncluded td:first-child + td ul {
+    margin: 0;
+    padding: 0;
+}
+
+.htmlIncluded table {
+    width: 100%;
+}
+
+.htmlIncluded th {
+    text-align: left;
+    padding: 15px;
+    font-size: 18px;
+}
+
+.htmlIncluded td {
+    padding: 15px;
+}
+
+.htmlIncluded td {
+    vertical-align: top;
+}
