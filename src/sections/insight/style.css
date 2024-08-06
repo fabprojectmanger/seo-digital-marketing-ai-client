@@ -1,0 +1,3 @@
+.accordion-items a,.accordion-items code{
+    @apply text-blue-600;
+}
