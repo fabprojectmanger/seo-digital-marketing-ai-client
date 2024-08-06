@@ -30,7 +30,9 @@ const Index = () => {
     keyWordsContent: true,
   });
   const [showItem, setShowItem] = useState(false);
-  const { setError, error, setDomain } = useTheme();
+  const { setError, error, setDomain,showForm } = useTheme();
+  console.log(showForm,"#########");
+  
   const [countryid, setCountryid] = useState(0);
   const [countryObject, setCountryObject] = useState("");
   const [stateid, setStateid] = useState(0);
@@ -287,7 +289,7 @@ const Index = () => {
     <Wrapper>
       <Container>
         {jsonTable && (
-          <Wrapper className="flex justify-between items-center mb-6 max-md-tab:flex-col max-md-tab:gap-3">
+          <Wrapper className="flex justify-between items-center mb-6 max-md-tab:flex-col max-md-tab:gap-3 ">
               <HireExpret />
             <Link
               href="#"
@@ -371,7 +373,7 @@ const Index = () => {
               } duration-300`}
             >
               <label className="mb-3 block ">
-                Please enter your Website URL
+                Please enter your website URL
               </label>
               <Wrapper>
                 <Input
@@ -406,7 +408,7 @@ const Index = () => {
                 </Wrapper>
               )}
               <label className="mb-3 mt-5 block ">
-                Please tell us more about your website business model in Keyword{" "}
+                Please tell us more about your website business model in Keywords{" "}
               </label>
               <Wrapper className="relative">
                 <Wrapper
@@ -449,7 +451,7 @@ const Index = () => {
                   />
                 </Wrapper>
                 <Text className="mt-2 leading-normal">
-                  Example if you business model is Shoes, then you can add shoes
+                 For example if your business model is Shoes, then you can add shoes,nike shoes etc..
                   as Keyword.
                   <b>
                     {" "}
@@ -536,7 +538,7 @@ const Index = () => {
           </Wrapper>
         )}
         {jsonTable && (
-          <Wrapper className="bg-white p-10 mb-10 overflow-auto keyword-response relative rounded-xl">
+          <Wrapper className={`bg-white p-10 mb-10 overflow-auto keyword-response relative rounded-xl ${showForm ?"opacity-25":""}`}>
          <div className={tryLoader ? " animate-pulse pointer-events-none" : ""}>
               <div className={tryLoader ? " opacity-50 html-div" : " html-div"} dangerouslySetInnerHTML={{ __html: jsonTable }}></div>
               </div>

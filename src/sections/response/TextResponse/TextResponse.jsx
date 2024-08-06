@@ -8,9 +8,9 @@ import RestartRobot from '../../../assets/images/restart-robot.gif'
 import H4 from "../../../components/headings/h4";
 import Wrapper from "../../../components/wrapper/wrapper";
 import { JsonToHtml } from "../../../utils/jsonToHTML";
-import { TextToHTML } from "../../../utils/TextToHtml";
 
 import Image from "next/image";
+import TextToHTML from "../../../utils/TextToHtml";
 
 const TextResponse = () => {
   const [classEnabled , setClassEnabled] = useState(false);
@@ -72,6 +72,8 @@ const TextResponse = () => {
     if (response?.isStreamed) {
       restartRequired.current = false;
       if(response.content){
+        console.log(response,"^^^^^^^^^^^");
+        
         setAiResponse(TextToHTML(response.answer));
       }
       else{

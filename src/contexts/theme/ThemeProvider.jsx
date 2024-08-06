@@ -9,7 +9,7 @@ export function useTheme() {
 export default function ThemeProvider({ children }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  
+
   const [domain, setDomain] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [googleEmail, setGoogleEmail] = useState(false);
@@ -24,6 +24,7 @@ export default function ThemeProvider({ children }) {
   const [hasFinalizedPrompt, setHasFinalizedPrompt] = useState(false);
   const [dataOption, setDataOption] = useState(false);
   const [selectedPrimaryOption, setSelectedPrimaryOption] = useState("domain");
+  const [showForm, setShowForm] = useState(false);
   const restartRequired = useRef(false);
   useEffect(() => {
     if (hasFinalizedPrompt) {
@@ -81,8 +82,11 @@ export default function ThemeProvider({ children }) {
     userName,
     setUserName,
     dataOption,
-setDataOption,
-success, setSuccess
+    setDataOption,
+    success,
+    setSuccess,
+    showForm,
+    setShowForm,
   };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
