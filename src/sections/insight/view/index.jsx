@@ -10,9 +10,9 @@ import axios from "axios";
 import { useTheme } from "../../../contexts/theme/ThemeProvider";
 import Processing from "../../../components/processing/Processing";
 import HireExpret from "../../../components/hire-an-expert/HireExpret";
-import { TextToHTML } from "../../../utils/TextToHtml";
+import { TextToHTMLTag } from "../../../utils/TextToHtml";
 import ErrorNotification from "../../../components/notification/error/ErrorNotification";
-import Report from '../report'
+import Report from "../report";
 import Link from "next/link";
 const Index = () => {
   const [streamedResponse, setStreamedResponse] = useState("");
@@ -65,34 +65,8 @@ const Index = () => {
           setLoader({
             message: "Analyzing Data",
           });
-          setLoader(false)
+          setLoader(false);
           setSpeedReport(response.data);
-          // const url = `https://seogenieai.com/api/chat`;
-          // const streamResponse = await axios
-          //   .post(url, {
-          //     pageSpeedInsights: true,
-          //     userPrompt: response.data,
-          //   })
-          //   .then(async (response) => {
-          //     setLoader(false);
-          //    if(response.data.includes('body')){
-          //       let data = response.data.split('<body>')
-          //       setReportShow(data[1])
-          //    }
-          //   else if(!response.data.includes('<html>') && !response.data.includes('<body>')){
-          //       let data = TextToHTMLTag(response.data);
-          //       setReportShow(data)
-          //    }
-          //    else{
-          //       setReportShow(response.data)
-          //    }
-
-          //   }).catch((error)=>{
-          //       setError({
-          //           status:true,
-          //           message:"Something Went Wrong! Try again later."
-          //       })
-          //   });
         })
         .catch(function (error) {
           setError({
@@ -107,6 +81,37 @@ const Index = () => {
       });
     }
   };
+  const viewReport = async () => {
+    try {
+      const url = `https://seogenieai.com/api/chat`;
+      const streamResponse = await axios
+        .post(url, {
+          pageSpeedInsights: true,
+          userPrompt: response.data,
+        })
+        .then(async (response) => {
+          setLoader(false);
+          if (response.data.includes("body")) {
+            let data = response.data.split("<body>");
+            setReportShow(data[1]);
+          } else if (
+            !response.data.includes("<html>") &&
+            !response.data.includes("<body>")
+          ) {
+            let data = TextToHTMLTag(response.data);
+            setReportShow(data);
+          } else {
+            setReportShow(response.data);
+          }
+        })
+        .catch((error) => {
+          setError({
+            status: true,
+            message: "Something Went Wrong! Try again later.",
+          });
+        });
+    } catch (error) {}
+  };
   return (
     <Container>
       {processing && !speedReport && (
@@ -120,19 +125,26 @@ const Index = () => {
             showItem
               ? " translate-x-0 opacity-100"
               : " translate-x-full opacity-0 "
-          } duration-300`}
+          } duration-300 flex justify-between items-center  mb-6`}
         >
           <Link
             onClick={(e) => {
               e.preventDefault();
               setSpeedReport(false);
-              setReportShow(false)
+              setReportShow(false);
             }}
             href={"/"}
-            className={`text-base uppercase font-semibold mb-6 inline-block`}
+            className={`text-base uppercase font-semibold inline-block`}
           >
             ← {"Back to options"}
           </Link>
+
+          <button
+            type="button"
+            className=" pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
+          >
+            View AI Report
+          </button>
         </Wrapper>
       )}
       {speedReport && (

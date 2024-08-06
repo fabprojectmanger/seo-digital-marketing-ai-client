@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "../../src/components/wrapper/wrapper";
 
-const IconGauge = ({ className, gap }) => {
+const IconGauge = ({ className, gap, label }) => {
   const [circleFill, setCircleFill] = useState("#f33");
   useEffect(() => {
     if (gap >= 90 && gap <= 100) {
@@ -16,10 +16,10 @@ const IconGauge = ({ className, gap }) => {
   return (
     <Wrapper className={"relative " + className}>
       <span
-        className=" text-5xl block leading-none font-semibold"
+        className=" text-5xl max-md-mobile:text-3xl block leading-none font-semibold"
         style={{ color: circleFill }}
         dangerouslySetInnerHTML={{
-          __html: gap,
+          __html: gap + (label || ''),
         }}
       ></span>
     </Wrapper>

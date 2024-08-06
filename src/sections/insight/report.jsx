@@ -6,24 +6,64 @@ import Wrapper from "../../components/wrapper/wrapper";
 import Text from "../../components/text/text";
 import TextToHTML from "../../utils/TextToHtml";
 import Image from "next/image";
-import Indicator from "./indicator";
-import H1 from "../../components/headings/h1";
-import IconDownArrow from "../../../public/icons/IconDownArrow";
+import AuditSection from "./AuditSection";
 const Report = ({ data }) => {
   const [reportData, setReportData] = useState(false);
   const [featuredImage, setFeaturedImage] = useState(false);
   const [accordionActive, setAccordionActive] = useState(0);
-  const findObject = (key, value, array) => {
-    return array.find((obj) => obj[key] === value);
-  };
+  const [tabs, setTabs] = useState("performance");
 
   useEffect(() => {
     setReportData(data);
-    console.log(data);
-
-    // const ar =  findObject("id", "screenshot-thumbnails", data?.performance?.passedAudits)
-    // setFeaturedImage(ar?.details[ar?.details.length - 1].data)
   }, [data]);
+
+  const renderDetails = (item) => {
+    if (!item?.details) return null;
+
+    switch (item.id) {
+      case "render-blocking-resources":
+      case "unused-css-rules":
+      case "unused-javascript":
+      case "legacy-javascript":
+      case "total-byte-weight":
+      case "uses-long-cache-ttl":
+      case "mainthread-work-breakdown":
+      case "font-display":
+      case "uses-passive-event-listeners":
+        return UrlTable(item.details);
+      case "uses-responsive-images":
+      case "offscreen-images":
+      case "uses-optimized-images":
+      case "modern-image-formats":
+      case "unsized-images":
+        return ImageCardTr(item.details);
+      case "dom-size":
+        return domSize(item.details);
+      case "largest-contentful-paint-element":
+        return elementTable(item.details);
+      default:
+        return null;
+    }
+  };
+  const AccessibilityDetails = (item) => {
+    if (!item?.details) return null;
+    return AccessibilityTable(item?.details);
+  };
+  const BestPracticesDetails = (item) => {
+    if (!item?.details) return null;
+    switch (item.id) {
+      case "image-aspect-ratio":
+        return ImageBestPracties(item?.details);
+      default:
+        return BestPractices(item?.details);
+    }
+  };
+  const SeoDetails = (item) => {
+    if (!item?.details) return null;
+    return AccessibilityTable(item?.details);
+  };
+  const { passedAudits, rejectedAudits, notApplicableAudits } =
+    data?.performance || {};
   return (
     <Wrapper className="">
       <div className="">
@@ -37,281 +77,178 @@ const Report = ({ data }) => {
           />
         )}
       </div>
-      <Wrapper className=" flex justify-between gap-4">
-        <Wrapper className="flex gap-8 bg-white p-8 rounded-lg justify-between max-w-[40%] w-full">
-          {reportData?.performance?.score && (
-            <MainCard
-              score={reportData?.performance?.score * 100}
-              label={reportData?.performance?.title}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.accessibility?.score && (
-            <MainCard
-              score={reportData?.accessibility?.score * 100}
-              label={reportData?.accessibility?.title}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.bestPractices?.score && (
-            <MainCard
-              score={reportData?.bestPractices?.score * 100}
-              label={reportData?.bestPractices?.title}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.seo?.score && (
-            <MainCard
-              score={reportData?.seo?.score * 100}
-              label={reportData?.seo?.title}
-            />
+      <Wrapper className=" flex justify-between gap-4 max-2xl:flex-col">
+        <Wrapper className="flex gap-4 bg-white py-4 px-8 rounded-lg max-lg-tab:flex-wrap max-lg-tab:gap-4 justify-between max-w-[40%]  max-5xl:gap-2 max-5xl:max-w-[50%] max-2xl:max-w-[100%] w-full">
+          {["performance", "accessibility", "bestPractices", "seo"].map(
+            (key, i) =>
+              reportData?.[key]?.score && (
+                <React.Fragment key={key}>
+                  {i != 0 && (
+                    <div className="w-[1px] bg-gray-400 max-lg-tab:hidden"></div>
+                  )}
+                  <div
+                    onClick={() => setTabs(key)}
+                    className={`p-4 rounded-lg cursor-pointer max-2xl:min-w-[200px] max-lg-tab:min-w-[auto] max-lg-tab:flex-1 ${
+                      tabs === key ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    <MainCard
+                      symbol="%"
+                      score={(reportData[key].score * 100).toFixed(0)}
+                      label={reportData[key].title}
+                    />
+                  </div>
+                </React.Fragment>
+              )
           )}
         </Wrapper>
-        <Wrapper className="flex gap-8 bg-white p-8 rounded-lg justify-between max-w-[60%] w-full">
-          {reportData?.firstContentfulPaint && (
-            <MainCard
-              score={reportData?.firstContentfulPaint}
-              label={"First Contentful Paint"}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.largestContentfulPaint && (
-            <MainCard
-              score={reportData?.largestContentfulPaint}
-              label={"Largest Contentful Paint"}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.totalBlockingTime && (
-            <MainCard
-              score={reportData?.totalBlockingTime}
-              label={"Total Blocking Time"}
-            />
-          )}
-          <div className="w-[1px] bg-gray-400"></div>
-          {reportData?.cumulativeLayoutShift && (
-            <MainCard
-              score={reportData?.cumulativeLayoutShift}
-              label={"Cumulative Layout Shift"}
-            />
+        <Wrapper className="flex gap-8 bg-white p-8 rounded-lg max-lg-tab:flex-wrap max-lg-tab:gap-4 justify-between max-w-[60%] max-5xl:gap-2 max-5xl:max-w-[50%] max-2xl:max-w-[100%] w-full ">
+          {[
+            "firstContentfulPaint",
+            "largestContentfulPaint",
+            "totalBlockingTime",
+            "cumulativeLayoutShift",
+          ].map(
+            (key, i) =>
+              reportData?.[key] && (
+                <React.Fragment key={key}>
+                  {i != 0 && (
+                    <div className="min-w-[1px] bg-gray-400 max-lg-tab:hidden"></div>
+                  )}
+                  <div className="max-2xl:min-w-[200px] max-lg-tab:min-w-[auto] max-lg-tab:flex-1">
+                    <MainCard
+                      key={key}
+                      score={reportData[key]}
+                      label={key
+                        .replace(/([A-Z])/g, " $1")
+                        .replace(/^./, (str) => str.toUpperCase())}
+                    />
+                  </div>
+                </React.Fragment>
+              )
           )}
         </Wrapper>
       </Wrapper>
-      <Wrapper className="accordion-items my-5 space-y-2">
-        <Wrapper>
-          <H1 className="mb-4">
-            Passed audits ({data?.performance?.passedAudits.length})
-          </H1>
-        </Wrapper>
-        {data?.performance?.passedAudits &&
-          data?.performance?.passedAudits.map((item, i) => (
-            <Wrapper key={i} className="accordion-item bg-white p-4 rounded-md">
-              <Wrapper>
-                <div
-                  onClick={() => {
-                    accordionActive?.passedAudit === i
-                      ? setAccordionActive((prev) => ({
-                          ...prev,
-                          passedAudit: -1,
-                        }))
-                      : setAccordionActive((prev) => ({
-                          ...prev,
-                          passedAudit: i,
-                        }));
-                  }}
-                  className={`${
-                    accordionActive?.passedAudit === i
-                      ? "border-b border-lightblue-100 pb-2"
-                      : " "
-                  }   gap-2 cursor-pointer flex justify-between items-center text-dark-100 text-base font-semibold`}
-                >
-                  <Wrapper className="gap-2 flex items-center">
-                    <Indicator gap={item.score * 100} />
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: TextToHTML(item?.title),
-                      }}
-                    ></div>
-                  </Wrapper>
-                  <IconDownArrow
-                    size={20}
-                    className={
-                      accordionActive?.passedAudit === i
-                        ? "rotate-180 transition-transform"
-                        : "  transition-transform"
-                    }
-                  />
-                </div>
-              </Wrapper>
-              <Wrapper
-                className={`${
-                  accordionActive?.passedAudit === i ? " block" : "hidden"
-                } `}
-              >
-                <div
-                  className="py-4"
-                  dangerouslySetInnerHTML={{
-                    __html: TextToHTML(item?.description),
-                  }}
-                ></div>
-              </Wrapper>
-            </Wrapper>
-          ))}
-      </Wrapper>
-      <Wrapper className="accordion-items my-5 space-y-2">
-        <Wrapper>
-          <H1 className="mb-4">
-            Rejected Audits ({data?.performance?.rejectedAudits.length})
-          </H1>
-        </Wrapper>
-        {data?.performance?.rejectedAudits &&
-          data?.performance?.rejectedAudits.map((item, i) => (
-            <Wrapper key={i} className="accordion-item bg-white p-4 rounded-md">
-              <Wrapper>
-                <div
-                  onClick={() => {
-                    accordionActive?.rejectedAudits === i
-                      ? setAccordionActive((prev) => ({
-                          ...prev,
-                          rejectedAudits: -1,
-                        }))
-                      : setAccordionActive((prev) => ({
-                          ...prev,
-                          rejectedAudits: i,
-                        }));
-                  }}
-                  className={`${
-                    accordionActive?.rejectedAudits === i
-                      ? "border-b border-lightblue-100 pb-2"
-                      : " "
-                  }  gap-2 cursor-pointer flex justify-between items-center text-dark-100 text-base font-semibold`}
-                >
-                  <Wrapper className="gap-2 flex items-center">
-                    <Indicator gap={item.score * 100} />
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: TextToHTML(item?.title),
-                      }}
-                    ></div>
-                    {item?.displayValue && (
-                      <div
-                        className="bg-red-300 text-white py-1 px-2 text-sm rounded-md"
-                        dangerouslySetInnerHTML={{ __html: item?.displayValue }}
-                      ></div>
-                    )}
-                  </Wrapper>
-                  <IconDownArrow
-                    size={20}
-                    className={
-                      accordionActive?.rejectedAudits === i
-                        ? "rotate-180 transition-transform"
-                        : "  transition-transform"
-                    }
-                  />
-                </div>
-              </Wrapper>
-              <Wrapper
-                className={`${
-                  accordionActive?.rejectedAudits === i ? " block" : "hidden"
-                } `}
-              >
-                <div
-                  className="py-4"
-                  dangerouslySetInnerHTML={{
-                    __html: TextToHTML(item?.description),
-                  }}
-                ></div>
-                {(item?.id === "render-blocking-resources" ||
-                  item?.id === "unused-css-rules" ||
-                  item?.id === "unused-javascript" ||
-                  item?.id === "legacy-javascript" ||
-                  item?.id === "total-byte-weight" ||
-                  item?.id === "uses-long-cache-ttl" ||
-                  item?.id === "mainthread-work-breakdown" ||
-                  item?.id === "font-display" ||
-                  item?.id === "uses-passive-event-listeners") &&
-                  item?.details &&
-                  UrlTable(item?.details)}
-                {(item?.id === "uses-responsive-images" ||
-                  item?.id === "offscreen-images" ||
-                  item?.id === "uses-optimized-images" ||
-                  item?.id === "modern-image-formats" ||
-                  item?.id === "unsized-images") &&
-                  item?.details &&
-                  ImageCardTr(item?.details)}
-
-                {item?.id === "dom-size" && domSize(item?.details)}
-
-                {item?.id === "largest-contentful-paint-element" &&
-                  elementTable(item?.details)}
-              </Wrapper>
-            </Wrapper>
-          ))}
-      </Wrapper>
-      <Wrapper className="accordion-items my-5 space-y-2">
-        <Wrapper>
-          <H1 className="mb-4">
-            Not Applicable Audits (
-            {data?.performance?.notApplicableAudits.length})
-          </H1>
-        </Wrapper>
-        {data?.performance?.notApplicableAudits &&
-          data?.performance?.notApplicableAudits.map((item, i) => (
-            <Wrapper key={i} className="accordion-item bg-white p-4 rounded-md">
-              <Wrapper>
-                <div
-                  onClick={() => {
-                    accordionActive?.notApplicableAudits === i
-                      ? setAccordionActive((prev) => ({
-                          ...prev,
-                          notApplicableAudits: -1,
-                        }))
-                      : setAccordionActive((prev) => ({
-                          ...prev,
-                          notApplicableAudits: i,
-                        }));
-                  }}
-                  className={`${
-                    accordionActive?.notApplicableAudits === i
-                      ? "border-b border-lightblue-100 pb-2"
-                      : " "
-                  }   gap-2 cursor-pointer flex justify-between items-center text-dark-100 text-base font-semibold`}
-                >
-                  <Wrapper className="gap-2 flex items-center">
-                    <Indicator gap={item.score * 100} />
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: TextToHTML(item?.title),
-                      }}
-                    ></div>
-                  </Wrapper>
-                  <IconDownArrow
-                    size={20}
-                    className={
-                      accordionActive?.notApplicableAudits === i
-                        ? "rotate-180 transition-transform"
-                        : "  transition-transform"
-                    }
-                  />
-                </div>
-              </Wrapper>
-              <Wrapper
-                className={`${
-                  accordionActive?.notApplicableAudits === i
-                    ? " block"
-                    : "hidden"
-                } `}
-              >
-                <div
-                  className="py-4"
-                  dangerouslySetInnerHTML={{
-                    __html: TextToHTML(item?.description),
-                  }}
-                ></div>
-              </Wrapper>
-            </Wrapper>
-          ))}
-      </Wrapper>
+      <AuditSection
+        title="Passed Audits"
+        audits={passedAudits}
+        accordionKey="passedAudit"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={renderDetails}
+        tab={tabs}
+        label="performance"
+      />
+      <AuditSection
+        title="Rejected Audits"
+        audits={rejectedAudits}
+        accordionKey="rejectedAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={renderDetails}
+        tab={tabs}
+        label="performance"
+      />
+      <AuditSection
+        title="Not Applicable Audits"
+        audits={notApplicableAudits}
+        accordionKey="notApplicableAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={renderDetails}
+        tab={tabs}
+        label="performance"
+      />
+      <AuditSection
+        title="Passed Audits"
+        audits={data?.accessibility.passedAudits}
+        accordionKey="passedAudit"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={AccessibilityDetails}
+        tab={tabs}
+        label="accessibility"
+      />
+      <AuditSection
+        title="Rejected Audits"
+        audits={data?.accessibility.rejectedAudits}
+        accordionKey="rejectedAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={AccessibilityDetails}
+        tab={tabs}
+        label="accessibility"
+      />
+      <AuditSection
+        title="Not Applicable Audits"
+        audits={data?.accessibility.notApplicableAudits}
+        accordionKey="notApplicableAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={AccessibilityDetails}
+        tab={tabs}
+        label="accessibility"
+      />
+      <AuditSection
+        title="Passed Audits"
+        audits={data?.bestPractices.passedAudits}
+        accordionKey="passedAudit"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={BestPracticesDetails}
+        tab={tabs}
+        label="bestPractices"
+      />
+      <AuditSection
+        title="Rejected Audits"
+        audits={data?.bestPractices.rejectedAudits}
+        accordionKey="rejectedAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={BestPracticesDetails}
+        tab={tabs}
+        label="bestPractices"
+      />
+      <AuditSection
+        title="Not Applicable Audits"
+        audits={data?.bestPractices.notApplicableAudits}
+        accordionKey="notApplicableAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={BestPracticesDetails}
+        tab={tabs}
+        label="bestPractices"
+      />
+      <AuditSection
+        title="Passed Audits"
+        audits={data?.seo.passedAudits}
+        accordionKey="passedAudit"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={SeoDetails}
+        tab={tabs}
+        label="seo"
+      />
+      <AuditSection
+        title="Rejected Audits"
+        audits={data?.seo.rejectedAudits}
+        accordionKey="rejectedAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={SeoDetails}
+        tab={tabs}
+        label="seo"
+      />
+      <AuditSection
+        title="Not Applicable Audits"
+        audits={data?.seo.notApplicableAudits}
+        accordionKey="notApplicableAudits"
+        setAccordionActive={setAccordionActive}
+        accordionActive={accordionActive}
+        renderDetails={SeoDetails}
+        tab={tabs}
+        label="seo"
+      />
     </Wrapper>
   );
 };
@@ -334,14 +271,13 @@ function shortenUrl(url) {
       ? searchParams.split("=")[1].slice(0, 7)
       : "";
     const thUrl = `${assetPath}/${assetFile}?v=${version}`;
-    return `<a href="${url}" target="_blank" class="text-sm !text-gray-700 hover:underline">…${thUrl.slice(
-      url.length - 50,
-      thUrl.length
-    )}…</a> <span class="text-gray-500 text-xs">(${domain})</span></span>`;
+    return `<a href="${url}" target="_blank" class="text-sm !text-gray-700 hover:underline">…${
+      thUrl.length > 50 ? thUrl.slice(thUrl.length / 2, thUrl.length) : thUrl
+    }…</a> <span class="text-gray-500 text-xs">(${domain})</span></span>`;
   }
 }
 
-const MainCard = ({ score, label }) => {
+const MainCard = ({ score, label, symbol }) => {
   const [number, setNumber] = useState(0);
   useEffect(() => {
     let i = number;
@@ -353,9 +289,9 @@ const MainCard = ({ score, label }) => {
     }
   }, [number, score]);
   return (
-    <Wrapper className='flex flex-col items-center gap-2'>    
-      <IconGauge gap={score} />
-      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2">
+    <Wrapper className="flex flex-col items-center gap-2">
+      <IconGauge gap={score} label={symbol} />
+      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2 text-center leading-4">
         {label}
       </Text>
     </Wrapper>
@@ -367,23 +303,23 @@ const UrlTable = (items) => {
     <table className="w-full border border-lightblue-100">
       <thead>
         <tr className="bg-lightblue-100">
-          {items[0].url && <th className="text-left font-normal p-3">Url</th>}
-          {items[0].totalBytes > 0 && (
+          {items[0]?.url && <th className="text-left font-normal p-3">Url</th>}
+          {items[0]?.totalBytes > 0 && (
             <th className="text-left font-normal p-3">Transfer Size</th>
           )}
-          {(items[0].cacheLifetimeMs || items[0].cacheLifetimeMs === 0) && (
+          {(items[0]?.cacheLifetimeMs || items[0]?.cacheLifetimeMs === 0) && (
             <th className="text-left font-normal p-3">Transfer Size</th>
           )}
-          {(items[0].wastedBytes || items[0].wastedMs) && (
+          {(items[0]?.wastedBytes || items[0]?.wastedMs) && (
             <th className="text-left font-normal p-3">Potential Savings</th>
           )}
-          {items[0].groupLabel && (
+          {items[0]?.groupLabel && (
             <th className="text-left font-normal p-3">Category</th>
           )}
-          {items[0].groupLabel && (
+          {items[0]?.groupLabel && (
             <th className="font-normal p-3 text-right">Time spent</th>
           )}
-          {items[0].source && (
+          {items[0]?.source && (
             <th className="font-normal p-3 text-left">Source</th>
           )}
         </tr>
@@ -393,10 +329,10 @@ const UrlTable = (items) => {
           items?.map((item, i) => (
             <tr key={i} className={i % 2 === 1 ? "bg-gray-200" : ""}>
               <td className="px-3 py-2">
-                {item.url && (
+                {item?.url && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: shortenUrl(item.url),
+                      __html: shortenUrl(item?.url),
                     }}
                   ></div>
                 )}
@@ -423,22 +359,22 @@ const UrlTable = (items) => {
                     ))}
                   </div>
                 )}
-                {item.groupLabel && item.groupLabel}
+                {item?.groupLabel && item?.groupLabel}
               </td>
-              {item.duration && (
+              {item?.duration && (
                 <td className="px-3 py-2 text-right">
                   {convertMilliseconds(item.duration)}
                 </td>
               )}
-              {item.totalBytes > 0 && (
+              {item?.totalBytes > 0 && (
                 <td className="px-3 py-2">{bytesToKB(item.totalBytes)} KiB</td>
               )}
-              {(item.cacheLifetimeMs || item.cacheLifetimeMs === 0) && (
+              {(item?.cacheLifetimeMs || item?.cacheLifetimeMs === 0) && (
                 <td className="px-3 py-2">
                   {convertMilliseconds(item.cacheLifetimeMs)}
                 </td>
               )}
-              {(item.wastedBytes || item.wastedMs) && (
+              {(item?.wastedBytes || item?.wastedMs) && (
                 <td className="px-3 py-2">
                   {item.wastedMs ? convertMilliseconds(item.wastedMs) : ""}
                   {item.wastedBytes ? bytesToKB(item.wastedBytes) + "KiB" : ""}
@@ -453,14 +389,19 @@ const UrlTable = (items) => {
 
 const ImageCardTr = (items) => {
   return (
-    <table className="w-full border border-lightblue-100">
+    <table className="w-full border border-lightblue-100 table-fixed">
       <thead>
         <tr className="bg-lightblue-100">
-        {items[0]?.url && <th className="text-left font-normal p-3">Url</th> }
-          {items[0].totalBytes && (
+          {items[0]?.url && (
+            <th className="text-left font-normal p-3">Image</th>
+          )}
+          {items[0]?.url && (
+            <th className="text-left font-normal p-3">Selector</th>
+          )}
+          {items[0]?.totalBytes && (
             <th className="text-left font-normal p-3">Transfer Size</th>
           )}
-          {items[0].wastedBytes && (
+          {items[0]?.wastedBytes && (
             <th className="text-left font-normal p-3">Potential Savings</th>
           )}
         </tr>
@@ -486,29 +427,30 @@ const ImageCardTr = (items) => {
                         />
                       </a>
                     )}
-                    <div>
-                      {item?.node?.selector && (
-                        <div className="text-sm">{item?.node?.selector} </div>
-                      )}
-                      {item?.node?.snippet && (
-                        <div className="text-sm text-blue-400">
-                          {" "}
-                          {item?.node?.snippet}
-                        </div>
-                      )}
-                    </div>
                   </div>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: shortenUrl(item.url),
-                    }}
-                  ></div>
                 </div>
               </td>
-              {item.totalBytes && (
+              {item?.node?.selector && (
+                <td className="px-3 py-2">
+                  <div>
+                    {item?.node?.selector && (
+                      <div className="text-sm break-all">
+                        {item?.node?.selector}{" "}
+                      </div>
+                    )}
+                    {item?.node?.snippet && (
+                      <div className="text-sm text-blue-400 break-all">
+                        {" "}
+                        {item?.node?.snippet}
+                      </div>
+                    )}
+                  </div>
+                </td>
+              )}
+              {item?.totalBytes && (
                 <td className="px-3 py-2">{bytesToKB(item.totalBytes)} KiB</td>
               )}
-              {item.wastedBytes && (
+              {item?.wastedBytes && (
                 <td className="px-3 py-2">{bytesToKB(item.wastedBytes)} KiB</td>
               )}
             </tr>
@@ -562,7 +504,7 @@ const domSize = (items) => {
                         <div className="text-sm">{item?.node?.nodeLabel} </div>
                       )}
                       {item?.node?.snippet && (
-                        <div className="text-sm text-blue-400">
+                        <div className="text-sm text-blue-400 break-all">
                           {" "}
                           {item?.node?.snippet}
                         </div>
@@ -609,12 +551,12 @@ const elementTable = (items) => {
                   )}
                   <div>
                     {items[0]?.items[0].node?.selector && (
-                      <div className="text-sm">
+                      <div className="text-sm break-all">
                         {items[0]?.items[0]?.node?.selector}{" "}
                       </div>
                     )}
                     {items[0]?.items[0]?.node?.snippet && (
-                      <div className="text-sm text-blue-400">
+                      <div className="text-sm text-blue-400 break-all">
                         {" "}
                         {items[0]?.items[0]?.node?.snippet}
                       </div>
@@ -652,5 +594,263 @@ const elementTable = (items) => {
         </tbody>
       </table>
     </Wrapper>
+  );
+};
+
+const AccessibilityTable = (items) => {
+  const deatils = items;
+  return (
+    deatils &&
+    deatils.length > 0 && (
+      <table className="w-full border border-lightblue-100 table-fixed">
+        <thead>
+          <tr className="bg-lightblue-100">
+            {deatils[0]?.node?.nodeLabel && (
+              <th className="text-left font-normal p-3">Label</th>
+            )}
+            {deatils[0]?.href && (
+              <th className="text-left font-normal p-3">Href</th>
+            )}
+            {deatils[0]?.text && (
+              <th className="text-left font-normal p-3">Text</th>
+            )}
+            {deatils[0]?.node?.selector && (
+              <th className="text-left font-normal p-3">Selector</th>
+            )}
+            {deatils[0]?.node?.snippet && (
+              <th className="text-left font-normal p-3">Snippet</th>
+            )}
+            {deatils[0]?.node?.explanation && (
+              <th className="text-left font-normal p-3">Explanation</th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {deatils &&
+            deatils?.map((item, i) => (
+              <tr key={i} className={i % 2 === 1 ? "bg-gray-200" : ""}>
+                {item?.href && (
+                  <td className="px-3 py-2  text-sm font-semibold">
+                    <a
+                      href={item?.href}
+                      className="text-blue-500"
+                      target="_blank"
+                    >
+                      {" "}
+                      {item?.href}
+                    </a>
+                  </td>
+                )}
+                {item?.text && (
+                  <td className="px-3 py-2  text-sm font-semibold">
+                    {item?.text}
+                  </td>
+                )}
+                {item?.node?.nodeLabel && (
+                  <td className="px-3 py-2  text-sm font-semibold">
+                    {item?.node?.nodeLabel}
+                  </td>
+                )}
+                {item?.node?.selector && (
+                  <td className="px-3 py-2 text-sm text-dark-100 break-all">
+                    <div className="max-h-[150px] overflow-auto">
+                      {" "}
+                      {item?.node?.selector}
+                    </div>
+                  </td>
+                )}
+                {item?.node?.snippet && (
+                  <td className="px-3 py-2  text-sm text-blue-500 break-all">
+                    <div className="max-h-[150px] overflow-auto">
+                      {" "}
+                      {item?.node?.snippet}
+                    </div>
+                  </td>
+                )}
+                {item?.node?.explanation && (
+                  <td className="px-3 py-2 font-semibold">
+                    <div className="max-h-[150px] overflow-auto">
+                      {item?.node?.explanation}
+                    </div>
+                  </td>
+                )}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    )
+  );
+};
+
+const BestPractices = (items) => {
+  return (
+    <table className="w-full border border-lightblue-100 table-fixed">
+      <thead>
+        <tr className="bg-lightblue-100">
+          {items[0]?.scriptUrl && (
+            <th className="text-left font-normal p-3">Script Url</th>
+          )}
+          {items[0]?.sourceMapUrl && (
+            <th className="text-left font-normal p-3">Source Map Url</th>
+          )}
+          {items[0]?.subItems?.items.length > 0 && (
+            <th className="text-left font-normal p-3">Errors</th>
+          )}
+          {items[0]?.sourceLocation?.url && (
+            <th className="text-left font-normal p-3">Source Location</th>
+          )}
+          {items[0]?.source && (
+            <th className="text-left font-normal p-3">Source</th>
+          )}
+          {items[0]?.description && (
+            <th className="text-left font-normal p-3">Description</th>
+          )}
+        </tr>
+      </thead>
+      <tbody>
+        {items &&
+          items?.map((item, i) => (
+            <tr key={i} className={i % 2 === 1 ? "bg-gray-200" : ""}>
+              {item?.scriptUrl && (
+                <td
+                  className="px-3 py-2  text-sm font-semibold"
+                  dangerouslySetInnerHTML={{
+                    __html: shortenUrl(item?.scriptUrl),
+                  }}
+                ></td>
+              )}
+              {item?.sourceMapUrl && (
+                <td className="px-3 py-2  ">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: shortenUrl(item?.sourceMapUrl),
+                    }}
+                    className="text-sm text-red-500 break-all max-h-[150px] overflow-auto"
+                  ></div>
+                </td>
+              )}
+              {item?.subItems?.items && (
+                <td className="px-3 py-2  ">
+                  <div className="text-sm text-red-500 break-all max-h-[150px] overflow-auto">
+                    {item?.subItems?.items.length > 0 ? (
+                      item?.subItems?.items?.map((subItem, i) => (
+                        <span className="text-red-600 block" key={i}>
+                          {subItem?.error}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-center">-</span>
+                    )}
+                  </div>
+                </td>
+              )}
+              {item?.sourceLocation?.url && (
+                <td
+                  className="px-3 py-2  text-sm font-semibold"
+                  dangerouslySetInnerHTML={{
+                    __html: shortenUrl(item?.sourceLocation?.url),
+                  }}
+                ></td>
+              )}
+              {item?.source && (
+                <td className="px-3 py-2 text-sm text-dark-100 break-all">
+                  {item?.source?.url || item?.source}
+                </td>
+              )}
+              {item?.description && (
+                <td className="px-3 py-2  ">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: TextToHTML(item?.description),
+                    }}
+                    className="text-sm text-red-500 break-all max-h-[150px] overflow-auto"
+                  ></div>
+                </td>
+              )}
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  );
+};
+
+const ImageBestPracties = (items) => {
+  return (
+    <table className="w-full border border-lightblue-100 table-fixed">
+      <thead>
+        <tr className="bg-lightblue-100">
+          {items[0]?.url && (
+            <th className="text-left font-normal p-3">Image</th>
+          )}
+          {items[0]?.node?.nodeLabel && (
+            <th className="text-left font-normal p-3">Label</th>
+          )}
+          {items[0]?.displayedAspectRatio && (
+            <th className="text-left font-normal p-3">
+              Displayed Aspect Ratio
+            </th>
+          )}
+          {items[0]?.actualAspectRatio && (
+            <th className="text-left font-normal p-3">Actual Aspect Ratio</th>
+          )}
+          {items[0]?.node.selector && (
+            <th className="text-left font-normal p-3">Selector</th>
+          )}
+        </tr>
+      </thead>
+      <tbody>
+        {items &&
+          items.map((item, i) => (
+            <tr key={i} className={i % 2 === 1 ? "bg-gray-200" : ""}>
+              <td className="px-3 py-2">
+                <div className="flex gap-8 items-center justify-between">
+                  <div className="flex gap-3 items-center max-w-[40%] w-full">
+                    {item?.url && (
+                      <a
+                        href={item?.url}
+                        target="_blank"
+                        className="min-w-[100px] block"
+                      >
+                        <Image
+                          src={item?.url}
+                          alt="image"
+                          width={100}
+                          height={100}
+                        />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </td>
+              {item?.node?.nodeLabel && (
+                <td className="px-3 py-2">
+                  <div className="text-sm">{item?.node?.nodeLabel}</div>
+                </td>
+              )}
+              {item?.displayedAspectRatio && (
+                <td className="px-3 py-2">{item?.displayedAspectRatio} KiB</td>
+              )}
+              {item?.actualAspectRatio && (
+                <td className="px-3 py-2">{item?.actualAspectRatio} KiB</td>
+              )}
+              <td className="px-3 py-2">
+                {item?.node?.selector && (
+                  <div className="text-sm break-all">
+                    {item?.node?.selector}{" "}
+                  </div>
+                )}
+                <div>
+                  {item?.node?.snippet && (
+                    <div className="text-sm text-blue-400 break-all">
+                      {" "}
+                      {item?.node?.snippet}
+                    </div>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
   );
 };

@@ -23,6 +23,8 @@ module.exports = {
         '6xl':'0px 47px 154px 0px #1567A321, 0px 5px 24px 0px #041F3317'
       },
       screens: {
+        "max-5xl": { max: "1699px" },
+        "max-4xl": { max: "1580px" },
         "max-3xl": { max: "1440px" },
         "max-2xl": { max: "1366px" },
         "max-xl": { max: "1280px" },
