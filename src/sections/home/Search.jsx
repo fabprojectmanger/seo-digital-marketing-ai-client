@@ -83,7 +83,7 @@ const Search = ({ value, refresh }) => {
           placeholder={
             selectedPrimaryOption === "domain" ||
             selectedPrimaryOption === "insight"
-              ? "Enter your domain name"
+              ? "Enter your domain name (www.example.com)"
               : "Enter your writing topic"
           }
           value={searchValue || ""}

@@ -15,7 +15,7 @@ import BackToHome from "../../../components/back-to-home/BackToHome";
 import HireExpret from "../../../components/hire-an-expert/HireExpret";
 const Index = () => {
   const router = useRouter();
-  const { googleResponse, dataOption } = useTheme();
+  const { googleResponse, dataOption,showForm } = useTheme();
   const [newUserGroupingValues, setNewUserGroupingValues] = useState({
     direct: 0,
     search: 0,
@@ -75,7 +75,7 @@ const Index = () => {
             </h1>
 }
         </Wrapper>
-        <Wrapper>
+        <Wrapper className={`${showForm ?"opacity-25":""}`}>
         <Wrapper className="flex gap-4 mb-4 max-md-tab:grid">
           <Wrapper className="bg-white rounded-lg flex-1 py-10">
             <span className="block text-center text-base text-dark-100 font-semibold">
