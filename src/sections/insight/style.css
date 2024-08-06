@@ -1,3 +1,7 @@
 .accordion-items a,.accordion-items code{
     @apply text-blue-600;
 }
+.accordion-items img{
+    transform: none !important;
+    position: static !important;
+}

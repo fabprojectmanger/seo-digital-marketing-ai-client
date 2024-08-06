@@ -10,7 +10,7 @@ import Wrapper from "../../../components/wrapper/wrapper";
 import { JsonToHtml } from "../../../utils/jsonToHTML";
 
 import Image from "next/image";
-import TextToHTML from "../../../utils/TextToHtml";
+import { TextToHTML } from "../../../utils/TextToHtml";
 
 const TextResponse = () => {
   const [classEnabled , setClassEnabled] = useState(false);
@@ -72,7 +72,6 @@ const TextResponse = () => {
     if (response?.isStreamed) {
       restartRequired.current = false;
       if(response.content){
-        console.log(response,"^^^^^^^^^^^");
         
         setAiResponse(TextToHTML(response.answer));
       }
