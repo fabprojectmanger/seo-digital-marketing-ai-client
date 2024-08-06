@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import IconGauge from "../../../public/icons/IconGauge";
 import Wrapper from "../../components/wrapper/wrapper";
 import Text from "../../components/text/text";
-import TextToHTML from "../../utils/TextToHtml";
+import {TextToHTML} from "../../utils/TextToHtml";
 import Image from "next/image";
 import AuditSection from "./AuditSection";
 const Report = ({ data }) => {

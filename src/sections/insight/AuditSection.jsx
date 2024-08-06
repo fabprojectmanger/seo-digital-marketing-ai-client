@@ -1,10 +1,11 @@
 import Wrapper from '../../components/wrapper/wrapper'
 import "./style.css";
 import React, { useEffect, useState } from "react";
-import TextToHTML from "../../utils/TextToHtml";
+
 import Indicator from "./indicator";
 import H1 from "../../components/headings/h1";
 import IconDownArrow from "../../../public/icons/IconDownArrow";
+import { TextToHTML } from '../../utils/TextToHtml';
 
 
 

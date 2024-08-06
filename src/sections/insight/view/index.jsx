@@ -10,7 +10,7 @@ import axios from "axios";
 import { useTheme } from "../../../contexts/theme/ThemeProvider";
 import Processing from "../../../components/processing/Processing";
 import HireExpret from "../../../components/hire-an-expert/HireExpret";
-import { TextToHTMLTag } from "../../../utils/TextToHtml";
+// import { TextToHTMLTag } from "../../../utils/TextToHtml";
 import ErrorNotification from "../../../components/notification/error/ErrorNotification";
 import Report from "../report";
 import Link from "next/link";
@@ -81,37 +81,37 @@ const Index = () => {
       });
     }
   };
-  const viewReport = async () => {
-    try {
-      const url = `https://seogenieai.com/api/chat`;
-      const streamResponse = await axios
-        .post(url, {
-          pageSpeedInsights: true,
-          userPrompt: response.data,
-        })
-        .then(async (response) => {
-          setLoader(false);
-          if (response.data.includes("body")) {
-            let data = response.data.split("<body>");
-            setReportShow(data[1]);
-          } else if (
-            !response.data.includes("<html>") &&
-            !response.data.includes("<body>")
-          ) {
-            let data = TextToHTMLTag(response.data);
-            setReportShow(data);
-          } else {
-            setReportShow(response.data);
-          }
-        })
-        .catch((error) => {
-          setError({
-            status: true,
-            message: "Something Went Wrong! Try again later.",
-          });
-        });
-    } catch (error) {}
-  };
+  // const viewReport = async () => {
+  //   try {
+  //     const url = `https://seogenieai.com/api/chat`;
+  //     const streamResponse = await axios
+  //       .post(url, {
+  //         pageSpeedInsights: true,
+  //         userPrompt: response.data,
+  //       })
+  //       .then(async (response) => {
+  //         setLoader(false);
+  //         if (response.data.includes("body")) {
+  //           let data = response.data.split("<body>");
+  //           setReportShow(data[1]);
+  //         } else if (
+  //           !response.data.includes("<html>") &&
+  //           !response.data.includes("<body>")
+  //         ) {
+  //           let data = TextToHTMLTag(response.data);
+  //           setReportShow(data);
+  //         } else {
+  //           setReportShow(response.data);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         setError({
+  //           status: true,
+  //           message: "Something Went Wrong! Try again later.",
+  //         });
+  //       });
+  //   } catch (error) {}
+  // };
   return (
     <Container>
       {processing && !speedReport && (
