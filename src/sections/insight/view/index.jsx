@@ -24,6 +24,7 @@ const Index = () => {
   const [speedReport, setSpeedReport] = useState(false);
   const [reportShow, setReportShow] = useState(false);
   const [analyticalPayload, setAnalyticalPayload] = useState("");
+  const [reportLoader,setReportLoader] = useState(false)
   const items = [
     {
       name: "Desktop",
@@ -86,6 +87,7 @@ const Index = () => {
   };
   const viewReport = async () => {
     try {
+      setReportLoader(true)
       const url = `https://seogenieai.com/api/chat`;
       const streamResponse = await axios
         .post(url, {
@@ -93,18 +95,21 @@ const Index = () => {
           userPrompt: analyticalPayload,
         })
         .then(async (response) => {
-          setLoader(false);
+          setReportLoader(false);
           if (response.data.includes("body")) {
             let data = response.data.split("<body>");
             setReportShow(data[1]);
           } else if (
             !response.data.includes("<html>") &&
-            !response.data.includes("<body>")
+            !response.data.includes("<body>") &&
+            !response.data.includes("```html") 
           ) {
             let data = TextToHTMLTag(response.data);
             setReportShow(data);
-          } else {
+            setReportLoader(false);
+          } else {            
             setReportShow(response.data);
+            setReportLoader(false);
           }
         })
         .catch((error) => {
@@ -122,6 +127,12 @@ const Index = () => {
           <Processing heading={processing?.message} />
         </Wrapper>
       )}
+      {reportLoader &&
+          <div className="absolute top-[50%] z-50 left-0 right-0 flex items-center justify-center">
+          <Processing heading={processing?.message} />
+        </div>
+
+      }
       {speedReport && (
         <Wrapper
           className={`${
@@ -142,17 +153,17 @@ const Index = () => {
             ← {"Back to options"}
           </Link>
 
-          {/* <button
+          <button
             type="button"
-            className=" pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
+            className="pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
             onClick={viewReport}
           >
             View AI Report
-          </button> */}
+          </button>
         </Wrapper>
       )}
       {speedReport && (
-        <div className={`mb-8 overflow-auto ${showForm ? "opacity-25" : ""}`}>
+        <div className={`mb-8 overflow-auto ${showForm || reportShow || reportLoader  ? "opacity-25" : ""}`}>
           <Report data={speedReport} />
         </div>
       )}
@@ -191,24 +202,15 @@ const Index = () => {
         </Wrapper>
       )}
       <HireExpret />
-      {reportShow && (
-        <div className="bg-white p-8 rounded-2xl  mb-8 overflow-auto">
-          <div
-            className={` text-base text-black font-medium leading-7 htmlIncluded`}
-            dangerouslySetInnerHTML={{ __html: streamedResponse }}
-          />
+       {reportShow && (
+        <div className="absolute top-[15%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex ">
+            <PageSpeedModal props={{report:reportShow,close:setReportShow}}/>
         </div>
       )}
       {error && (
         <ErrorNotification active={error?.status} message={error?.message} />
       )}
-      {reportShow && (
-        <div className="absolute top-[100px] left-0 right-0 z-50 w-[100%] items-center justify-center flex">
-          {/* <div className="max-w-[800px] bg-white relative max-h-[770px] m-[20px]"> */}
-            <PageSpeedModal props={reportShow}/>
-          {/* </div> */}
-        </div>
-      )}
+     
     </Container>
   );
 };
