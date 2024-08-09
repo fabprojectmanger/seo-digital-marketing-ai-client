@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author": "Ayushman",
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.7.2",

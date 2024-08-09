@@ -1,24 +1,24 @@
 export const SearchSuggestionList = [
     {
-        title:"Domain analysis with AI 🔍",
+        title:"Analyse Your Website Traffic with AI 🔍",
         key:'domain',
         content:"Create your website analysis with AI.",
         link:"/"
     },
     {
-        title:"Content writing with AI 📝",
+        title:"Content Writing with AI 📝",
         key:'content',
         content:"Create content writing with help AI",
         link:"/"
     },
     {
-        title:"Google Keyword planner with AI",
+        title:"Google Keyword Planner with AI",
         key:'keyword',
         content:"Plan your keyword for digital Ads with AI",
         link:"/keyword-planner"
     },
     {
-        title:"Website Speed Insight",
+        title:"Website Speed Insight with AI",
         key:'insight',
         content:"Check your site's speed insight and improve it.",
         link:"/"

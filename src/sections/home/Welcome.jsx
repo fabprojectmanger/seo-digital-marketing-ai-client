@@ -13,7 +13,7 @@ const Welcome = () => {
           as={"tag"}
           className="text-black mt-[15px] text-center max-md-mobile:text-2xl"
         >
-          How can i help you
+          How can I help you
           <b className="text-dark-100 ml-1">
             <i>Today?</i>
           </b>

@@ -26,7 +26,7 @@ const SearchList = () => {
             item.key === selectedPrimaryOption ? " bg-white" : ""
           }`}
         >
-          <H4 className="text-dark-100 capitalize">{item.title}</H4>
+          <H4 className="text-dark-100">{item.title}</H4>
 
           <Text className="mt-[4px] text-black">{item.content}</Text>
           {item.link !== '/' ? <Link href='/keyword-planner' className="absolute top-0 left-0 w-full h-full"></Link> : 

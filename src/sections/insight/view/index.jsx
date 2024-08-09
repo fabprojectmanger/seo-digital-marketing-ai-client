@@ -15,6 +15,8 @@ import ErrorNotification from "../../../components/notification/error/ErrorNotif
 import Report from "../report";
 import Link from "next/link";
 import PageSpeedModal from "../../../components/modal/pageSpeedInsightsModal";
+import IconLaptop from "../../../../public/icons/IconLaptop";
+import IconPhone from "../../../../public/icons/IconPhone";
 const Index = () => {
   const [streamedResponse, setStreamedResponse] = useState("");
   const STREAMING_DELAY = 40;
@@ -24,13 +26,14 @@ const Index = () => {
   const [speedReport, setSpeedReport] = useState(false);
   const [reportShow, setReportShow] = useState(false);
   const [analyticalPayload, setAnalyticalPayload] = useState("");
-  const [reportLoader,setReportLoader] = useState(false)
+  const [reportLoader, setReportLoader] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
   const items = [
     {
-      name: "Desktop",
+      name: "desktop",
     },
     {
-      name: "Mobile",
+      name: "mobile",
     },
   ];
   useEffect(() => {
@@ -55,6 +58,8 @@ const Index = () => {
   }, [reportShow]);
   const getOption = async (value) => {
     try {
+      setSelectedItem(value);
+      setSpeedReport(false)
       setLoader({
         message: "Fetching Data",
       });
@@ -87,7 +92,7 @@ const Index = () => {
   };
   const viewReport = async () => {
     try {
-      setReportLoader(true)
+      setReportLoader(true);
       const url = `https://seogenieai.com/api/chat`;
       const streamResponse = await axios
         .post(url, {
@@ -102,12 +107,12 @@ const Index = () => {
           } else if (
             !response.data.includes("<html>") &&
             !response.data.includes("<body>") &&
-            !response.data.includes("```html") 
+            !response.data.includes("```html")
           ) {
             let data = TextToHTMLTag(response.data);
             setReportShow(data);
             setReportLoader(false);
-          } else {            
+          } else {
             setReportShow(response.data);
             setReportLoader(false);
           }
@@ -120,6 +125,28 @@ const Index = () => {
         });
     } catch (error) {}
   };
+
+  useEffect(() => {
+    getOption("desktop");
+  }, []);
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const stickyThreshold = 200; // Adjust this value as needed
+      if (window.scrollY > stickyThreshold) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <Container>
       {processing && !speedReport && (
@@ -127,90 +154,81 @@ const Index = () => {
           <Processing heading={processing?.message} />
         </Wrapper>
       )}
-      {reportLoader &&
-          <div className="absolute top-[50%] z-50 left-0 right-0 flex items-center justify-center">
+      {reportLoader && (
+        <div className="absolute top-[50%] z-50 left-0 right-0 flex items-center justify-center">
           <Processing heading={processing?.message} />
         </div>
-
-      }
+      )}
       {speedReport && (
         <Wrapper
           className={`${
             showItem
               ? " translate-x-0 opacity-100"
               : " translate-x-full opacity-0 "
-          } duration-300 flex justify-between items-center  mb-6`}
+          } duration-300 flex justify-between items-center mb-6`}
         >
-          <Link
-            onClick={(e) => {
-              e.preventDefault();
-              setSpeedReport(false);
-              setReportShow(false);
-            }}
-            href={"/"}
-            className={`text-base uppercase font-semibold inline-block`}
-          >
-            ← {"Back to options"}
-          </Link>
-
+          <BackToHome />
           <button
             type="button"
-            className="pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
+            className="bounceBtn pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100 transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-white"
             onClick={viewReport}
           >
             View AI Report
           </button>
         </Wrapper>
       )}
+      <Wrapper
+        className={`flex justify-center items-center mb-6 transition-all duration-300 ${
+          isSticky ? "fixed top-0 left-0 w-full bg-white shadow-md z-50" : ""
+        }`}
+      >
+        {items &&
+          items.map((item, i) => (
+            <div
+              key={i}
+              className={`flex row gap-2 px-[31px] py-[18px] relative  group items-center ${
+                selectedItem == item.name ? "bg-dark-100" : "hover:bg-slate-300"
+              }`}
+            >
+              {item.name == "desktop" ?
+              <IconLaptop className={`w-8 h-8 ${selectedItem == item.name?"fill-white":"fill-dark-100"}`}/>
+              :
+              <IconPhone className={`w-8 h-8 ${selectedItem == item.name?"fill-white":"fill-dark-100"}`}/>
+              }
+              <H4
+                className={`text-dark-100 capitalize ${
+                  selectedItem == item.name ? "text-white" : "text-dark-100"
+                }`}
+              >
+                {item.name}
+              </H4>
+              <button
+                onClick={() => getOption(item.name)}
+                className="absolute top-0 left-0 w-full h-full"
+              ></button>
+            </div>
+          ))}
+      </Wrapper>
       {speedReport && (
-        <div className={`mb-8 overflow-auto ${showForm || reportShow || reportLoader  ? "opacity-25" : ""}`}>
+        <div
+          className={`mb-8 overflow-auto ${
+            showForm || reportShow || reportLoader ? "opacity-25" : ""
+          }`}
+        >
           <Report data={speedReport} />
         </div>
       )}
-      {!processing && !speedReport && (
-        <Wrapper className="space-y-4 max-w-[340px]">
-          <Wrapper
-            className={`${
-              showItem
-                ? " translate-x-0 opacity-100"
-                : " translate-x-full opacity-0 "
-            } duration-300`}
-          >
-            <BackToHome />
-          </Wrapper>
-          {items &&
-            items.map((item, i) => (
-              <div
-                style={{ transitionDelay: i + "00ms" }}
-                key={i}
-                className={`${
-                  showItem
-                    ? " translate-x-0 opacity-100"
-                    : " translate-x-full opacity-0 "
-                } duration-300 px-[31px] py-[18px] border-2 border-black border-opacity-30 relative rounded-[10px] hover:bg-dark-100 group transition-all `}
-              >
-                <H4 className="text-dark-100 group-hover:text-white transition-all duration-300">
-                  {item.name}
-                </H4>
-
-                <button
-                  onClick={() => getOption(item.name)}
-                  className="absolute top-0 left-0 w-full h-full"
-                ></button>
-              </div>
-            ))}
-        </Wrapper>
-      )}
       <HireExpret />
-       {reportShow && (
+      {reportShow && (
         <div className="absolute top-[15%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex ">
-            <PageSpeedModal props={{report:reportShow,close:setReportShow}}/>
+          <PageSpeedModal
+            props={{ report: reportShow, close: setReportShow }}
+          />
         </div>
       )}
       {error && (
         <ErrorNotification active={error?.status} message={error?.message} />
       )}
-     
     </Container>
   );
 };
