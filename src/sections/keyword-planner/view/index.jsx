@@ -363,7 +363,7 @@ const Index = () => {
                   : " translate-x-full opacity-0 "
               } duration-300 !text-4xl text-center mb-8 font-semibold tracking-normal`}
             >
-              Google Keyword planner
+              Google Keyword Planner
             </H1>
             <Wrapper
               className={`${

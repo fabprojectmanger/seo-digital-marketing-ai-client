@@ -291,7 +291,7 @@ const MainCard = ({ score, label, symbol }) => {
   return (
     <Wrapper className="flex flex-col items-center gap-2">
       <IconGauge gap={score} label={symbol} />
-      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2 text-center leading-5">
+      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2 text-center leading-4 text-[12px]">
         {label}
       </Text>
     </Wrapper>
