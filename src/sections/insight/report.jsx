@@ -191,7 +191,7 @@ const Report = ({ data }) => {
       />
       <AuditSection
         title="Passed Audits"
-        audits={data?.bestPractices.passedAudits}
+        audits={data?.bestPractices?.passedAudits}
         accordionKey="passedAudit"
         setAccordionActive={setAccordionActive}
         accordionActive={accordionActive}
@@ -259,21 +259,11 @@ function bytesToKB(bytes) {
   return (bytes / 1024).toFixed(2);
 }
 function shortenUrl(url) {
-  if (url) {
-    const urlObject = new URL(url);
-    const domain = urlObject.hostname;
-    const path = urlObject.pathname;
-    const searchParams = urlObject?.search;
-    const pathParts = path.split("/");
-    const assetPath = pathParts.slice(0, -1).join("/");
-    const assetFile = pathParts[pathParts.length - 1].split("?")[0];
-    const version = searchParams.includes("=")
-      ? searchParams.split("=")[1].slice(0, 7)
-      : "";
-    const thUrl = `${assetPath}/${assetFile}?v=${version}`;
-    return `<a href="${url}" target="_blank" class="text-sm !text-gray-700 hover:underline">…${
-      thUrl.length > 50 ? thUrl.slice(thUrl.length / 2, thUrl.length) : thUrl
-    }…</a> <span class="text-gray-500 text-xs">(${domain})</span></span>`;
+  if (url) { 
+
+    return `<a href="${url}" target="_blank" class="text-sm block max-w-[250px] text-ellipsis overflow-hidden !text-gray-700 hover:underline whitespace-nowrap">${
+      url.length > 50 ? url.slice(url.length / 2, url.length) : url
+    }</a>`;
   }
 }
 
@@ -291,7 +281,7 @@ const MainCard = ({ score, label, symbol }) => {
   return (
     <Wrapper className="flex flex-col items-center gap-2">
       <IconGauge gap={score} label={symbol} />
-      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2 text-center leading-4 text-[12px]">
+      <Text className="text-base text-dark-100 tracking-normal font-semibold mb-2 text-center leading-5 text-[12px]">
         {label}
       </Text>
     </Wrapper>
@@ -682,7 +672,7 @@ const AccessibilityTable = (items) => {
   );
 };
 
-const BestPractices = (items) => {
+const BestPractices = (items) => {  
   return (
     <table className="w-full border border-lightblue-100 table-fixed">
       <thead>
@@ -708,7 +698,7 @@ const BestPractices = (items) => {
         </tr>
       </thead>
       <tbody>
-        {items &&
+        {items && items.length>0 &&
           items?.map((item, i) => (
             <tr key={i} className={i % 2 === 1 ? "bg-gray-200" : ""}>
               {item?.scriptUrl && (
@@ -729,7 +719,7 @@ const BestPractices = (items) => {
                   ></div>
                 </td>
               )}
-              {item?.subItems?.items && (
+              {item?.subItems?.items.length>0 && (
                 <td className="px-3 py-2  ">
                   <div className="text-sm text-red-500 break-all max-h-[150px] overflow-auto">
                     {item?.subItems?.items.length > 0 ? (
@@ -744,7 +734,7 @@ const BestPractices = (items) => {
                   </div>
                 </td>
               )}
-              {item?.sourceLocation?.url && (
+              {item?.sourceLocation && item?.sourceLocation?.url && (
                 <td
                   className="px-3 py-2  text-sm font-semibold"
                   dangerouslySetInnerHTML={{
@@ -754,7 +744,7 @@ const BestPractices = (items) => {
               )}
               {item?.source && (
                 <td className="px-3 py-2 text-sm text-dark-100 break-all">
-                  {item?.source?.url || item?.source}
+                  {item?.source?.url?item?.source?.url:item?.source?.type}
                 </td>
               )}
               {item?.description && (

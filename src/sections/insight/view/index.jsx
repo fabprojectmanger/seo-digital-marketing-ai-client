@@ -59,9 +59,9 @@ const Index = () => {
   const getOption = async (value) => {
     try {
       setSelectedItem(value);
-      setSpeedReport(false)
+      setSpeedReport(false);
       setLoader({
-        message: "Fetching Data",
+        message: "Analysing your website...",
       });
       const do_main = domain || localStorage.getItem("domain");
       const res = await axios
@@ -177,38 +177,50 @@ const Index = () => {
           </button>
         </Wrapper>
       )}
-      <Wrapper
-        className={`flex justify-center items-center mb-6 transition-all duration-300 ${
-          isSticky ? "fixed top-0 left-0 w-full bg-white shadow-md z-50" : ""
-        }`}
-      >
-        {items &&
-          items.map((item, i) => (
-            <div
-              key={i}
-              className={`flex row gap-2 px-[31px] py-[18px] relative  group items-center ${
-                selectedItem == item.name ? "bg-dark-100" : "hover:bg-slate-300"
-              }`}
-            >
-              {item.name == "desktop" ?
-              <IconLaptop className={`w-8 h-8 ${selectedItem == item.name?"fill-white":"fill-dark-100"}`}/>
-              :
-              <IconPhone className={`w-8 h-8 ${selectedItem == item.name?"fill-white":"fill-dark-100"}`}/>
-              }
-              <H4
-                className={`text-dark-100 capitalize ${
-                  selectedItem == item.name ? "text-white" : "text-dark-100"
+      {speedReport && (
+        <Wrapper
+          className={`flex justify-center items-center mb-6 transition-all duration-300 ${
+            isSticky ? "fixed top-0 left-0 w-full bg-white shadow-md z-50" : ""
+          }`}
+        >
+          {items &&
+            items.map((item, i) => (
+              <div
+                key={i}
+                className={`flex row gap-2 px-[31px] py-[18px] relative  group items-center ${
+                  selectedItem == item.name
+                    ? "bg-dark-100"
+                    : "hover:bg-slate-300"
                 }`}
               >
-                {item.name}
-              </H4>
-              <button
-                onClick={() => getOption(item.name)}
-                className="absolute top-0 left-0 w-full h-full"
-              ></button>
-            </div>
-          ))}
-      </Wrapper>
+                {item.name == "desktop" ? (
+                  <IconLaptop
+                    className={`w-8 h-8 ${
+                      selectedItem == item.name ? "fill-white" : "fill-dark-100"
+                    }`}
+                  />
+                ) : (
+                  <IconPhone
+                    className={`w-8 h-8 ${
+                      selectedItem == item.name ? "fill-white" : "fill-dark-100"
+                    }`}
+                  />
+                )}
+                <H4
+                  className={`text-dark-100 capitalize ${
+                    selectedItem == item.name ? "text-white" : "text-dark-100"
+                  }`}
+                >
+                  {item.name}
+                </H4>
+                <button
+                  onClick={() => getOption(item.name)}
+                  className="absolute top-0 left-0 w-full h-full"
+                ></button>
+              </div>
+            ))}
+        </Wrapper>
+      )}
       {speedReport && (
         <div
           className={`mb-8 overflow-auto ${
