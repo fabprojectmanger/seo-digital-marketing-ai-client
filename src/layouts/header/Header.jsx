@@ -5,7 +5,7 @@ import NavHoz from "../../components/nav-horizontal/NavHoz";
 import Wrapper from "../../components/wrapper/wrapper";
 import Image from "next/image";
 import Link from "next/link";
-import SiteLogo from "../../assets/images/logo.png";
+import SiteLogo from "../../assets/images/SeogenieAi.jpg";
 import LinkButton from "../../components/link/LinkButton";
 import { useState } from "react";
 import IconCloseModal from "../../../public/icons/IconCloseModal";
@@ -18,6 +18,7 @@ import ErrorNotification from "../../components/notification/error/ErrorNotifica
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Text from "../../components/text/text";
+
 const Header = () => {
   const router = useRouter();
   const [openNameMenu, setOpenNameMenu] = useState(false);
