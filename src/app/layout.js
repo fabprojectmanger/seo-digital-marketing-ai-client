@@ -3,6 +3,7 @@ import "./globals.css";
 import SessionWrapper from "../../comp/SessionWrapper";
 import ThemeProvider from '../contexts/theme/ThemeProvider';
 import Header from "../layouts/header/Header";
+import Footer from "../layouts/footer/Footer";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         </ThemeProvider>
+        <Footer/>
         </body>
     </html>
     </GoogleOAuthProvider>
