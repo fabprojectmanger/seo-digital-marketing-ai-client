@@ -4,7 +4,7 @@ import Container from "../../components/container/container";
 import Wrapper from "../../components/wrapper/wrapper";
 import Link from "next/link";
 import Image from "next/image";
-import SiteLogo from "../../assets/images/logo.png";
+import SiteLogo from "../../assets/images/SeogenieAi.jpg";
 
 const Footer = () => {
   return (
