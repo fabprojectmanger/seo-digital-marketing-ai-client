@@ -75,7 +75,7 @@ const Search = ({ value, refresh }) => {
   return (
     <Wrapper className="">
       <form
-        className="relative w-full mt-[14px] max-md-mobile:fixed max-md-mobile:bottom-0 max-md-mobile:left-0 max-md-mobile:bg-opacity-90 max-md-mobile:bg-lightblue-100 max-md-mobile:p-4 max-md-mobile:border-t max-md-mobile:border-dark-100 max-md-mobile:shadow-2xl"
+        className="relative w-full mt-[14px] "
         onSubmit={submitForm}
       >
         <Input
@@ -89,22 +89,22 @@ const Search = ({ value, refresh }) => {
           value={searchValue || ""}
           setInputData={getSearchValue}
           required={true}
-          className="max-md-mobile:p-6 p-8 pr-[60px] focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
+          className="max-md-mobile:p-6 p-8 pr-[60px] focus:border-dark-100  border-2 border-black placeholder:text-black w-full bg-transparent border-opacity-30  rounded-[10px] max-mb:text-[12px] text-base font-normal text-black leading-[15.96px] tracking-[0.02em]"
           name="search"
         />
         {refresh ? (
           <Link
             href="/"
-            className="absolute top-[19px] right-[15px] max-md-mobile:top-[30px] max-md-mobile:right-[30px]"
+            className="absolute top-[19px] right-[15px] max-mb-mobile:top-[15px] max-mb-mobile:right-[15px]"
           >
-            <IconReplay />
+            <IconReplay className={"w-[42px] h-[43px] max-mb:w-[25px] max-mb:h-[25px]"}/>
           </Link>
         ) : (
           <button
-            className="absolute top-[19px] right-[15px] max-md-mobile:top-[30px] max-md-mobile:right-[30px]"
+            className="absolute top-[19px] right-[15px] max-mb-mobile:top-[25px] max-mb-mobile:right-[15px]"
             type="submit"
           >
-            <IconSubmit />
+            <IconSubmit className={"w-[42px] h-[43px] max-mb:w-[25px] max-mb:h-[25px]"}/>
           </button>
         )}
       </form>

@@ -28,6 +28,8 @@ const Index = () => {
   const [analyticalPayload, setAnalyticalPayload] = useState("");
   const [reportLoader, setReportLoader] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [desktopReport,setDesktopReport] = useState(false)
+  const [mobileReport,setMobileReport] = useState(false)
   const items = [
     {
       name: "desktop",
@@ -63,26 +65,36 @@ const Index = () => {
       setLoader({
         message: "Analysing your website...",
       });
-      const do_main = domain || localStorage.getItem("domain");
-      const res = await axios
-        .post("https://seogenieai.com/api/pagespeed", {
-          url: do_main.includes("https") ? do_main : "https://" + do_main,
-          type: value.toLowerCase(),
-        })
-        .then(async (response) => {
-          setLoader({
-            message: "Analyzing Data",
-          });
-          setLoader(false);
-          setSpeedReport(response.data?.pageInsights);
-          setAnalyticalPayload(response.data?.report);
-        })
-        .catch(function (error) {
+      if(value == "desktop" && desktopReport){
+        setSpeedReport(desktopReport)
+      } else if(value == "mobile" && mobileReport){
+        setSpeedReport(mobileReport)
+      } else {
+        const do_main = domain || localStorage.getItem("domain");
+        const res = await axios
+          .post("https://seogenieai.com/api/pagespeed", {
+            url: do_main.includes("https") ? do_main : "https://" + do_main,
+            type: value.toLowerCase(),
+          })
+          .then(async (response) => {
+            setLoader({
+              message: "Analyzing Data",
+            });
+            setLoader(false);
+            setSpeedReport(response.data?.pageInsights);
+            setAnalyticalPayload(response.data?.report);
+            if(value == "desktop"){
+              setDesktopReport(response.data?.pageInsights)
+            } else {
+              setMobileReport(response.data?.pageInsights)
+            }
+          }).catch(function (error) {
           setError({
             status: true,
             message: "Something Went Wrong! Try again later.",
           });
         });
+      }
     } catch (error) {
       setError({
         status: true,
@@ -147,6 +159,19 @@ const Index = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (reportShow || showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // Clean up on unmount
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [reportShow,showForm]);
   return (
     <Container>
       {processing && !speedReport && (
@@ -172,12 +197,13 @@ const Index = () => {
             type="button"
             className="bounceBtn pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100 transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-white"
             onClick={viewReport}
+            disabled={reportLoader}
           >
             View AI Report
           </button>
         </Wrapper>
       )}
-      {speedReport && (
+      {speedReport && !reportLoader && (
         <Wrapper
           className={`flex justify-center items-center mb-6 transition-all duration-300 ${
             isSticky ? "fixed top-0 left-0 w-full bg-white shadow-md z-50" : ""
@@ -223,14 +249,16 @@ const Index = () => {
       )}
       {speedReport && (
         <div
-          className={`mb-8 overflow-auto ${
+          className={`mb-8 overflow-hidden ${
             showForm || reportShow || reportLoader ? "opacity-25" : ""
           }`}
         >
           <Report data={speedReport} />
         </div>
       )}
+      { speedReport &&
       <HireExpret />
+      }
       {reportShow && (
         <div className="absolute top-[15%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex ">
           <PageSpeedModal
