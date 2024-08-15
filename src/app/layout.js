@@ -1,10 +1,12 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "../../comp/SessionWrapper";
-import ThemeProvider from '../contexts/theme/ThemeProvider';
+import ThemeProvider from "../contexts/theme/ThemeProvider";
 import Header from "../layouts/header/Header";
 import Footer from "../layouts/footer/Footer";
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -15,15 +17,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <GoogleOAuthProvider clientId="11585775649-r2ml8fmuq9vsmd679gdkr2kmsnu5e4ms.apps.googleusercontent.com">
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider>
-        <Header />
-        {children}
-        </ThemeProvider>
-        <Footer/>
+      <html lang="en">
+      <GoogleTagManager gtmId="GTM-8CX2TVP0DJ" />
+        <body className={inter.className}>
+          <ThemeProvider>
+            <Header />
+            {children}
+          </ThemeProvider>
+          <Footer />
         </body>
-    </html>
+      </html>
     </GoogleOAuthProvider>
   );
 }
