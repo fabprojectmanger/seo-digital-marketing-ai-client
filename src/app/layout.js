@@ -5,7 +5,6 @@ import ThemeProvider from "../contexts/theme/ThemeProvider";
 import Header from "../layouts/header/Header";
 import Footer from "../layouts/footer/Footer";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +18,10 @@ export default function RootLayout({ children }) {
     <GoogleOAuthProvider clientId="11585775649-r2ml8fmuq9vsmd679gdkr2kmsnu5e4ms.apps.googleusercontent.com">
       <html lang="en">
         <head>
+        <meta name="google-site-verification" content="feUn5y4_AahF2iqvm1KUeqnJCbVUzQhuJiszt_1_xw4" />
           <script
             async
-            src="
-https://www.googletagmanager.com/gtag/js?id=G-8CX2TVP0DJ"
-          ></script>
+            src="https://www.googletagmanager.com/gtag/js?id=G-8CX2TVP0DJ"></script>
         </head>
         <body className={inter.className}>
           <ThemeProvider>
