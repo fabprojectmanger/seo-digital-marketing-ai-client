@@ -18,7 +18,13 @@ export default function RootLayout({ children }) {
   return (
     <GoogleOAuthProvider clientId="11585775649-r2ml8fmuq9vsmd679gdkr2kmsnu5e4ms.apps.googleusercontent.com">
       <html lang="en">
-      <GoogleTagManager gtmId="GTM-8CX2TVP0DJ" />
+        <head>
+          <script
+            async
+            src="
+https://www.googletagmanager.com/gtag/js?id=G-8CX2TVP0DJ"
+          ></script>
+        </head>
         <body className={inter.className}>
           <ThemeProvider>
             <Header />
