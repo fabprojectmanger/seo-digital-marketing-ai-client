@@ -69,7 +69,7 @@ const Footer = () => {
             </footer>
             </Wrapper>
             <Wrapper className="flex p-2 items-center justify-center rounded-b-xl bg-[#00668c]">
-              <span className="text-white text-center">Designed and Developed by <Link className="underline" href="https://devopmind.com" target="blank">Developer OP Mind</Link></span>
+              <span className="text-white text-center">Designed and Developed by <Link className="underline" href="https://devopmind.com" target="blank">DEVOPMIND</Link></span>
             </Wrapper>
           </Wrapper>
         </Container>
