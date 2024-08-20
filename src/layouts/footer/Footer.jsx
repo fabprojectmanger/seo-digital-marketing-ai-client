@@ -13,7 +13,7 @@ const Footer = () => {
         <Container className={""}>
           <Wrapper className=" bg-white rounded-xl">
             <Wrapper className=" p-4 flex items-center justify-between">
-            <footer class="flex flex-row flex-wrap items-center justify-center w-full text-center border-t gap-y-6 gap-x-12 border-blue-gray-50 md:justify-between">
+            <footer className="flex flex-row flex-wrap items-center justify-center w-full text-center border-t gap-y-6 gap-x-12 border-blue-gray-50 md:justify-between">
             <Wrapper className="min-w-[171px] max-lg:flex-1 max-md-tab:flex max-md-tab:justify-center">
             <Link href="/">
               <Image
@@ -24,11 +24,11 @@ const Footer = () => {
               />
             </Link>
           </Wrapper>
-              <ul class="flex flex-wrap items-center justify-center gap-y-2 gap-x-8">
+              <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-8">
                 <li>
                   <Link 
                     href="/about-us"
-                    class="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
+                    className="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
                   >
                     About us
                   </Link>
@@ -36,7 +36,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="contact-us"
-                    class="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
+                    className="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
                   >
                     Contact us
                   </Link>
@@ -44,7 +44,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/privacy-policy"
-                    class="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
+                    className="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
                   >
                     Privacy Policy
                   </Link>
@@ -52,7 +52,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/terms-of-conditions"
-                    class="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
+                    className="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
                   >
                     Terms & Conditions
                   </a>
@@ -60,7 +60,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/terms-of-services"
-                    class="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
+                    className="block font-sans text-[12px] md:text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500"
                   >
                     Terms of Services
                   </a>
