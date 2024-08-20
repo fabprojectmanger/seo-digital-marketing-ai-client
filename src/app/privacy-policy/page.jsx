@@ -17,7 +17,7 @@ const Page = () => {
               <p>
                 This Privacy Policy describes how your personal information is
                 collected, used, and shared when you use our application
-                ("SEOGENIEAI").
+                (&quot;SEOGENIEAI&quot;).
               </p>
 
               <h2 className="text-2xl font-bold mb-4">
@@ -27,7 +27,7 @@ const Page = () => {
                 We collect information you provide directly to us when you use
                 the App, including your name and email address. We also collect
                 information about your use of the App, including your
-                interactions with the App's features and content
+                interactions with the App&apos;s features and content
               </p>
               <p className="mb-4">
                 In addition, we access the following Google user data from
@@ -85,7 +85,7 @@ const Page = () => {
                 <li>Opting out of certain data collection practices.</li>
                 <li>Deleting your account.</li>
               </ul>
-              <h2 className="text-2xl font-bold mb-4">Children's Privacy</h2>
+              <h2 className="text-2xl font-bold mb-4">Children&quot;s Privacy</h2>
 
               <p className="mb-4">
                 The App is not intended for children under the age of 13. We do
