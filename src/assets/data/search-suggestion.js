@@ -1,24 +1,24 @@
 export const SearchSuggestionList = [
     {
-        title:"Analyse Your Website Traffic with AI 🔍",
+        title:"Analyse Your Website Traffic SEOGENEIAI 🔍",
         key:'domain',
-        content:"Create your website analysis with AI.",
+        content:"Create your website analysis SEOGENEIAI.",
         link:"/"
     },
     {
-        title:"Content Writing with AI 📝",
+        title:"Content Writing SEOGENEIAI 📝",
         key:'content',
         content:"Create content writing with help AI",
         link:"/"
     },
     {
-        title:"Google Keyword Planner with AI",
+        title:"Keyword Research with SEOGENEIAI",
         key:'keyword',
-        content:"Plan your keyword for digital Ads with AI",
+        content:"Plan your keyword for digital Ads SEOGENEIAI",
         link:"/keyword-planner"
     },
     {
-        title:"Website Speed Insight with AI",
+        title:"Test Your Website Speed with SEOGENEIAI",
         key:'insight',
         content:"Check your site's speed insight and improve it.",
         link:"/"

@@ -164,7 +164,7 @@ const Header = () => {
                 onClick={() => login()}
                 className=" pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
               >
-                Sign up / Log in with Google
+                Sign up / Log in
               </button>
             )}
           </Wrapper>
