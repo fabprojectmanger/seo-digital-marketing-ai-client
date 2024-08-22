@@ -2,14 +2,14 @@ export const ServicesData = [
     {
         id:1,
         icon:"/assets/images/websiteAnalysis.png",
-        title:"Analyse Your Website Traffic SEOGENEIAIt",
+        title:"Analyse Your Website Traffic SEOGENEIAI",
         description:"Unlock powerful insights with SEOGenie’s AI-driven Website Analysis, designed to enhance your SEO strategy and boost your online performance.",
         slug:"analyse-website-traffic",
     },
     {
         id:2,
         icon:"/assets/images/contentWriting.png",
-        title:"Content Writing SEOGENEIAIt ",
+        title:"Content Writing SEOGENEIAI ",
         description:"SEOGenie's AI-powered Content Writing delivers high-quality, SEO-optimized content tailored to boost your online presence and drive engagement.",
         slug:"content-writing",
 
@@ -25,7 +25,7 @@ export const ServicesData = [
     {
         id:4,
         icon:"/assets/images/pageSpeed.png",
-        title:"Test your website speed with SEOGENEIAIt",
+        title:"Test your website speed with SEOGENEIAI",
         description:"Optimize your site’s performance with SEOGenie’s Website Speed Insight – fast, reliable, and efficient solutions for a seamless user experience.",
         slug:"website-speed-insight",
         data:{
