@@ -5,7 +5,7 @@ import NavHoz from "../../components/nav-horizontal/NavHoz";
 import Wrapper from "../../components/wrapper/wrapper";
 import Image from "next/image";
 import Link from "next/link";
-import SiteLogo from "../../assets/images/SeogenieAi.jpg";
+import SiteLogo from "../../assets/images/SEOGenie.png";
 import LinkButton from "../../components/link/LinkButton";
 import { useState } from "react";
 import IconCloseModal from "../../../public/icons/IconCloseModal";

@@ -4,8 +4,7 @@ import Container from "../../components/container/container";
 import Wrapper from "../../components/wrapper/wrapper";
 import Link from "next/link";
 import Image from "next/image";
-import SiteLogo from "../../assets/images/SeogenieAi.jpg";
-
+import SiteLogo from "../../assets/images/SEOGenie.png";
 const Footer = () => {
   return (
     <footer className="py-6 max-md-tab:py-8">
