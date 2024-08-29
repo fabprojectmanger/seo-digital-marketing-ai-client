@@ -16,6 +16,10 @@ export const headerNav = [
         link:"/blogs"
     },
     {
+        label:"Privacy Policy",
+        link:"/privacy-policy"
+    },
+    {
         label:"Contact us",
         link:"/contact-us"
     }
