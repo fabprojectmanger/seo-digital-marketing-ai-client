@@ -14,100 +14,85 @@ const Page = () => {
                 Privacy Policy
               </h1>
               <br />
+              <h2 className="text-2xl font-bold mb-4">Introduction</h2>
               <p>
-                This Privacy Policy describes how your personal information is
-                collected, used, and shared when you use our application
-                (&quot;SEOGENIEAI&quot;).
+                Welcome to{" "}
+                <span className="text-dark-100 font-bold">SEOGENIEAI</span>. We
+                are committed to protecting your privacy and ensuring the
+                security of your personal information. This Privacy Policy
+                outlines how our app collects, uses, and safeguards Google user
+                data, specifically Google Analytics data, to provide you with
+                analytics reports and graphical representations.
               </p>
 
-              <h2 className="text-2xl font-bold mb-4">
-                Use of Google User Data
-              </h2>
+              <h2 className="text-2xl font-bold mb-4">Data Collection</h2>
               <p className="mb-4">
-                SEOGENIEAI uses Google user data solely for the purpose of
-                providing and improving the application&apos;s functionality. This
-                data is used to enhance the user experience by allowing access
-                to relevant features and ensuring a seamless interaction within
-                the application.
+                Our app accesses and collects the following Google user data:
               </p>
-              {/* <p className="mb-4">
-                In addition, we access the following Google user data from
-                Google Analytics:
+              <p className="mb-4">
+                <span className="text-dark-100 text-xl font-bold">
+                  {" "}
+                  Google Analytics Data:
+                </span>{" "}
+                This includes data related to website traffic, user behavior,
+                and other metrics provided by Google Analytics
               </p>
 
-              <ul className="list-disc list-inside mb-4">
-                <li>
-                  <span className="font-semibold">User data:</span> This may
-                  include information about your demographics, interests, and
-                  online behavior.
-                </li>
-                <li>
-                  <span className="font-semibold">Website analytics data:</span>{" "}
-                  This includes information about your website traffic, such as
-                  the number of visitors, page views, and bounce rate.
-                </li>
-              </ul> */}
+              <h2 className="text-2xl font-bold mb-4">Data Usage</h2>
+              <p className="mb-4">
+                The Google Analytics data accessed by our app is used solely for
+                the purpose of generating detailed analytics reports and
+                graphical representations. This helps you understand user
+                behavior, track performance metrics, and make informed decisions
+                to optimize your website or application.
+              </p>
 
-              {/* <p className="mb-4">We use this data to:</p>
+              <h2 className="text-2xl font-bold mb-4">Data Retention</h2>
+              <p className="mb-4">
+                <span className="text-dark-100 text-xl font-bold">
+                  {" "}
+                  Retention Period:
+                </span>{" "}
+                The Google Analytics data accessed and processed by our app is
+                retained only as long as necessary to provide you with the
+                requested analytics reports and services. Once the data has been
+                processed and the reports generated, it is deleted from our
+                systems, we&apos;re not saving it in any kind of database.
+              </p>
+              <p className="mb-4">
+                <span className="text-dark-100 text-xl font-bold">
+                  {" "}
+                  Deletion Requests:
+                </span>{" "}
+                After the data is accessed and processed all data is deleted
+                automatically. You may request the deletion of your Google
+                Analytics data at any time. Upon receiving such a request, we
+                will promptly delete the data from our systems, ensuring that it
+                is no longer accessible or used by our app.
+              </p>
 
-              <ul className="list-disc list-inside mb-4">
-                <li>
-                  Improve the App and provide you with a more personalized
-                  experience.
-                </li>
-                <li>
-                  Generate graphical representations of your website analytics
-                  data, which we display within the App.
-                </li>
-              </ul> */}
+              <h2 className="text-2xl font-bold mb-4">Data Security</h2>
+              <p className="mb-4">
+                We take data security very seriously. All Google user data
+                accessed by our app is stored securely and is protected against
+                unauthorized access, alteration, or disclosure. We implement
+                industry-standard security measures to ensure the
+                confidentiality and integrity of your data.
+              </p>
 
               <h2 className="text-2xl font-bold mb-4">
+              Sharing of Data
+              </h2>
+              {/* <h2 className="text-2xl font-bold mb-4">
                 Sharing, Transferring, or Disclosing Google User Data
               </h2>
               <p className="mb-4">
                 We do not share, transfer, or disclose Google user data to third
                 parties except as necessary to provide or improve the
                 functionality of the application. In instances where data is
-                shared, it is done in accordance with Google&apos;s policies and with
-                your consent.
-              </p>
-              {/* <h2 className="text-xl font-semibold mb-4">
-                We use the information we collect to:
-              </h2>
-
-              <ul className="list-disc list-inside mb-4">
-                <li>Provide, maintain, and improve the App.</li>
-                <li>Personalize your experience.</li>
-                <li>Communicate with you. </li>
-                <li>Analyze usage trends.</li>
-                <li>
-                  Generate graphical representations of your website data.
-                </li>
-              </ul> */}
-
-              <h2 className="text-2xl font-bold mb-4">
-                {" "}
-                Data Protection Mechanisms for Sensitive Data
-              </h2>
-              {/* <h2 className="text-xl font-semibold mb-4">
-                You can control how your information is used and shared by:
-              </h2>
-              <ul className="list-disc list-inside mb-4">
-                <li>Opting out of certain data collection practices.</li>
-                <li>Deleting your account.</li>
-              </ul>
-              <h2 className="text-2xl font-bold mb-4">
-                Children&quot;s Privacy
-              </h2> */}
-
-              <p className="mb-4">
-                We take the protection of your data seriously. Sensitive Google
-                user data is protected using industry-standard encryption
-                protocols both in transit and at rest. Access to this data is
-                restricted to authorized personnel only, and we regularly review
-                our security practices to ensure the safety and integrity of
-                your information.
-              </p>
+                shared, it is done in accordance with Google&apos;s policies and
+                with your consent.
+              </p> */}
 
               <h2 className="text-2xl font-bold mb-4">
                 Sale of Google User Data
@@ -116,15 +101,15 @@ const Page = () => {
               <p className="mb-4">
                 We do not sell Google user data to third parties. Any data
                 collected is used solely for the purpose of providing and
-                enhancing the services of SEOGENIEAI. We&apos;re not storing any
-                data to SEOGENIEAI database.
+                enhancing the services of <span className="text-dark-100 font-bold"> SEOGENIEAI</span>. We&apos;re not storing any
+                data to <span className="text-dark-100 font-bold"> SEOGENIEAI</span> database.
               </p>
               <h2 className="text-2xl font-bold mb-4">
                 Use of Google User Data for Other Purposes
               </h2>
 
               <p className="mb-4">
-                Google user data collected by SEOGENIEAI is used exclusively for
+                Google user data collected by <span className="text-dark-100 font-bold"> SEOGENIEAI</span> is used exclusively for
                 providing or improving the application&apos;s functionality. We
                 do not use this data for any other purpose without your explicit
                 consent.
@@ -154,7 +139,7 @@ const Page = () => {
               <p className="mb-4">
                 We may update our privacy policy from time to time. Any changes
                 will be communicated to you, and your continued use of
-                SEOGENIEAI will be subject to the updated policy.
+                <span className="text-dark-100 font-bold"> SEOGENIEAI</span> will be subject to the updated policy.
               </p>
 
               <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
