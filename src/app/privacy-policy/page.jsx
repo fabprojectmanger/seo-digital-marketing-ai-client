@@ -119,18 +119,13 @@ const Page = () => {
               </h2>
 
               <p className="mb-4">
-                We may transfer Google user data to third parties only when
-                necessary for providing or improving the application&apos;s
-                functionality. These transfers are conducted in accordance with
-                Google&apos;s guidelines and with your prior consent.
+              We do not transfer the data to any third parties.
               </p>
               <h2 className="text-2xl font-bold mb-4">Scopes Discrepancy</h2>
 
               <p className="mb-4">
                 We ensure that the scopes requested in our Cloud Console match
-                the API calls made by the application. Any discrepancy between
-                the scopes is promptly addressed to align with the intended use
-                of the Google APIs.
+                the API calls made by the application.
               </p>
               <h2 className="text-2xl font-bold mb-4">
                 Changes to This Privacy Policy
