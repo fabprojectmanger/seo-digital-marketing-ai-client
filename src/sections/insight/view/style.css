@@ -26,8 +26,8 @@
 .htmlIncluded  ul li + li{
     margin-top: 16px;
 }
-.htmlIncluded  h1 {font-size: 32px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
-.htmlIncluded  h2 {font-size: 20px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
+.htmlIncluded  div {font-size: 32px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
+.htmlIncluded  p {font-size: 20px;margin: 1.3em 0 0.5em;font-weight: 600;letter-spacing: 0;color: #00668c;}
 
 .htmlIncluded h1:first-of-type {margin-top: 0;}
 

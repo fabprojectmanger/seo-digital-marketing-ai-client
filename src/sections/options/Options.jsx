@@ -18,6 +18,7 @@ import Text from "../../components/text/text";
 import ErrorNotification from "../../components/notification/error/ErrorNotification";
 import Link from "next/link";
 import BackToHome from '../../components/back-to-home/BackToHome';
+import DateModal from '../../components/modal/dateModal';
 const Options = () => {
   const router = useRouter();
   const {
@@ -126,12 +127,14 @@ const Options = () => {
                 active:true,
                 message:"Timeout exceeded"
               });
+              router.push('/')
             }
             else{
               setGoogleError({
                 active:true,
                 message:"Your Google ID is not intergrated with Analytics ID."
               });
+              router.push('/')
             }
             
           });
@@ -144,6 +147,7 @@ const Options = () => {
                 message:
                   "The domain is not associated with this email address.",
               });
+              router.push('/')
             } else {
               router.push("/domain-analysis");
             }
@@ -160,6 +164,7 @@ const Options = () => {
                 active: true,
                 message: "Somthing went wrong! Try again later.",
               });
+              router.push('/')
             }
           }
 
@@ -252,21 +257,24 @@ const Options = () => {
             </div>
           ))}
           {compareRange && (
-            <DateRangePicker
-              ranges={[dateSelectionRange]}
-              onChange={handleDateRangeChange}
-              minDate={twoMonthsAgo}
-              maxDate={new Date()}
-            />
+            // <DateRangePicker
+            //   ranges={[dateSelectionRange]}
+            //   onChange={handleDateRangeChange}
+            //   minDate={twoMonthsAgo}
+            //   maxDate={new Date()}
+            //   months={twoMonthsAgo}
+            //   showMonthAndYearPickers={false}
+            // />
+            <DateModal open={compareRange} close={setCompareRange} ranges={dateSelectionRange} onChange={handleDateRangeChange} minDate={twoMonthsAgo} option={getOption}/>
           )}
-          {compareRange && (
+          {/* {compareRange && (
             <button
               onClick={() => getOption(3)}
               className="w-[42px] h-[42px] rounded-[10px] bg-dark-100 flex justify-center items-center"
             >
               <IconsArrowForward />
             </button>
-          )}
+          )} */}
         </Wrapper>
       )}
       {googleError.active && (
