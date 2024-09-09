@@ -16,7 +16,7 @@ import HireExpret from "../../../components/hire-an-expert/HireExpret";
 const Index = () => {
   const router = useRouter();
   const { googleResponse, dataOption, showForm, setError } = useTheme();
-  const [selectedDates,setSelectedDates] = useState(JSON.parse(localStorage.getItem("selected_option"))||'')
+  const [selectedDates,setSelectedDates] = useState('')
   const [newUserGroupingValues, setNewUserGroupingValues] = useState({
     direct: 0,
     search: 0,
@@ -38,6 +38,14 @@ const Index = () => {
     newUsers: 0,
     totalRevenue: "$0.00",
   });
+  useEffect(()=>{
+    if (typeof window !== 'undefined') {
+      const storedDates = localStorage.getItem("selected_option");
+      if (storedDates) {
+        setSelectedDates(JSON.parse(storedDates));
+      }
+    }
+  },[])
   useEffect(() => {
     if (showForm) {
       document.body.style.overflow = "hidden";
