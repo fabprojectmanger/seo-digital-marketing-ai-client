@@ -1,9 +1,12 @@
 import React from "react";
-
+const removeIframesAndFramesKeepContent = (html) => {
+  return html.replace(/<\/?(iframe|frame)[^>]*>/gi, '');
+};
 export default function PageSpeedInsightsModal({ props }) {
+  const cleanedContent = removeIframesAndFramesKeepContent(props.report);
 
   return (
-    <div  className="w-full md:max-w-[800px] mx-auto bg-white overflow-auto max-h-[80vh] p-6 relative">
+    <div  className="border-2 border-slate-400 w-full md:max-w-[800px] mx-auto bg-white overflow-auto max-h-[80vh] p-6 relative">
         <div className='cursor-pointer absolute top-[10px] right-[10px]' onClick={()=>props.close(false)}>
         <img
         src='/assets/images/crossIcon.png'
@@ -14,7 +17,7 @@ export default function PageSpeedInsightsModal({ props }) {
         <div
           className="htmlIncluded mt-6"  
           dangerouslySetInnerHTML={{
-            __html: props.report,
+            __html: cleanedContent,
           }}
         ></div>
     </div>

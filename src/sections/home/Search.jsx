@@ -8,10 +8,17 @@ import ErrorNotification from "../../components/notification/error/ErrorNotifica
 import { useTheme } from "../../contexts/theme/ThemeProvider";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
 const Search = ({ value, refresh }) => {
   const path = usePathname();
   const [searchValue, setSearchValue] = useState(value || "");
   const {
+    setGoogleEmail,
+    setUserLoggedIn,
+    googleEmail,
+    setUserName,
     setError,
     error,
     setDomain,
@@ -59,7 +66,11 @@ const Search = ({ value, refresh }) => {
         setPromptMessage(searchValue);
         setSearchEnabled(0);
         if (selectedPrimaryOption === "domain") {
-          route.push("/options");
+          if(googleEmail){
+            route.push("/options");
+          }else {
+            login()
+          }
         }
         if (selectedPrimaryOption === "insight") {
           route.push("/insight");
@@ -72,6 +83,46 @@ const Search = ({ value, refresh }) => {
       route.push("/response");
     }
   };
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const token = tokenResponse.access_token;
+
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+      );
+
+      const result = userInfo.data;
+      setUserName(userInfo.data?.name);
+      const submitData = {
+        email: result.email,
+        googleToken: tokenResponse,
+      };
+      try {
+        const res = await axios.post("/apis/auth", {
+          ...submitData,
+        });
+
+        if (res.status === 200) {
+          setGoogleEmail(result.email);
+          setUserLoggedIn(true);
+          route.push("/options");
+        }
+      } catch (error) {
+        setError({
+          active: true,
+          message: "Oops! Something is wrong. Try again later.",
+        });
+      }
+    },
+    scope: [
+      "https://www.googleapis.com/auth/analytics.readonly",
+      "https://www.googleapis.com/auth/analytics",
+      "https://www.googleapis.com/auth/webmasters",
+      "https://www.googleapis.com/auth/webmasters.readonly",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ].join(" "),
+  });
   return (
     <Wrapper className="">
       <form

@@ -106,36 +106,44 @@ const Index = () => {
     try {
       setReportLoader(true);
       const url = `https://seogenieai.com/api/chat`;
-      const streamResponse = await axios
-        .post(url, {
+      const streamResponse = await fetch(url, {
+        method: "post",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           pageSpeedInsights: true,
           userPrompt: analyticalPayload,
-        })
-        .then(async (response) => {
-          setReportLoader(false);
-          if (response.data.includes("body")) {
-            let data = response.data.split("<body>");
-            setReportShow(data[1]);
-          } else if (
-            !response.data.includes("<html>") &&
-            !response.data.includes("<body>") &&
-            !response.data.includes("```html")
-          ) {
-            let data = TextToHTMLTag(response.data);
-            setReportShow(data);
-            setReportLoader(false);
-          } else {
-            setReportShow(response.data);
-            setReportLoader(false);
-          }
-        })
-        .catch((error) => {
-          setError({
-            status: true,
-            message: "Something Went Wrong! Try again later.",
-          });
-        });
-    } catch (error) {}
+        }),
+      });
+      if (!streamResponse.ok || !streamResponse.body) {
+        throw streamResponse.statusText;
+      }
+      const reader = streamResponse.body.getReader();
+      const decoder = new TextDecoder();
+      const loopRunner = true;
+      let answer = "";
+      while (loopRunner) {
+        setReportLoader(false);
+        const { value, done } = await reader.read();
+        if (done) {
+          return { isStreamed: true, answer };
+        }
+        const decodedChunk = decoder.decode(value, { stream: true });
+        answer = answer + decodedChunk;
+        if (answer) {
+          // setTryLoader(false);
+          setReportShow(answer);
+          // setProcessing(false);
+          // setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      setReportLoader(false);
+      return { isStreamed: false };
+    }
   };
 
   useEffect(() => {

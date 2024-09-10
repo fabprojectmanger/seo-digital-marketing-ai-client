@@ -54,6 +54,16 @@ const Index = () => {
       userPrompt: values,
     }));
   }, [keywordCode]);
+  useEffect(() => {
+    if (showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showForm]);
   const getKeywordLengthError = (e) => {
     const checkLength = formData.userPrompt;
     const length = checkLength.length + e.target.value.length;

@@ -30,7 +30,16 @@ const StreamResponse = ({ paragraph, className }) => {
       return () => clearInterval(timer);
     }
   }, [paragraph]);
-
+  useEffect(() => {
+    if (showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showForm]);
   return <>
   <HireExpret />
   <div ref={htmlRef} className={`bg-white p-8 rounded-2xl max-h-[70vh] overflow-auto ${showForm ?"opacity-25":""}`}>

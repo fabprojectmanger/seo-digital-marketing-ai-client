@@ -17,7 +17,8 @@ import IconsArrowForward from "../../../public/icons/IconsArrowForward";
 import Text from "../../components/text/text";
 import ErrorNotification from "../../components/notification/error/ErrorNotification";
 import Link from "next/link";
-import BackToHome from '../../components/back-to-home/BackToHome';
+import BackToHome from "../../components/back-to-home/BackToHome";
+import DateModal from "../../components/modal/dateModal";
 const Options = () => {
   const router = useRouter();
   const {
@@ -29,7 +30,7 @@ const Options = () => {
     setError,
     setGoogleResponse,
     setUserName,
-    setDataOption
+    setDataOption,
   } = useTheme();
   const [optionSelected, setOptionSelected] = useState("");
   const [loader, setLoader] = useState(false);
@@ -121,21 +122,22 @@ const Options = () => {
           .catch(function (error) {
             setLoader(false);
             console.log(error);
-            if(error?.message === "timeout exceeded"){
+            if (error?.message === "timeout exceeded") {
               setGoogleError({
-                active:true,
-                message:"Timeout exceeded"
+                active: true,
+                message: "Timeout exceeded",
               });
-            }
-            else{
+              router.push("/");
+            } else {
               setGoogleError({
-                active:true,
-                message:"Your Google ID is not intergrated with Analytics ID."
+                active: true,
+                message: "Your Google ID is not intergrated with Analytics ID.",
               });
+              router.push("/");
             }
-            
           });
         if (res) {
+          setCompareRange(false)
           setGoogleResponse(res.data.report);
           if (res?.data?.success) {
             if (res?.data?.report?.noMatchFoundForDomain) {
@@ -144,6 +146,7 @@ const Options = () => {
                 message:
                   "The domain is not associated with this email address.",
               });
+              router.push("/");
             } else {
               router.push("/domain-analysis");
             }
@@ -160,6 +163,7 @@ const Options = () => {
                 active: true,
                 message: "Somthing went wrong! Try again later.",
               });
+              router.push("/");
             }
           }
 
@@ -226,11 +230,15 @@ const Options = () => {
     <Container>
       {!loader && !googleError?.active && (
         <Wrapper className="space-y-4 max-w-[340px]">
-    <Wrapper className={`${
-      showItem
-        ? " translate-x-0 opacity-100"
-        : " translate-x-full opacity-0 "
-    } duration-300`}><BackToHome /></Wrapper> 
+          <Wrapper
+            className={`${
+              showItem
+                ? " translate-x-0 opacity-100"
+                : " translate-x-full opacity-0 "
+            } duration-300`}
+          >
+            <BackToHome />
+          </Wrapper>
           {DOMAIN_OPTIONS.map((item, i) => (
             <div
               style={{ transitionDelay: i + "00ms" }}
@@ -252,20 +260,14 @@ const Options = () => {
             </div>
           ))}
           {compareRange && (
-            <DateRangePicker
-              ranges={[dateSelectionRange]}
+            <DateModal
+              open={compareRange}
+              close={setCompareRange}
+              ranges={dateSelectionRange}
               onChange={handleDateRangeChange}
               minDate={twoMonthsAgo}
-              maxDate={new Date()}
+              option={getOption}
             />
-          )}
-          {compareRange && (
-            <button
-              onClick={() => getOption(3)}
-              className="w-[42px] h-[42px] rounded-[10px] bg-dark-100 flex justify-center items-center"
-            >
-              <IconsArrowForward />
-            </button>
           )}
         </Wrapper>
       )}
@@ -288,7 +290,7 @@ const Options = () => {
             <Text
               className={`text-center !text-2xl max-w-[340px] mx-auto transition-all duration-300 delay-300`}
             >
-             {googleError.message} 
+              {googleError.message}
             </Text>
             <Link
               href="/"
