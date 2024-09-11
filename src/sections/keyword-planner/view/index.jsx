@@ -198,7 +198,7 @@ const Index = () => {
       setProcessing(true);
       setDomain(formData?.domain);
       try {
-        const url = `https://seogenieai.com/api/chat`;
+        const url = `https://seogenieai.com/chat`;
         const streamResponse = await fetch(url, {
           method: "post",
           headers: {
@@ -254,7 +254,7 @@ const Index = () => {
       setLoading(true);
       setTryLoader(true);
       try {
-        const url = `https://seogenieai.com/api/chat`;
+        const url = `https://seogenieai.com/chat`;
         const streamResponse = await fetch(url, {
           method: "post",
           headers: {
