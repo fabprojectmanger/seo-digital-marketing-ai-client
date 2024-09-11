@@ -1,6 +1,6 @@
-const initiateChat = async (userPrompt, additionalPayload = {}) => {
+const initiateChat = async (userPrompt,setAiResponse, additionalPayload = {}) => {
   try {
-    const url = `https://seogenieai.com/chat`;
+    const url = `http://localhost:1112/chat`;
     const streamResponse = await fetch(url, {
       method: "post",
       headers: {
@@ -27,6 +27,9 @@ const initiateChat = async (userPrompt, additionalPayload = {}) => {
       }
       const decodedChunk = decoder.decode(value, { stream: true });
       answer = answer + decodedChunk;
+      if(answer){
+        setAiResponse(answer)
+      }
     }
   } catch (err) {
     console.error(err);
