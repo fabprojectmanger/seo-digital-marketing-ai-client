@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    await mongoose.connect(connectionStr);
+    await mongoose.connect(process.env.NEXT_PUBLIC_DB_URL);
     const data = await req.json();
     const email = data.email;
     const googleTokens = data.googleToken;
@@ -24,7 +24,7 @@ export async function POST(req) {
 }
 
 export async function GET() {
-  await mongoose.connect(connectionStr);
+  await mongoose.connect(process.env.NEXT_PUBLIC_DB_URL);
   const data = await Users.find();
   return NextResponse.json(true);
 }

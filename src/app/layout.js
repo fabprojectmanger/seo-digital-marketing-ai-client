@@ -15,7 +15,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <GoogleOAuthProvider clientId="11585775649-r2ml8fmuq9vsmd679gdkr2kmsnu5e4ms.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID}>
       <html lang="en">
         <head>
         <meta name="google-site-verification" content="feUn5y4_AahF2iqvm1KUeqnJCbVUzQhuJiszt_1_xw4" />
