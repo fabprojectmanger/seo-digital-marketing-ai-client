@@ -1,6 +1,6 @@
 const initiateChat = async (userPrompt,setAiResponse, additionalPayload = {}) => {
   try {
-    const url = `http://localhost:1112/chat`;
+    const url = `https://seogenieai.com/chat`;
     const streamResponse = await fetch(url, {
       method: "post",
       headers: {
