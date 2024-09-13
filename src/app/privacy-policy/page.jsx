@@ -15,9 +15,9 @@ const Page = () => {
               </h1>
               <br />
               <h2 className="text-2xl font-bold mb-4">Introduction</h2>
-              <p>
+              <p className="mb-4">
                 Welcome to{" "}
-                <span className="text-dark-100 font-bold">SEOGENIEAI</span>. We
+                <span className="text-dark-100 font-bold">SeoGenieAI</span>. We
                 are committed to protecting your privacy and ensuring the
                 security of your personal information. This Privacy Policy
                 outlines how our app collects, uses, and safeguards Google user

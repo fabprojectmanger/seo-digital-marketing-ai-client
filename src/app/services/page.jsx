@@ -11,7 +11,7 @@ const page = () => {
     <Wrapper>
       <Wrapper className="mb-10 mt-16 max-sm-tab:mt-0">
         <Container className=" items-center flex justify-center max-md-tab:flex-col-reverse">
-          <Wrapper className="max-w-[50%] max-md-tab:max-w-full">
+          <Wrapper className="max-w-[55%] max-md-tab:max-w-full">
             <H1
               as={"tag"}
               className="text-4xl font-semibold tracking-tight hidden"
@@ -19,7 +19,7 @@ const page = () => {
               SeoGenieAI: Your All-in-One Best SEO Tools for Small Businesses
               and SEO Content Writing Tools
             </H1>
-            <H1 className="!text-5xl font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
+            <H1 className="!text-[2.8rem] font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
               <span className="text-dark-100 font-bold">SeoGenieAI:</span> Your
               Partnering with you on your Digital Journey
             </H1>
