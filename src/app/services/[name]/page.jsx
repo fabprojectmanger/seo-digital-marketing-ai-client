@@ -11,6 +11,7 @@ import H3 from "../../../components/headings/h3";
 import Container from "../../../components/container/container";
 import HireExpret from "../../../components/hire-an-expert/HireExpret";
 import { useTheme } from "../../../contexts/theme/ThemeProvider";
+import Link from "next/link";
 const Page = () => {
   const [item, setItem] = useState(null);
   const data = useParams();
@@ -103,6 +104,22 @@ const Page = () => {
                 </Wrapper>
               ))}
             </Wrapper>
+          </Wrapper>
+          <Wrapper className="mt-[3rem]">
+            {item.button &&
+            <>
+            <Link 
+            href='/contact-us'
+              // onClick={() => login()}
+              className="w-[300px] pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
+            >
+              {item?.button}
+            </Link>
+            </>
+            }
+            <p className="mt-5 text-lg">
+              <span>{item?.btn_desc}</span>
+            </p>
           </Wrapper>
         </Container>
       </Wrapper>

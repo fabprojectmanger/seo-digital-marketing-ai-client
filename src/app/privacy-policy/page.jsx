@@ -101,15 +101,15 @@ const Page = () => {
               <p className="mb-4">
                 We do not sell Google user data to third parties. Any data
                 collected is used solely for the purpose of providing and
-                enhancing the services of <span className="text-dark-100 font-bold"> SEOGENIEAI</span>. We&apos;re not storing any
-                data to <span className="text-dark-100 font-bold"> SEOGENIEAI</span> database.
+                enhancing the services of <span className="text-dark-100 font-bold"> SeoGenieAI</span>. We&apos;re not storing any
+                data to <span className="text-dark-100 font-bold"> SeoGenieAI</span> database.
               </p>
               <h2 className="text-2xl font-bold mb-4">
                 Use of Google User Data for Other Purposes
               </h2>
 
               <p className="mb-4">
-                Google user data collected by <span className="text-dark-100 font-bold"> SEOGENIEAI</span> is used exclusively for
+                Google user data collected by <span className="text-dark-100 font-bold"> SeoGenieAI</span> is used exclusively for
                 providing or improving the application&apos;s functionality. We
                 do not use this data for any other purpose without your explicit
                 consent.
@@ -134,7 +134,7 @@ const Page = () => {
               <p className="mb-4">
                 We may update our privacy policy from time to time. Any changes
                 will be communicated to you, and your continued use of
-                <span className="text-dark-100 font-bold"> SEOGENIEAI</span> will be subject to the updated policy.
+                <span className="text-dark-100 font-bold"> SeoGenieAI</span> will be subject to the updated policy.
               </p>
 
               <h2 className="text-2xl font-bold mb-4">Contact Information</h2>

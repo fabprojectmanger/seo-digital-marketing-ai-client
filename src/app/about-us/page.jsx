@@ -31,22 +31,22 @@ const page = () => {
               as={"tag"}
               className="text-4xl font-semibold tracking-tight hidden"
             >
-              Seogenieai: Your All-in-One Best SEO Tools for Small Businesses
+              SeoGenieAI: Your All-in-One Best SEO Tools for Small Businesses
               and SEO Content Writing Tools
             </H1>
             <H1 className="!text-5xl font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
-              <span className="text-dark-100 font-bold">Seogenieai:</span> Your
+              <span className="text-dark-100 font-bold">SeoGenieAI:</span> Your
               All-in-One Best SEO Tools for Small Businesses and SEO Content
               Writing Tools
             </H1>
             <p className="mt-5 text-lg">
               <strong>Crafted by Devopmind, </strong>
               <span>
-                Seogenieai is a revolutionary tool designed to empower
+                SeoGenieAI is a revolutionary tool designed to empower
                 businesses and content creators with the ultimate website
                 analysis and content writing tool. We understand the
                 ever-evolving digital landscape and the constant struggle to
-                stay ahead of the curve. Seogenieai is your one-stop solution
+                stay ahead of the curve. SeoGenieAI is your one-stop solution
                 for crafting high-quality content that resonates with your
                 audience and ranks organically in search engines.
               </span>
@@ -122,7 +122,7 @@ const page = () => {
                     4. Seamless Integration:
                   </Wrapper>
                   <Text className="text-base leading-tight">
-                    Seogenieai seamlessly integrates with your existing
+                    SeoGenieAI seamlessly integrates with your existing
                     workflow, making content creation a breeze. Our
                     user-friendly interface allows you to effortlessly analyze
                     your website, generate content ideas, and refine your
@@ -142,7 +142,7 @@ const page = () => {
                 The Devopmind Difference:
               </Wrapper>
               <Text className="text-base leading-snug text-center">
-                Developed by the experts behind Devopmind, Seogenieai is built
+                Developed by the experts behind Devopmind, SeoGenieAI is built
                 upon a foundation of innovation and expertise. We are a team of
                 passionate developers and SEO professionals dedicated to
                 providing cutting-edge solutions that empower your online
@@ -151,11 +151,11 @@ const page = () => {
             </Wrapper>
             <Wrapper className='pl-12 max-md-tab:pl-0'>
               <Wrapper className="text-2xl font-semibold mb-2 relative text-center">
-                Join the Seogenieai Revolution:
+                Join the SeoGenieAI Revolution:
               </Wrapper>
               <Text className="text-base leading-snug text-center">
                 Stop struggling with website analysis and content creation! Let
-                Seogenieai be your partner in achieving online dominance. With
+                SeoGenieAI be your partner in achieving online dominance. With
                 our powerful tools and intuitive interface, you can create
                 high-performing content that drives traffic, boosts engagement,
                 and propels your website to the top of search engine results.

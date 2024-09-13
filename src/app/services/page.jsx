@@ -16,11 +16,11 @@ const page = () => {
               as={"tag"}
               className="text-4xl font-semibold tracking-tight hidden"
             >
-              Seogenieai: Your All-in-One Best SEO Tools for Small Businesses
+              SeoGenieAI: Your All-in-One Best SEO Tools for Small Businesses
               and SEO Content Writing Tools
             </H1>
             <H1 className="!text-5xl font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
-              <span className="text-dark-100 font-bold">Seogenieai:</span> Your
+              <span className="text-dark-100 font-bold">SeoGenieAI:</span> Your
               Partnering with you on your Digital Journey
             </H1>
             <p className="mt-5 text-lg">
