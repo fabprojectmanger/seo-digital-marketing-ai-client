@@ -16,7 +16,7 @@ const Page = () => {
               <h2 className="text-2xl font-bold mb-4">Introduction</h2>
               <p className="mb-4">
                 Welcome to{" "}
-                <span className="text-dark-100 font-bold">SEOGENIEAI</span>. By
+                <span className="text-dark-100 font-bold">SeoGenieAI</span>. By
                 using our application, you agree to comply with and be bound by
                 the following terms and conditions. Please read them carefully.
               </p>

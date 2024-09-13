@@ -15,7 +15,7 @@ const Page = () => {
               <br />
               <h1 className="text-2xl font-bold mb-4">Acceptance of Terms</h1>
               <p className="mb-4">
-                By accessing or using SEOGENIEAI (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), you
+                By accessing or using SeoGenieAI (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), you
                 agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do
                 not agree with these Terms, please do not use our app.
               </p>
@@ -23,7 +23,7 @@ const Page = () => {
 
               <h2 className="text-2xl font-bold mb-4"> Description of Service</h2>
               <p className="mb-4">
-                <span className="text-dark-100 font-bold">SEOGENIEAI</span>{" "}
+                <span className="text-dark-100 font-bold">SeoGenieAI</span>{" "}
                 provides services regarding SEO analysis of the websites. To use
                 certain features of our app, you must log in using Google Login.
                 By using Google Login, you agree to allow us to access your
@@ -69,7 +69,7 @@ const Page = () => {
               <p className="mb-4">
                 All content and materials available on our app, including but
                 not limited to text, graphics, logos, and software, are the
-                property of SEOGENIEAI or its licensors and are protected by
+                property of SeoGenieAI or its licensors and are protected by
                 intellectual property laws. You may not use, reproduce, or
                 distribute any content from our app without our express
                 permission.
@@ -98,7 +98,7 @@ const Page = () => {
               </h2>
               <p className="mb-4">
                 To the fullest extent permitted by law,{" "}
-                <span className="text-dark-100 font-bold">SEOGENIEAI</span> shall
+                <span className="text-dark-100 font-bold">SeoGenieAI</span> shall
                 not be liable for any indirect, incidental, special,
                 consequential, or punitive damages arising out of or relating to
                 your use of our app.
