@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import ComingSoon from "../../../sections/coming-soon/coming-soon";
 import { useParams } from "next/navigation";
@@ -16,12 +15,21 @@ const Page = () => {
   const [item, setItem] = useState(null);
   const data = useParams();
   const { showForm } = useTheme();
-  console.log(data, "data from params");
   useEffect(() => {
     const selectedItem = ServicesData.find((item) => item.slug == data.name);
     setItem(selectedItem.data);
   }, [data]);
-
+  useEffect(() => {
+    if (showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    // Clean up on unmount
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showForm]);
   if (item == null) {
     return <ComingSoon />;
   }
@@ -32,7 +40,9 @@ const Page = () => {
           showForm ? "opacity-25" : ""
         }`}
       >
-        <Container>
+        <Container className="items-center justify-center">
+        <div className="bg-white rounded-md flex justify-center">
+        <div className="px-6 py-8 w-[70%]">
           <Wrapper className="max-md-tab:max-w-full">
             <H1 as={"tag"} className="text-4xl font-bold tracking-tight hidden">
               {item?.key1_h1}
@@ -58,8 +68,9 @@ const Page = () => {
               ))}
             </Wrapper>
           </Wrapper>
-        </Container>
-        <Container className="mt-[4.5rem]">
+          <br />
+        {/* </Container>
+        <Container className="mt-[4.5rem]"> */}
           <Wrapper className="max-md-tab:max-w-full">
             <H2 className="!text-4xl !font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
               {item?.key2_h1}
@@ -85,8 +96,9 @@ const Page = () => {
               <span>{item?.key2_desc3}</span>
             </p>
           </Wrapper>
-        </Container>
-        <Container className="mt-[4.5rem]">
+          <br />
+        {/* </Container>
+        <Container className="mt-[4.5rem]"> */}
           <Wrapper className="max-md-tab:max-w-full">
             <H2 className="!text-4xl font-semibold !leading-tight tracking-tight max-xl:text-4xl max-sm-tab:text-2xl">
               {item?.key3_h1}
@@ -121,6 +133,8 @@ const Page = () => {
               <span>{item?.btn_desc}</span>
             </p>
           </Wrapper>
+          </div>
+          </div>
         </Container>
       </Wrapper>
       <HireExpret />
