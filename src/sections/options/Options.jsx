@@ -115,7 +115,7 @@ const Options = () => {
       setTimeout(async () => {
         const option = JSON.parse(localStorage.getItem("selected_option"));
         const res = await axios
-          .post("https://seogenieai.com/api/google/analytics-report", {
+          .post("http://localhost:1112/api/google/analytics-report", {
             option: option,
             email: email ? email : googleEmail,
           })

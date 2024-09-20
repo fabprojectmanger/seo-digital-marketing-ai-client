@@ -31,7 +31,6 @@ const Index = () => {
   });
   const [showItem, setShowItem] = useState(false);
   const { setError, error, setDomain,showForm } = useTheme();
-  console.log(showForm,"#########");
   
   const [countryid, setCountryid] = useState(0);
   const [countryObject, setCountryObject] = useState("");

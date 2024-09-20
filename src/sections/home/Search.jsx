@@ -10,10 +10,12 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import Processing from "../../components/processing/Processing";
 
 const Search = ({ value, refresh }) => {
   const path = usePathname();
   const [searchValue, setSearchValue] = useState(value || "");
+  const [loading, setLoading] = useState(false);
   const {
     setGoogleEmail,
     setUserLoggedIn,
@@ -85,6 +87,7 @@ const Search = ({ value, refresh }) => {
   };
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      setLoading(true);
       const token = tokenResponse.access_token;
 
       const userInfo = await axios.get(
@@ -106,6 +109,7 @@ const Search = ({ value, refresh }) => {
         if (res.status === 200) {
           setGoogleEmail(result.email);
           setUserLoggedIn(true);
+          setLoading(false);
           route.push("/options");
         }
       } catch (error) {
@@ -113,6 +117,7 @@ const Search = ({ value, refresh }) => {
           active: true,
           message: "Oops! Something is wrong. Try again later.",
         });
+        setLoading(false);
       }
     },
     scope: [
@@ -124,6 +129,12 @@ const Search = ({ value, refresh }) => {
     ].join(" "),
   });
   return (
+    <>
+    {loading && (
+        <div className="h-screen absolute top-[50%] -translate-y-[50%] bg-[#000000b2] z-50 left-0 right-0 flex items-center justify-center">
+          <Processing heading={"Loading"} />
+        </div>
+      )}
     <Wrapper className="">
       <form
         className="relative w-full mt-[14px] "
@@ -163,6 +174,7 @@ const Search = ({ value, refresh }) => {
         <ErrorNotification active={error?.active} message={error?.message} />
       )}
     </Wrapper>
+    </>
   );
 };
 
