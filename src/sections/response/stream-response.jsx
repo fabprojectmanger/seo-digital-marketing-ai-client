@@ -18,7 +18,7 @@ const StreamResponse = ({ paragraph, className }) => {
   }, [showForm]);
   return <>
   <HireExpret />
-  <div ref={htmlRef} className={`bg-white p-8 rounded-2xl max-h-[70vh] overflow-auto ${showForm ?"opacity-25":""}`}>
+  <div ref={htmlRef} className={`bg-white p-8 rounded-xl max-h-[70vh] overflow-auto ${showForm ?"opacity-25":""}`}>
   <div className={`${className || ''} text-base text-black font-medium leading-7 htmlIncluded`} dangerouslySetInnerHTML={{ __html: paragraph }} />
   </div>
   </>;

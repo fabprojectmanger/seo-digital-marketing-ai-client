@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SiteLogo from "../../assets/images/SEOGenie.png";
 import LinkButton from "../../components/link/LinkButton";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import IconCloseModal from "../../../public/icons/IconCloseModal";
 import IconHamburger from "../../../public/icons/IconHamburger";
 import IconAccount from "../../../public/icons/IconAccount";
@@ -18,10 +18,13 @@ import ErrorNotification from "../../components/notification/error/ErrorNotifica
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Text from "../../components/text/text";
+import Processing from "../../components/processing/Processing";
 
 const Header = () => {
   const router = useRouter();
   const [openNameMenu, setOpenNameMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dropdownRef = useRef(null);
   const {
     setUserLoggedIn,
     setGoogleEmail,
@@ -33,6 +36,7 @@ const Header = () => {
   } = useTheme();
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      setLoading(true);
       const token = tokenResponse.access_token;
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -53,17 +57,20 @@ const Header = () => {
         if (res.status === 200) {
           setGoogleEmail(result.email);
           setUserLoggedIn(true);
+          setLoading(false);
         } else {
           setError({
             active: true,
             message: "Oops! Something is wrong. Try again later.",
           });
+          setLoading(false);
         }
       } catch (error) {
         setError({
           active: true,
           message: "Oops! Something is wrong. Try again later.",
         });
+        setLoading(false);
       }
     },
     scope: [
@@ -96,116 +103,133 @@ const Header = () => {
   const openDropDown = () => {
     setOpenNameMenu((prev) => !prev);
   };
+  const handleBlur = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.relatedTarget)) {
+      setOpenNameMenu(false);
+    }
+  };
   return (
-    <header className="py-6 max-md-tab:py-8">
-      <Container>
-        <Wrapper className="flex items-center justify-between p-4 bg-white rounded-xl">
-          <Wrapper className="hidden max-md-tab:block flex-1">
-            <button onClick={() => openMenu()}>
-              <IconHamburger className="w-8 h-8 fill-black" />
-            </button>
-          </Wrapper>
-          <Wrapper className="min-w-[171px] max-lg:flex-1 max-md-tab:flex max-md-tab:justify-center">
-            <Link href="/">
-              <Image
-                src={SiteLogo.src}
-                alt="SEOGENIE"
-                width={171}
-                height={36}
-              />
-            </Link>
-          </Wrapper>
-          <Wrapper className="max-3xl:w-full max-md-tab:hidden">
-            <NavHoz items={headerNav} />
-          </Wrapper>
-          <Wrapper className="hidden max-xs-tab:flex justify-end flex-1">
-            <button onClick={() => login()}>
-              <IconAccount className="w-8 h-8 fill-black" />
-            </button>
-          </Wrapper>
-          <Wrapper className="flex gap-[17px] max-lg:flex-1 items-center max-md-tab:flex max-md-tab:justify-end max-xs-tab:hidden">
-            {googleEmail ? (
-              <Wrapper className=" relative">
-                <button
-                  onClick={() => openDropDown()}
-                  className="flex items-center gap-1"
-                >
-                  <Wrapper className="w-7 h-7 min-w-7 min-h-7 flex items-center justify-center rounded-full bg-dark-100 uppercase text-center text-white text-base font-bold">
-                    {userName.slice(0, 1)}
-                  </Wrapper>
-                  <Text className="text-base capitalize font-semibold tracking-normal">
-                    {userName}
-                  </Text>
-                </button>
-                {openNameMenu && (
-                  <div
-                    id="dropdown"
-                    className="z-10 bg-white absolute top-[40px] border border-gray-300 right-0 divide-y divide-gray-100 rounded-lg shadow w-44 "
-                  >
-                    <ul
-                      className="py-2 text-sm text-gray-700 "
-                      aria-labelledby="dropdownDefaultButton"
-                    >
-                      <li>
-                        <Link
-                          onClick={() => logout()}
-                          href="#"
-                          className="block px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                        >
-                          Sign out
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </Wrapper>
-            ) : (
-              <button
-                onClick={() => login()}
-                className=" pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
-              >
-                Sign up / Log in
+    <>
+      {loading && (
+        <div className="h-screen absolute top-[50%] -translate-y-[50%] bg-[#000000b2] z-50 left-0 right-0 flex items-center justify-center">
+          <Processing heading={"Loading"} />
+        </div>
+      )}
+      <header className="py-6 max-md-tab:py-8" ref={dropdownRef}>
+        <Container>
+          <Wrapper className="flex items-center justify-between p-4 bg-white rounded-xl">
+            <Wrapper className="hidden max-md-tab:block flex-1">
+              <button onClick={() => openMenu()}>
+                <IconHamburger className="w-8 h-8 fill-black" />
               </button>
-            )}
-          </Wrapper>
-          {menu?.show && (
-            <Wrapper
-              className={`fixed top-0 z-[99999999]  w-full backdrop-blur-xl h-full left bg-dark-100 bg-opacity-80  transition-all duration-700 ${
-                menu?.animate ? " left-0" : "-left-full"
-              }`}
-            >
-              <Wrapper>
+            </Wrapper>
+            <Wrapper className="min-w-[171px] max-lg:flex-1 max-md-tab:flex max-md-tab:justify-center">
+              <Link href="/">
+                <Image
+                  src={SiteLogo.src}
+                  alt="SEOGENIE"
+                  width={171}
+                  height={36}
+                />
+              </Link>
+            </Wrapper>
+            <Wrapper className="max-3xl:w-full max-md-tab:hidden">
+              <NavHoz items={headerNav} />
+            </Wrapper>
+            <Wrapper className="hidden max-xs-tab:flex justify-end flex-1">
+              <button onClick={() => login()}>
+                <IconAccount className="w-8 h-8 fill-black" />
+              </button>
+            </Wrapper>
+            <Wrapper className="flex gap-[17px] max-lg:flex-1 items-center max-md-tab:flex max-md-tab:justify-end max-xs-tab:hidden">
+              {googleEmail ? (
+                <Wrapper className=" relative">
+                  <button
+                    onClick={() => openDropDown()}
+                    onBlur={handleBlur}
+                    className="flex items-center gap-1"
+                  >
+                    <Wrapper className="w-7 h-7 min-w-7 min-h-7 flex items-center justify-center rounded-full bg-dark-100 uppercase text-center text-white text-base font-bold">
+                      {userName.slice(0, 1)}
+                    </Wrapper>
+                    <Text className="text-base capitalize font-semibold tracking-normal">
+                      {userName}
+                    </Text>
+                  </button>
+                  {openNameMenu && (
+                    <div
+                      id="dropdown"
+                      className="z-10 bg-white absolute top-[40px] border border-gray-300 right-0 divide-y divide-gray-100 rounded-lg shadow w-44 "
+                    >
+                      <ul
+                        className="py-2 text-sm text-gray-700 "
+                        aria-labelledby="dropdownDefaultButton"
+                      >
+                        <li>
+                          <button
+                            onClick={() => logout()}
+                            href="#"
+                            onBlur={handleBlur}
+                            className="w-full block px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                          >
+                            Sign out
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </Wrapper>
+              ) : (
                 <button
-                  className="!absolute top-3 right-3 z-30"
-                  onClick={closeMenu}
+                  onClick={() => login()}
+                  className=" pt-[7px] pb-2 px-[21px] text-center block text-base leading-[21.28px] font-normal rounded-[9px] border border-dark-100  transition-colors duration-300 whitespace-nowrap bg-dark-100 text-white hover:bg-transparent hover:text-dark-100"
                 >
-                  <IconCloseModal className="fill-white w-8 h-8" />
+                  Sign up / Log in
                 </button>
-                <Wrapper className="pt-16 px-6">
-                  <ul className="mb-8 flex flex-col gap-6">
-                    {headerNav.map((item, i) => (
-                      <li key={i}>
-                        <Link
-                          key={i}
-                          href={item.link}
-                          className="text-xl text-lightblue-100  font-semibold"
-                          onClick={closeMenu}
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+              )}
+            </Wrapper>
+            {menu?.show && (
+              <Wrapper
+                className={`fixed top-0 z-[99999999]  w-full backdrop-blur-xl h-full left bg-dark-100 bg-opacity-80  transition-all duration-700 ${
+                  menu?.animate ? " left-0" : "-left-full"
+                }`}
+              >
+                <Wrapper>
+                  <button
+                    className="!absolute top-3 right-3 z-30"
+                    onClick={closeMenu}
+                  >
+                    <IconCloseModal className="fill-white w-8 h-8" />
+                  </button>
+                  <Wrapper className="pt-16 px-6">
+                    <ul className="mb-8 flex flex-col gap-6">
+                      {headerNav.map((item, i) => (
+                        <li key={i}>
+                          <Link
+                            key={i}
+                            href={item.link}
+                            className="text-xl text-lightblue-100  font-semibold"
+                            onClick={closeMenu}
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </Wrapper>
                 </Wrapper>
               </Wrapper>
-            </Wrapper>
-          )}
-          {error.active && (
-            <ErrorNotification active={error.active} message={error.message} />
-          )}
-        </Wrapper>
-      </Container>
-    </header>
+            )}
+            {error.active && (
+              <ErrorNotification
+                active={error.active}
+                message={error.message}
+              />
+            )}
+          </Wrapper>
+        </Container>
+      </header>
+    </>
   );
 };
 

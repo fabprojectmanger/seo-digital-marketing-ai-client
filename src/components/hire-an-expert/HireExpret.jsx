@@ -25,9 +25,9 @@ const HireExpret = () => {
       Connect with the Best</div>
     </div>
     {showForm &&
-    <div className='absolute top-[15%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex '>
-      <div className='border-2 border-slate-400 w-full md:max-w-[800px] mx-auto bg-white overflow-auto max-h-[80vh] p-6 relative'>
-        <div className='cursor-pointer absolute top-[10px] right-[10px]' onClick={()=>setShowForm(false)}>
+    <div className='h-screen absolute top-[50%] -translate-y-[50%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex '>
+      <div className='h-screen border-2 border-slate-400 w-full overflow-auto mx-auto bg-white p-6 relative'>
+        <div className='cursor-pointer fixed top-[10px] right-[30px]' onClick={()=>setShowForm(false)}>
         <Image
         src='/assets/images/crossIcon.png'
         width={50}

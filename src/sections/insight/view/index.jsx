@@ -268,7 +268,7 @@ const Index = () => {
       <HireExpret />
       }
       {reportShow && (
-        <div className="absolute top-[15%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex ">
+        <div className="h-screen absolute top-[50%] -translate-y-[50%] left-0 right-0 z-50 w-[100%] items-center px-[16px] justify-center flex ">
           <PageSpeedModal
             props={{ report: reportShow, close: setReportShow }}
           />

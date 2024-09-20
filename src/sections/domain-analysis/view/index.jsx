@@ -13,6 +13,7 @@ import MostPopular from "../mostPopular";
 import TopFivePages from "../TopFivePages";
 import BackToHome from "../../../components/back-to-home/BackToHome";
 import HireExpret from "../../../components/hire-an-expert/HireExpret";
+import Link from "next/link";
 const Index = () => {
   const router = useRouter();
   const { googleResponse, dataOption, showForm, setError } = useTheme();
@@ -109,9 +110,9 @@ const Index = () => {
             <h1 className="text-4xl max-md-tab:text-2xl font-semibold tracking-normal text-dark-100 mb-6">
             {dataOption.value?`Start Date:${selectedDates?.value?.startDate} End Date:${selectedDates?.value?.endDate}`:dataOption.name}
             {dataOption?.domain && (
-                <a href={dataOption?.domain}>
-                  <span className="font-bold">({dataOption?.domain})</span>
-                </a>
+                <Link target="_blank" href={dataOption?.domain.includes("https")? dataOption?.domain : "https://" + dataOption?.domain}>
+                  <span className="font-bold">({dataOption?.domain.toUpperCase()})</span>
+                </Link>
               )}
             </h1>
           )}
