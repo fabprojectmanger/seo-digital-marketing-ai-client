@@ -159,7 +159,6 @@ const Index = () => {
       return { isStreamed: false };
     }
   };
-console.log(googleConsoleSearch,"***********88");
 
   return (
     <Wrapper>
@@ -276,14 +275,14 @@ console.log(googleConsoleSearch,"***********88");
               />
             </Wrapper>
           </Wrapper>
-          {googleConsoleSearch && googleConsoleSearch.query.length>0 && 
+          {googleConsoleSearch && googleConsoleSearch?.query?.length>0 && 
           <>
           <h2 className="text-2xl font-semibold text-dark-100 my-2 mt-6">
             Performance
           </h2>
           <Wrapper>
             <GoogleConsoleComponent values={googleConsoleSearch}/>
-            <LineChart values={googleConsoleSearch}/>
+            {/* <LineChart values={googleConsoleSearch}/> */}
           </Wrapper>
           </>
           }
